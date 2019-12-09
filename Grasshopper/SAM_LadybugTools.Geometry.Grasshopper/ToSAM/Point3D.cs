@@ -7,18 +7,13 @@ using System.Threading.Tasks;
 using Grasshopper.Kernel.Types;
 
 
-namespace SAM.Geometry.Grasshopper
+namespace SAM_Ladybug.Geometry.Grasshopper
 {
     public static partial class Convert
     {
-        public static Spatial.Point3D ToSAM(this Rhino.Geometry.Point3d point3d)
+        public static SAM.Geometry.Spatial.Point3D ToSAM_Point3D(this object point, double z = 0)
         {
-            return new Spatial.Point3D(point3d.X, point3d.Y, point3d.Z);
-        }
-
-        public static Spatial.Point3D ToSAM(this GH_Point point)
-        {
-            return ToSAM(point.Value);
+            return new SAM.Geometry.Spatial.Point3D((point as dynamic)._x, (point as dynamic)._y, z);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Grasshopper.Kernel;
 using Grasshopper;
 
-using SAM.Geometry.Grasshopper.Properties;
+using SAM_LadybugTools.Geometry.Grasshopper.Properties;
 
 namespace SAM.Geometry.Grasshopper
 {

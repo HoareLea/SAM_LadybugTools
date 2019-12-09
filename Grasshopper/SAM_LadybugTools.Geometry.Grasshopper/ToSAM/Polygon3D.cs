@@ -5,51 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Grasshopper.Kernel.Types;
-using Rhino.Geometry;
 
 
-namespace SAM.Geometry.Grasshopper
+namespace SAM_Ladybug.Geometry.Grasshopper
 {
     public static partial class Convert
     {
-        public static Spatial.Polygon3D ToSAM(this Curve curve)
+        public static SAM.Geometry.Spatial.Polygon3D ToSAM_Polygon3D(this object polygon)
         {
-            if (!curve.IsClosed || !curve.IsPlanar())
+            var geometry = (polygon as dynamic)._geometry;
+            if (geometry == null)
                 return null;
 
-            PolylineCurve polylineCurve = curve as PolylineCurve;
-            if(polylineCurve != null)
-            {
-                List<Spatial.Point3D> point3Ds = new List<Spatial.Point3D>();
-                int count = polylineCurve.PointCount;
+            var polygon2D = geometry._polygon2d;
+            if (polygon2D == null)
+                return null;
 
-                if (polylineCurve.IsClosed)
-                    count--;
+            List<SAM.Geometry.Spatial.Point3D> points = new List<SAM.Geometry.Spatial.Point3D>();
+            foreach(var vertex in polygon2D._vertices)
+                points.Add(Convert.ToSAM_Point3D(vertex));
 
-                for(int i =0; i < count; i++)
-                    point3Ds.Add(polylineCurve.Point(i).ToSAM());
-
-                return new Spatial.Polygon3D(point3Ds);
-
-            }
-
-            PolyCurve polyCurve = curve as PolyCurve;
-            if (polyCurve != null)
-            {
-                List<Spatial.Point3D> point3Ds = new List<Spatial.Point3D>();
-                Curve[] curves = polyCurve.Explode();
-                foreach (Curve curve_Temp in curves)
-                    point3Ds.Add(curve_Temp.PointAtEnd.ToSAM());
-
-                return new Spatial.Polygon3D(point3Ds);
-            }
-
-            return null;
-        }
-
-        public static Spatial.Polygon3D ToSAM(this GH_Curve curve)
-        {
-            return ToSAM(curve.Value);
+            return new SAM.Geometry.Spatial.Polygon3D(points);
         }
     }
 }

@@ -12,7 +12,8 @@ namespace SAM.Geometry.Grasshopper
     {
         public static GH_Curve ToGrasshopper(this Spatial.Polygon3D polygon3D)
         {
-            return new GH_Curve(polygon3D.ToRhino());
+            //return new GH_Curve(polygon3D.ToRhino());
+            return null;
         }
     }
 }

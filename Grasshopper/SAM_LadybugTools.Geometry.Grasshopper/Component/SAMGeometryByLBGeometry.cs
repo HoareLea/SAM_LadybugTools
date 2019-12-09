@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
+﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
+using SAM_LadybugTools.Geometry.Grasshopper.Properties;
+using System;
 
-using SAM.Geometry.Grasshopper.Properties;
-using SAM.Geometry.Spatial;
 
-
-namespace SAM.Geometry.Grasshopper
+namespace SAM_Ladybug.Geometry.Grasshopper
 {
     public class SAMGeometryByLBGeometry : GH_Component
     {
@@ -45,43 +41,62 @@ namespace SAM.Geometry.Grasshopper
         /// <param name="dataAccess">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess dataAccess)
         {
-            object obj = null;
-            if (!dataAccess.GetData(0, ref obj))
+            GH_ObjectWrapper objectWrapper = null;
+
+            if (!dataAccess.GetData(0, ref objectWrapper) || objectWrapper.Value == null)
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Cannot get data");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;
             }
 
-            GH_Point point = obj as GH_Point;
-            if (point != null)
-            { 
-                dataAccess.SetData(0, point.ToSAM());
-                return;
-            }
+            object obj = objectWrapper.Value;
 
-            GH_Line line = obj as GH_Line;
-            if (line != null)
+            //IronPython.Runtime.Types.PythonType pythonType = new IronPython.Runtime.Types.
+
+            //string aClass = (obj as dynamic).__class__;
+            string aTypeName = (obj as dynamic)._type;
+            switch (aTypeName)
             {
-                dataAccess.SetData(0, line.ToSAM());
-                return;
-            }
-
-            GH_Curve curve = obj as GH_Curve;
-            if (curve != null)
-            {
-                IGeometry geometry = null;
-
-                if (curve.Value is Rhino.Geometry.LineCurve)
-                    geometry = ((Rhino.Geometry.LineCurve)curve.Value).Line.ToSAM();
-                else
-                    geometry = curve.ToSAM();
-
-                if(geometry != null)
-                {
-                    dataAccess.SetData(0, geometry);
+                case ("PythonType: \"Point2D\""):
+                    dataAccess.SetData(0, Convert.ToSAM_Point3D(obj));
                     return;
-                }
+                case ("PythonType: \"Face\""):
+                    dataAccess.SetData(0, Convert.ToSAM_Polygon3D(obj));
+                    return;
             }
+
+            //var aValue = (obj as GH_ObjectWrapper).Value;
+
+            //GH_Point point = obj as GH_Point;
+            //if (point != null)
+            //{ 
+            //    dataAccess.SetData(0, point.ToSAM());
+            //    return;
+            //}
+
+            //GH_Line line = obj as GH_Line;
+            //if (line != null)
+            //{
+            //    dataAccess.SetData(0, line.ToSAM());
+            //    return;
+            //}
+
+            //GH_Curve curve = obj as GH_Curve;
+            //if (curve != null)
+            //{
+            //    IGeometry geometry = null;
+
+            //    if (curve.Value is Rhino.Geometry.LineCurve)
+            //        geometry = ((Rhino.Geometry.LineCurve)curve.Value).Line.ToSAM();
+            //    else
+            //        geometry = curve.ToSAM();
+
+            //    if(geometry != null)
+            //    {
+            //        dataAccess.SetData(0, geometry);
+            //        return;
+            //    }
+            //}
 
             AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Cannot convert geometry");
         }

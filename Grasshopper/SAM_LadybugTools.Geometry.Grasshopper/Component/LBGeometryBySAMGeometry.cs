@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
-using SAM.Geometry.Grasshopper.Properties;
+using SAM_LadybugTools.Geometry.Grasshopper.Properties;
 using SAM.Geometry.Spatial;
 
-namespace SAM.Geometry.Grasshopper
+namespace SAM_Ladybug.Geometry.Grasshopper
 {
     public class LBGeometryBySAMGeometry : GH_Component
     {
@@ -52,27 +52,37 @@ namespace SAM.Geometry.Grasshopper
 
             object obj = objectWrapper.Value;
 
-            Point3D point3D = obj as Point3D;
-            if (point3D != null)
+            dynamic lBObject = obj as dynamic;
+            string aName = lBObject._name;
+            switch(aName)
             {
-                dataAccess.SetData(0, point3D.ToGrasshopper());
-                return;
+                case ("Python Types: Point"):
+                    //dataAccess.SetData(0, point3D.ToGrasshopper());
+                    return;
             }
 
-            Segment3D segment3D = obj as Segment3D;
-            if (segment3D != null)
-            {
-                dataAccess.SetData(0, segment3D.ToGrasshopper());
-                return;
-            }
+            //Point3D point3D = obj as Point3D;
+            //if (point3D != null)
+            //{
+            //    dataAccess.SetData(0, point3D.ToGrasshopper());
+            //    return;
+            //}
+
+            //Segment3D segment3D = obj as Segment3D;
+            //if (segment3D != null)
+            //{
+            //    //dataAccess.SetData(0, segment3D.ToGrasshopper());
+            //    dataAccess.SetData(0, null);
+            //    return;
+            //}
 
 
-            Polygon3D polygon3D = obj as Polygon3D;
-            if (polygon3D != null)
-            {
-                dataAccess.SetData(0, polygon3D.ToGrasshopper());
-                return;
-            }
+            //Polygon3D polygon3D = obj as Polygon3D;
+            //if (polygon3D != null)
+            //{
+            //    dataAccess.SetData(0, polygon3D.ToGrasshopper());
+            //    return;
+            //}
 
             AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Cannot convert geometry");
 
