@@ -1,8 +1,11 @@
 ﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
+using Microsoft.Scripting.Hosting;
+using Newtonsoft.Json.Linq;
 using SAM_LadybugTools.Geometry.Grasshopper.Properties;
 using System;
-
+using System.Collections.Generic;
+using System.Runtime.Remoting;
 
 namespace SAM_Ladybug.Geometry.Grasshopper
 {
@@ -51,6 +54,13 @@ namespace SAM_Ladybug.Geometry.Grasshopper
 
             object obj = objectWrapper.Value;
 
+            Type aType = obj.GetType();
+
+            //ObjectHandle a;
+            //a.
+            //ObjectOperations a = new ObjectOperations()
+
+            //a.
             //IronPython.Runtime.Types.PythonType pythonType = new IronPython.Runtime.Types.
 
             //string aClass = (obj as dynamic).__class__;
@@ -120,6 +130,26 @@ namespace SAM_Ladybug.Geometry.Grasshopper
         public override Guid ComponentGuid
         {
             get { return new Guid("920a78fd-5cc5-4e68-bfa4-c8f57ac7569a"); }
+        }
+
+        public static IEnumerable<string> GetPropertyNames(dynamic dynamicObject)
+        {
+            JObject jObject = (JObject)JToken.FromObject(dynamicObject);
+            if (jObject == null)
+                return null;
+
+            Dictionary<string, object> dictionary = jObject.ToObject<Dictionary<string, object>>();
+            if (dictionary == null)
+                return null;
+
+            return dictionary.Keys;
+
+            //JObject attributesAsJObject = dynamicToGetPropertiesFor;
+            //Dictionary<string, object> values = attributesAsJObject.ToObject<Dictionary<string, object>>();
+            //List<string> toReturn = new List<string>();
+            //foreach (string key in values.Keys)
+            //    toReturn.Add(key);
+            //return toReturn;
         }
     }
 }
