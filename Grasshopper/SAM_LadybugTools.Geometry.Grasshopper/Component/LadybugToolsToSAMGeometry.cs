@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
@@ -53,11 +54,14 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
                 return;
             }
 
-            object obj = objectWrapper.Value;
+            dynamic obj = objectWrapper.Value;
+            Type type = obj.GetType();
+            Type type_Generic = type.GetGenericTypeDefinition();
 
-            Type aType = obj.GetType();
-
-
+            foreach (MethodInfo methodInfo in type.GetMethods())
+            {
+                
+            }
 
             //ObjectHandle a;
             //a.
