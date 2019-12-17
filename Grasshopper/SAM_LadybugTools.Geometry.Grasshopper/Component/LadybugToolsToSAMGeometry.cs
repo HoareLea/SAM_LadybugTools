@@ -73,7 +73,17 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
                 return;
             }
 
-            object magicValue = methodInfo.Invoke(obj, new object[] {});
+            ParameterInfo[] a = methodInfo.GetParameters();
+            if(a.Length == 0)
+            {
+                object magicValue = methodInfo.Invoke(obj, null);
+            }
+            else
+            {
+                object magicValue = methodInfo.Invoke(obj, new object[] { });
+            }
+
+            
 
             //ObjectHandle a;
             //a.
