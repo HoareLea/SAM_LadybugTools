@@ -4,7 +4,8 @@ using System.Reflection;
 
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
-
+using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
 using Newtonsoft.Json.Linq;
 
 using SAM.Geometry.Grasshopper.LadybugTools.Properties;
@@ -60,21 +61,21 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
             MethodInfo methodInfo = null;
             foreach (MethodInfo methodInfo_Temp in type.GetRuntimeMethods())
             {
-                if(methodInfo_Temp.Name == "get_Dict")
+                if (methodInfo_Temp.Name == "get_Dict")
                 {
                     methodInfo = methodInfo_Temp;
                     break;
                 }
             }
 
-            if(methodInfo == null)
+            if (methodInfo == null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;
             }
 
             ParameterInfo[] a = methodInfo.GetParameters();
-            if(a.Length == 0)
+            if (a.Length == 0)
             {
                 object magicValue = methodInfo.Invoke(obj, null);
             }
@@ -83,8 +84,15 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
                 object magicValue = methodInfo.Invoke(obj, new object[] { });
             }
 
-            
+            ScriptEngine scriptEngine = Python.CreateEngine();
+            ScriptScope scriptScope = scriptEngine.CreateScope();
 
+            ScriptSource scriptSource = scriptEngine.CreateScriptSourceFromFile(@"C:\Users\ziolkowskij\Documents\GitHub\External\ladybug-geometry\ladybug_geometry\geometry2d\line.py");
+
+
+            object result = scriptSource.Execute(scriptScope);
+
+            string parameter = scriptScope.GetVariable<string>("parameter"); 
             //ObjectHandle a;
             //a.
             //ObjectOperations a = new ObjectOperations()
