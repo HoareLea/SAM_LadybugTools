@@ -56,12 +56,24 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
 
             dynamic obj = objectWrapper.Value;
             Type type = obj.GetType();
-            Type type_Generic = type.GetGenericTypeDefinition();
 
-            foreach (MethodInfo methodInfo in type.GetMethods())
+            MethodInfo methodInfo = null;
+            foreach (MethodInfo methodInfo_Temp in type.GetRuntimeMethods())
             {
-                
+                if(methodInfo_Temp.Name == "get_Dict")
+                {
+                    methodInfo = methodInfo_Temp;
+                    break;
+                }
             }
+
+            if(methodInfo == null)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
+                return;
+            }
+
+            object magicValue = methodInfo.Invoke(obj, new object[] {});
 
             //ObjectHandle a;
             //a.
