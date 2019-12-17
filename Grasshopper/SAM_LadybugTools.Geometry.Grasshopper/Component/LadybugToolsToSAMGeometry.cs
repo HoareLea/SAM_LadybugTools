@@ -1,21 +1,22 @@
-﻿using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types;
-using Microsoft.Scripting.Hosting;
-using Newtonsoft.Json.Linq;
-using SAM_LadybugTools.Geometry.Grasshopper.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting;
 
-namespace SAM_Ladybug.Geometry.Grasshopper
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types;
+
+using Newtonsoft.Json.Linq;
+
+using SAM.Geometry.Grasshopper.LadybugTools.Properties;
+
+namespace SAM.Geometry.Grasshopper.LadybugTools
 {
-    public class SAMGeometryByLBGeometry : GH_Component
+    public class LadybugToolsToSAMGeometry : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the SAMGeometryByGHGeometry class.
         /// </summary>
-        public SAMGeometryByLBGeometry()
-          : base("SAMGeometryByLBGeometry", "SAMgeo",
+        public LadybugToolsToSAMGeometry()
+          : base("LadybugToolsToSAMGeometry", "SAMgeo",
               "Description SAMGeometryByLBGeometry",
               "SAM", "Geometry")
         {
@@ -56,6 +57,8 @@ namespace SAM_Ladybug.Geometry.Grasshopper
 
             Type aType = obj.GetType();
 
+
+
             //ObjectHandle a;
             //a.
             //ObjectOperations a = new ObjectOperations()
@@ -64,16 +67,16 @@ namespace SAM_Ladybug.Geometry.Grasshopper
             //IronPython.Runtime.Types.PythonType pythonType = new IronPython.Runtime.Types.
 
             //string aClass = (obj as dynamic).__class__;
-            string aTypeName = (obj as dynamic)._type;
-            switch (aTypeName)
-            {
-                case ("PythonType: \"Point2D\""):
-                    dataAccess.SetData(0, Convert.ToSAM_Point3D(obj));
-                    return;
-                case ("PythonType: \"Face\""):
-                    dataAccess.SetData(0, Convert.ToSAM_Polygon3D(obj));
-                    return;
-            }
+            //string aTypeName = (obj as dynamic)._type;
+            //switch (aTypeName)
+            //{
+            //    case ("PythonType: \"Point2D\""):
+            //        dataAccess.SetData(0, Convert.ToSAM_Point3D(obj));
+            //        return;
+            //    case ("PythonType: \"Face\""):
+            //        dataAccess.SetData(0, Convert.ToSAM_Polygon3D(obj));
+            //        return;
+            //}
 
             //var aValue = (obj as GH_ObjectWrapper).Value;
 

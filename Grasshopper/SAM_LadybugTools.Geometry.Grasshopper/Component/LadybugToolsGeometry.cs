@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
-using SAM_LadybugTools.Geometry.Grasshopper.Properties;
-using SAM.Geometry.Spatial;
 
-namespace SAM_Ladybug.Geometry.Grasshopper
+using SAM.Geometry.Grasshopper.LadybugTools.Properties;
+
+namespace SAM.Geometry.Grasshopper.LadybugTools
 {
-    public class LBGeometryBySAMGeometry : GH_Component
+    public class LadybugToolsGeometry : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the SAM_point3D class.
         /// </summary>
-        public LBGeometryBySAMGeometry()
-          : base("LBGeometryBySAMGeometry", "LBgeo",
+        public LadybugToolsGeometry()
+          : base("LadybugToolsGeometry", "LBgeo",
               "Convert LB Geometry By SAM Geometry",
               "SAM", "Geometry")
         {

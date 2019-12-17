@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SAM_LadybugTools.Core.Grasshopper
+namespace SAM.Core.Grasshopper.LadybugTools
 {
     public class Class1
     {

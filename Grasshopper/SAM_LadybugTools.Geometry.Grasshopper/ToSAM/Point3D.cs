@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Grasshopper.Kernel.Types;
+﻿using Grasshopper.Kernel.Types;
 
 
-namespace SAM_Ladybug.Geometry.Grasshopper
+namespace SAM.Geometry.Grasshopper.LadybugTools
 {
     public static partial class Convert
     {
