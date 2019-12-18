@@ -84,15 +84,24 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
                 object magicValue = methodInfo.Invoke(obj, new object[] { });
             }
 
-            ScriptEngine scriptEngine = Python.CreateEngine();
-            ScriptScope scriptScope = scriptEngine.CreateScope();
+            //ScriptEngine scriptEngine = Python.CreateEngine();
+            //ScriptScope scriptScope = scriptEngine.CreateScope();
 
-            ScriptSource scriptSource = scriptEngine.CreateScriptSourceFromFile(@"C:\Users\ziolkowskij\Documents\GitHub\External\ladybug-geometry\ladybug_geometry\geometry2d\line.py");
+            //ScriptSource scriptSource = scriptEngine.CreateScriptSourceFromFile(@"C:\Users\ziolkowskij\Documents\GitHub\External\ladybug-geometry\ladybug_geometry\geometry2d\line.py");
 
 
-            object result = scriptSource.Execute(scriptScope);
+            //GH_Component x = new GH_Component();
+            
 
-            string parameter = scriptScope.GetVariable<string>("parameter"); 
+            //GH_DocumentObject k = new GH_DocumentObject("", null, null, null, null);
+
+
+            //GH_UserObject b = new GH_UserObject() ;
+            //b.
+
+            //object result = scriptSource.Execute(scriptScope);
+
+            //string parameter = scriptScope.GetVariable<string>("parameter"); 
             //ObjectHandle a;
             //a.
             //ObjectOperations a = new ObjectOperations()

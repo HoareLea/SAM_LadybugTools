@@ -109,6 +109,14 @@
     <None Include="packages.config" />
     <None Include="Resources\SAM_Small.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="ToLadybug\Point3D_Temp.py" />
+    <Content Include="ToLadybug\pointvector.py" />
+    <Content Include="ToLadybug\Point3D.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
