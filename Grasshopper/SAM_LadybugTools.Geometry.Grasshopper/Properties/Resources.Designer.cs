@@ -63,6 +63,16 @@ namespace SAM.Geometry.Grasshopper.LadybugTools.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SAM_Honeybee {
+            get {
+                object obj = ResourceManager.GetObject("SAM_Honeybee", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SAM_Small {
             get {
                 object obj = ResourceManager.GetObject("SAM_Small", resourceCulture);

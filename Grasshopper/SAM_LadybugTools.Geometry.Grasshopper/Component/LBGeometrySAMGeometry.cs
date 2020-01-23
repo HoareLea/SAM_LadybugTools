@@ -12,15 +12,15 @@ using SAM.Geometry.Grasshopper.LadybugTools.Properties;
 
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
-    public class LadybugToolsToSAMGeometry : GH_Component
+    public class LBGeometrySAMGeometry : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the SAMGeometryByGHGeometry class.
         /// </summary>
-        public LadybugToolsToSAMGeometry()
-          : base("LadybugToolsToSAMGeometry", "SAMgeo",
-              "Description SAMGeometryByLBGeometry",
-              "SAM", "Geometry")
+        public LBGeometrySAMGeometry()
+          : base("LBGeometry.SAMGeometry", "LBGeometry.SAMGeometry",
+              "Ladybug Tools Geometry to SAM Geometry",
+              "SAM", "LadybugTools")
         {
         }
 
@@ -29,7 +29,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager inputParamManager)
         {
-            inputParamManager.AddGenericParameter("LBGeometry", "LBgeo", "Ladybug Geometry", GH_ParamAccess.item);
+            inputParamManager.AddGenericParameter("_LBGeometry", "_LBGeometry", "Ladybug Geometry", GH_ParamAccess.item);
         }
 
 
@@ -166,7 +166,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.SAM_Small;
+                return Resources.SAM_Honeybee;
             }
         }
 

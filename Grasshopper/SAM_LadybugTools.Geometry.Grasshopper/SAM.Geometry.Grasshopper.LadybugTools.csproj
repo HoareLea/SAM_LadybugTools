@@ -7,7 +7,7 @@
     <Rhino7DefaultPluginsDir>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\McNeel\Rhinoceros\7.0\Install', 'Default Plug-ins Folder', null, RegistryView.Registry64))</Rhino7DefaultPluginsDir>
     <Rhino7DebugPluginsDir>$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\Software\McNeel\Rhinoceros\7.0-WIP-Developer-Debug-trunk\Install', 'Default Plug-ins Folder', null, RegistryView.Registry64))</Rhino7DebugPluginsDir>
     <Rhino7PluginsDir>$([MSBuild]::ValueOrDefault('$(Rhino7DebugPluginsDir)', '$(Rhino7DefaultPluginsDir)'))</Rhino7PluginsDir>
-  </PropertyGroup>  
+  </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -96,8 +96,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Component\LadybugToolsGeometry.cs" />
-    <Compile Include="Component\LadybugToolsToSAMGeometry.cs" />
+    <Compile Include="Component\SAMGeometryLBGeometry.cs" />
+    <Compile Include="Component\LBGeometrySAMGeometry.cs" />
     <Compile Include="ToLadybug\GH_Curve.cs" />
     <Compile Include="ToLadybug\GH_Line.cs" />
     <Compile Include="ToLadybug\GH_Point.cs" />
@@ -115,6 +115,7 @@
     <None Include="Resources\SAM_Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\SAM_Honeybee.png" />
     <Content Include="ToLadybug\Point3D_Temp.py" />
     <Content Include="ToLadybug\pointvector.py" />
     <Content Include="ToLadybug\Point3D.py" />
