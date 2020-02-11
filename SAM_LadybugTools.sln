@@ -17,6 +17,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Core.Grasshopper.Ladybu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Geometry.Grasshopper.LadybugTools", "Grasshopper\SAM_LadybugTools.Geometry.Grasshopper\SAM.Geometry.Grasshopper.LadybugTools.csproj", "{B8F0EE34-A776-4518-ADA2-E047E468B47B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Geometry.LadybugTools", "SAM_LadybugTools\SAM_LadybugTools.Geometry\SAM.Geometry.LadybugTools.csproj", "{BDE9A395-97ED-4C05-8F2A-F086A511B238}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Analytical.LadybugTools", "SAM_LadybugTools\SAM_LadybugTools.Analytical\SAM.Analytical.LadybugTools.csproj", "{7008CEF0-41AD-4C64-BF60-F5EAE4728E20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Analytical.Grasshopper.LadybugTools", "Grasshopper\SAM_LadybugTools.Analytical.Grasshopper\SAM.Analytical.Grasshopper.LadybugTools.csproj", "{B457C787-5258-4B14-98BE-61D8EE2C8E44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +45,18 @@ Global
 		{B8F0EE34-A776-4518-ADA2-E047E468B47B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8F0EE34-A776-4518-ADA2-E047E468B47B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8F0EE34-A776-4518-ADA2-E047E468B47B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDE9A395-97ED-4C05-8F2A-F086A511B238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDE9A395-97ED-4C05-8F2A-F086A511B238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDE9A395-97ED-4C05-8F2A-F086A511B238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDE9A395-97ED-4C05-8F2A-F086A511B238}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7008CEF0-41AD-4C64-BF60-F5EAE4728E20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7008CEF0-41AD-4C64-BF60-F5EAE4728E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7008CEF0-41AD-4C64-BF60-F5EAE4728E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7008CEF0-41AD-4C64-BF60-F5EAE4728E20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B457C787-5258-4B14-98BE-61D8EE2C8E44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B457C787-5258-4B14-98BE-61D8EE2C8E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B457C787-5258-4B14-98BE-61D8EE2C8E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B457C787-5258-4B14-98BE-61D8EE2C8E44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +66,9 @@ Global
 		{D3BD3FFB-9C66-49A6-B030-6CB70D5EBC06} = {56AB966A-881A-4A82-919E-83D49D778862}
 		{5D790E5E-371B-4977-8433-16CD78F14EFE} = {C2111B6D-8BF2-4949-AC03-800D5D840EBF}
 		{B8F0EE34-A776-4518-ADA2-E047E468B47B} = {C2111B6D-8BF2-4949-AC03-800D5D840EBF}
+		{BDE9A395-97ED-4C05-8F2A-F086A511B238} = {8FEDD1FD-EC22-44E2-B55E-6047A314B1BC}
+		{7008CEF0-41AD-4C64-BF60-F5EAE4728E20} = {8FEDD1FD-EC22-44E2-B55E-6047A314B1BC}
+		{B457C787-5258-4B14-98BE-61D8EE2C8E44} = {C2111B6D-8BF2-4949-AC03-800D5D840EBF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D2B8C43-530E-4B5A-9667-52C3D13B716E}
