@@ -13,13 +13,13 @@ namespace SAM.Analytical.LadybugTools
 
             List<List<double>> boundary = ToLadybugTools(planarBoundary3D.GetEdge3DLoop());
             
-            List<Edge3DLoop> internalEdge3DLoops = planarBoundary3D.GetInternalEdge3DLoops();
+            List<BoundaryEdge3DLoop> internalBoundaryEdge3DLoops = planarBoundary3D.GetInternalEdge3DLoops();
             List<List<List<double>>> holes = null;
-            if (internalEdge3DLoops != null)
+            if (internalBoundaryEdge3DLoops != null)
             {
                 holes = new List<List<List<double>>>();
-                foreach(Edge3DLoop internalEdge3DLoop in internalEdge3DLoops)
-                    holes.Add(ToLadybugTools(internalEdge3DLoop));
+                foreach(BoundaryEdge3DLoop internalBoundaryEdge3DLoop in internalBoundaryEdge3DLoops)
+                    holes.Add(ToLadybugTools(internalBoundaryEdge3DLoop));
             }
 
             return new Face3D(boundary, "Face3D", holes);
