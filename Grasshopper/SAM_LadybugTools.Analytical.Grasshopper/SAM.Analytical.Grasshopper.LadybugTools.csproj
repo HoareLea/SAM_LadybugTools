@@ -41,6 +41,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HoneybeeDotNet, Version=1.14.1.25889, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\references\HoneybeeDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="IronPython, Version=2.7.9.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\IronPython.2.7.9\lib\net45\IronPython.dll</HintPath>
     </Reference>
@@ -66,6 +70,17 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SAM.Analytical, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\SAM\build\SAM.Analytical.dll</HintPath>
+    </Reference>
+    <Reference Include="SAM.Analytical.Grasshopper">
+      <HintPath>..\..\..\SAM\build\SAM.Analytical.Grasshopper.dll</HintPath>
+    </Reference>
+    <Reference Include="SAM.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\SAM\build\SAM.Core.dll</HintPath>
+    </Reference>
     <Reference Include="SAM.Geometry">
       <HintPath>..\..\..\SAM\build\SAM.Geometry.dll</HintPath>
     </Reference>
@@ -90,7 +105,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Component\LBGeometrySAMGeometry.cs" />
+    <Compile Include="Component\SAMAnalyticalHBFace.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -115,6 +130,12 @@
     <Folder Include="Scripts\" />
     <Folder Include="ToLadybug\" />
     <Folder Include="ToSAM\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SAM_LadybugTools\SAM_LadybugTools.Analytical\SAM.Analytical.LadybugTools.csproj">
+      <Project>{7008cef0-41ad-4c64-bf60-f5eae4728e20}</Project>
+      <Name>SAM.Analytical.LadybugTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
