@@ -9,6 +9,6 @@ namespace SAM.Core.LadybugTools
 {
     public class Class1
     {
-        Face.FaceTypeEnum()
+        //Face.FaceTypeEnum(null);
     }
 }
