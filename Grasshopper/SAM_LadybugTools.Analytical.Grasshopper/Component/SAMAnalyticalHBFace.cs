@@ -63,7 +63,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
 
             HoneybeeDotNet.Face face = Analytical.LadybugTools.Convert.ToLadybugTools(panel);
 
-            dataAccess.SetData(0, face);
+            dataAccess.SetData(0, face.ToJson());
 
             
         }
