@@ -13,20 +13,34 @@ namespace SAM.Analytical.LadybugTools
         {
             if (panel == null)
                 return null;
-            //TOD: Finish all types//
             switch (panel.PanelType)
             {
+                case PanelType.UndergroundWall:
                 case PanelType.SlabOnGrade:
+                case PanelType.UndergroundSlab:
+                case PanelType.Floor:
                     return new Ground();
+                
+                case PanelType.Wall:
+                case PanelType.CurtainWall:
                 case PanelType.WallExternal:
                 case PanelType.Roof:
+                case PanelType.SolarPanel:
+                case PanelType.Shade:
+                case PanelType.FloorExposed:
+                case PanelType.FloorRaised:
                     return new Outdoors();
+
                 case PanelType.Undefined:
                     return new Adiabatic();
+
                 case PanelType.FloorInternal:
                 case PanelType.WallInternal:
+                case PanelType.Ceiling:
+                case PanelType.UndergroundCeiling:
                     //return new Surface()
                     return null;
+
             }
 
             return null;
