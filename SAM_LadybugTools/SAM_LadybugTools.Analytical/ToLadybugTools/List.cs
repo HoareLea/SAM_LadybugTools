@@ -15,7 +15,7 @@ namespace SAM.Analytical.LadybugTools
             foreach (BoundaryEdge3D boundaryEdge3D in boundaryEdge3DLoop.BoundaryEdge3Ds)
             {
                 List<Segment3D> segment3Ds = boundaryEdge3D.ToSegments();
-                result = Geometry.LadybugTools.Modify.AppendList(result, Geometry.LadybugTools.Convert.ToLadybugTools(Segment3D.GetPoints(segment3Ds)));
+                result = Geometry.LadybugTools.Modify.AppendList(result, Geometry.LadybugTools.Convert.ToLadybugTools(segment3Ds.ConvertAll(x => x.GetStart())));
             }
 
             return result;

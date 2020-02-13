@@ -15,22 +15,19 @@ namespace SAM.Geometry.LadybugTools
                 return null;
 
             List<List<double>> result = new List<List<double>>();
-            List<double> xs = new List<double>();
-            List<double> ys = new List<double>();
-            List<double> zs = new List<double>();
 
             foreach(Spatial.Point3D point3D in point3Ds)
-            {
-                xs.Add(point3D.X);
-                ys.Add(point3D.Y);
-                zs.Add(point3D.Z);
-            }
-
-            result.Add(xs);
-            result.Add(ys);
-            result.Add(zs);
+                result.Add(point3D.ToLadybugTools());            
 
             return result;
+        }
+
+        public static List<double> ToLadybugTools(this Spatial.Point3D point3D)
+        {
+            if (point3D == null)
+                return null;
+
+            return new List<double>() { point3D.X, point3D.Y, point3D.Z };
         }
     }
 }

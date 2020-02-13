@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Query\FaceTypeEnum.cs" />
+    <Compile Include="ToLadybugTools\BoundaryCondition.cs" />
     <Compile Include="ToLadybugTools\List.cs" />
     <Compile Include="ToLadybugTools\Face3D.cs" />
     <Compile Include="ToLadybugTools\Face.cs" />

@@ -8,6 +8,7 @@ namespace SAM.Analytical.LadybugTools
         {
             switch(panelType)
             {
+                //TOD: Finish all types
                 case PanelType.Ceiling:
                 case PanelType.Roof:
                     return HoneybeeDotNet.Face.FaceTypeEnum.RoofCeiling;

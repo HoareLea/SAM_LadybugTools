@@ -18,22 +18,8 @@ namespace SAM.Geometry.LadybugTools
             if (result == null)
                 result = new List<List<double>>();
 
-            if(result.Count < 1)
-                result.Add(new List<double>());
-
-            if (result.Count < 2)
-                result.Add(new List<double>());
-
-            if (result.Count < 3)
-                result.Add(new List<double>());
-
-            for(int i=0; i < list.Count; i++)
-            {
-                if (i <= result.Count)
-                    break;
-
-                result[i].AddRange(list[i]);
-            }
+            if(list.Count > 0)
+                result.AddRange(list);
 
             return result;
         }
