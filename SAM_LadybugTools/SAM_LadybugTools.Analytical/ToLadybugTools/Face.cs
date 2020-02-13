@@ -18,7 +18,7 @@ namespace SAM.Analytical.LadybugTools
 
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = panel.ToLadybugTools_BoundaryCondition();
 
-            return new Face(panel.Name, face3D, Query.FaceTypeEnum(panel.PanelType), boundaryCondition, new FacePropertiesAbridged() { Energy = new FaceEnergyPropertiesAbridged() });
+            return new Face((panel.Construction.Name +"__" + panel.Guid.ToString()), face3D, Query.FaceTypeEnum(panel.PanelType), boundaryCondition, new FacePropertiesAbridged() { Energy = new FaceEnergyPropertiesAbridged() });
         }
     }
 }
