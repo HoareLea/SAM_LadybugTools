@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 using HoneybeeDotNet;
 
 namespace SAM.Analytical.LadybugTools
@@ -18,7 +15,13 @@ namespace SAM.Analytical.LadybugTools
 
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = panel.ToLadybugTools_BoundaryCondition();
 
-            return new Face((panel.Construction.Name +"__" + panel.Guid.ToString()), face3D, Query.FaceTypeEnum(panel.PanelType), boundaryCondition, new FacePropertiesAbridged() { Energy = new FaceEnergyPropertiesAbridged() });
+            Face face = new Face(panel.Construction.Name +"__" + panel.Guid.ToString(), face3D, Query.FaceTypeEnum(panel.PanelType), boundaryCondition, new FacePropertiesAbridged() { Energy = new FaceEnergyPropertiesAbridged() });
+
+            List<Aperture> apertures = panel.Apertures;
+            if (apertures != null && apertures.Count > 0)
+                face.Apertures = apertures.ConvertAll(x => x.ToLadybugTools());
+
+            return face;
         }
     }
 }
