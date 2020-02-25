@@ -31,8 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HoneybeeDotNet">
-      <HintPath>..\..\references\HoneybeeDotNet.dll</HintPath>
+    <Reference Include="HoneybeeSchema, Version=1.17.0.14889, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\references\HoneybeeSchema.dll</HintPath>
     </Reference>
     <Reference Include="SAM.Analytical">
       <HintPath>..\..\..\SAM\build\SAM.Analytical.dll</HintPath>

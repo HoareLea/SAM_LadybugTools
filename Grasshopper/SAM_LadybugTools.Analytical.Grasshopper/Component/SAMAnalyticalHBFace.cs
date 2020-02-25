@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Reflection;
 
 using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types;
 
 using SAM.Analytical.Grasshopper.LadybugTools.Properties;
 
@@ -61,7 +59,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
                 return;
             }
 
-            HoneybeeDotNet.Face face = Analytical.LadybugTools.Convert.ToLadybugTools(panel);
+            HoneybeeSchema.Face face = Analytical.LadybugTools.Convert.ToLadybugTools(panel);
 
             dataAccess.SetData(0, face.ToJson());
 

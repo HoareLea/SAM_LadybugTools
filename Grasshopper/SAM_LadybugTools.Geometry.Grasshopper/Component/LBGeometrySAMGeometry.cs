@@ -4,8 +4,7 @@ using System.Reflection;
 
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
-using IronPython.Hosting;
-using Microsoft.Scripting.Hosting;
+
 using Newtonsoft.Json.Linq;
 
 using SAM.Geometry.Grasshopper.LadybugTools.Properties;

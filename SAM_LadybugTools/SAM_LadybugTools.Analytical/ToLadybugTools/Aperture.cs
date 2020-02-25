@@ -1,10 +1,10 @@
-﻿using HoneybeeDotNet;
+﻿using HoneybeeSchema;
 
 namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static HoneybeeDotNet.Aperture ToLadybugTools(this Aperture aperture)
+        public static HoneybeeSchema.Aperture ToLadybugTools(this Aperture aperture)
         {
             if (aperture == null)
                 return null;
@@ -15,7 +15,7 @@ namespace SAM.Analytical.LadybugTools
 
             Face3D face3D = planarBoundary3D.ToLadybugTools();
 
-            return new HoneybeeDotNet.Aperture(aperture.ApertureType.Name + "__" + aperture.Guid.ToString(), face3D, new Outdoors(), new AperturePropertiesAbridged());
+            return new HoneybeeSchema.Aperture(aperture.ApertureConstruction.Name + "__" + aperture.Guid.ToString(), face3D, new Outdoors(), new AperturePropertiesAbridged());
         }
     }
 }
