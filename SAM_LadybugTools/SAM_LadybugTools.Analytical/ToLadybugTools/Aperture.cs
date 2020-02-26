@@ -15,7 +15,7 @@ namespace SAM.Analytical.LadybugTools
 
             Face3D face3D = planarBoundary3D.ToLadybugTools();
 
-            return new HoneybeeSchema.Aperture(aperture.ApertureConstruction.Name + "__" + aperture.Guid.ToString(), face3D, new Outdoors(), new AperturePropertiesAbridged());
+            return new HoneybeeSchema.Aperture(Core.LadybugTools.Query.UniqueName(aperture), face3D, new Outdoors(), new AperturePropertiesAbridged());
         }
     }
 }

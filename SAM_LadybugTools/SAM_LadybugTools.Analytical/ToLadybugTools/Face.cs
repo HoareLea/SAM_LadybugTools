@@ -15,7 +15,7 @@ namespace SAM.Analytical.LadybugTools
 
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = panel.ToLadybugTools_BoundaryCondition();
 
-            Face face = new Face(panel.Construction.Name +"__" + panel.Guid.ToString(), face3D, Query.FaceTypeEnum(panel.PanelType), boundaryCondition, new FacePropertiesAbridged() { Energy = new FaceEnergyPropertiesAbridged() });
+            Face face = new Face(Core.LadybugTools.Query.UniqueName(panel), face3D, Query.FaceTypeEnum(panel.PanelType), boundaryCondition, new FacePropertiesAbridged() { Energy = new FaceEnergyPropertiesAbridged() });
 
             List<Aperture> apertures = panel.Apertures;
             if (apertures != null && apertures.Count > 0)
