@@ -21,13 +21,21 @@ namespace SAM.Core.LadybugTools
             }
 
             if (!string.IsNullOrWhiteSpace(name))
+            {
+                if(name.Length > 68)
+                    name = name.Substring(0, 68);
+
                 values.Add(name);
+            }
 
-            values.Add(sAMObject.Guid.ToString());
+            values.Add(System.Guid.NewGuid().ToString("N"));
 
-            values.Add(System.Guid.NewGuid().ToString());
+            string result = string.Join("__", values);
 
-            return string.Join("__", values);
+            if (result.Length > 100)
+                result = result.Substring(0, 100);
+
+            return result;
         }
     }
 }
