@@ -9,7 +9,7 @@ namespace SAM.Analytical.LadybugTools
             if (aperture == null)
                 return null;
 
-            PlanarBoundary3D planarBoundary3D = aperture.GetPlanarBoundary3D();
+            PlanarBoundary3D planarBoundary3D = aperture.PlanarBoundary3D;
             if (planarBoundary3D == null)
                 return null;
 
