@@ -38,9 +38,9 @@ namespace SAM.Analytical.LadybugTools
                 case PanelType.WallInternal:
                 case PanelType.Ceiling:
                 case PanelType.UndergroundCeiling:
-                    //return new Surface()
+                    //return new Surface(); //boundaryConditionObjects have to be provided  
+                    //https://www.ladybug.tools/honeybee-schema/model.html#tag/surface_model
                     return null;
-
             }
 
             return null;
