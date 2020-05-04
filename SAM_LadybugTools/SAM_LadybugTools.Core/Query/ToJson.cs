@@ -34,8 +34,6 @@ namespace SAM.Core.LadybugTools
                 return null;
 
             return methodInfo.Invoke(@object, new object[] { }) as string;
-
         }
     }
 }
-

@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-
-using HoneybeeSchema;
+﻿using HoneybeeSchema;
+using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
 {

@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types;
+using Newtonsoft.Json.Linq;
+using SAM.Geometry.Grasshopper.LadybugTools.Properties;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-
-using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types;
-
-using Newtonsoft.Json.Linq;
-
-using SAM.Geometry.Grasshopper.LadybugTools.Properties;
 
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
@@ -31,7 +28,6 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
             inputParamManager.AddGenericParameter("_LBGeometry", "_LBGeometry", "Ladybug Geometry", GH_ParamAccess.item);
         }
 
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -43,7 +39,9 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
-        /// <param name="dataAccess">The DA object is used to retrieve from inputs and store in outputs.</param>
+        /// <param name="dataAccess">
+        /// The DA object is used to retrieve from inputs and store in outputs.
+        /// </param>
         protected override void SolveInstance(IGH_DataAccess dataAccess)
         {
             GH_ObjectWrapper objectWrapper = null;
@@ -88,19 +86,16 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
 
             //ScriptSource scriptSource = scriptEngine.CreateScriptSourceFromFile(@"C:\Users\ziolkowskij\Documents\GitHub\External\ladybug-geometry\ladybug_geometry\geometry2d\line.py");
 
-
             //GH_Component x = new GH_Component();
-            
 
             //GH_DocumentObject k = new GH_DocumentObject("", null, null, null, null);
-
 
             //GH_UserObject b = new GH_UserObject() ;
             //b.
 
             //object result = scriptSource.Execute(scriptScope);
 
-            //string parameter = scriptScope.GetVariable<string>("parameter"); 
+            //string parameter = scriptScope.GetVariable<string>("parameter");
             //ObjectHandle a;
             //a.
             //ObjectOperations a = new ObjectOperations()
@@ -124,7 +119,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
 
             //GH_Point point = obj as GH_Point;
             //if (point != null)
-            //{ 
+            //{
             //    dataAccess.SetData(0, point.ToSAM());
             //    return;
             //}
@@ -141,10 +136,8 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
             //{
             //    IGeometry geometry = null;
 
-            //    if (curve.Value is Rhino.Geometry.LineCurve)
-            //        geometry = ((Rhino.Geometry.LineCurve)curve.Value).Line.ToSAM();
-            //    else
-            //        geometry = curve.ToSAM();
+            // if (curve.Value is Rhino.Geometry.LineCurve) geometry =
+            // ((Rhino.Geometry.LineCurve)curve.Value).Line.ToSAM(); else geometry = curve.ToSAM();
 
             //    if(geometry != null)
             //    {

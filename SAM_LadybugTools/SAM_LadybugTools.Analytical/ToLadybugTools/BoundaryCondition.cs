@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HoneybeeSchema;
+﻿using HoneybeeSchema;
 
 namespace SAM.Analytical.LadybugTools
 {
@@ -20,7 +15,7 @@ namespace SAM.Analytical.LadybugTools
                 case PanelType.UndergroundSlab:
                 case PanelType.Floor:
                     return new Ground();
-                
+
                 case PanelType.Wall:
                 case PanelType.CurtainWall:
                 case PanelType.WallExternal:
@@ -38,7 +33,7 @@ namespace SAM.Analytical.LadybugTools
                 case PanelType.WallInternal:
                 case PanelType.Ceiling:
                 case PanelType.UndergroundCeiling:
-                    //return new Surface(); //boundaryConditionObjects have to be provided  
+                    //return new Surface(); //boundaryConditionObjects have to be provided
                     //https://www.ladybug.tools/honeybee-schema/model.html#tag/surface_model
                     return null;
             }

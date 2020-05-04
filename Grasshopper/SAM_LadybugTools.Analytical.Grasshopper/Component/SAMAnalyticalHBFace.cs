@@ -1,8 +1,6 @@
-﻿using System;
-
-using Grasshopper.Kernel;
-
+﻿using Grasshopper.Kernel;
 using SAM.Analytical.Grasshopper.LadybugTools.Properties;
+using System;
 
 namespace SAM.Analytical.Grasshopper.LadybugTools
 {
@@ -36,7 +34,6 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
             inputParamManager.AddParameter(new GooPanelParam(), "_panel", "_panel", "SAM Analytica Panel", GH_ParamAccess.item);
         }
 
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -62,8 +59,6 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
             HoneybeeSchema.Face face = Analytical.LadybugTools.Convert.ToLadybugTools(panel);
 
             dataAccess.SetData(0, face.ToJson());
-
-            
         }
     }
 }

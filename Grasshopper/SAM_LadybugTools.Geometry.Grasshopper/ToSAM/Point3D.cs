@@ -1,7 +1,4 @@
-﻿using Grasshopper.Kernel.Types;
-
-
-namespace SAM.Geometry.Grasshopper.LadybugTools
+﻿namespace SAM.Geometry.Grasshopper.LadybugTools
 {
     public static partial class Convert
     {

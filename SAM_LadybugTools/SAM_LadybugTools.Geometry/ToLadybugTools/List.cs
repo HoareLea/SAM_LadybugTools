@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HoneybeeSchema;
+﻿using System.Collections.Generic;
 
 namespace SAM.Geometry.LadybugTools
 {
@@ -16,8 +11,8 @@ namespace SAM.Geometry.LadybugTools
 
             List<List<double>> result = new List<List<double>>();
 
-            foreach(Spatial.Point3D point3D in point3Ds)
-                result.Add(point3D.ToLadybugTools());            
+            foreach (Spatial.Point3D point3D in point3Ds)
+                result.Add(point3D.ToLadybugTools());
 
             return result;
         }

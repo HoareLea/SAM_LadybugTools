@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-
-using SAM.Geometry.Spatial;
+﻿using SAM.Geometry.Spatial;
+using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
 {

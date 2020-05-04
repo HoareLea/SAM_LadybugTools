@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using Grasshopper.Kernel.Types;
-
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
     public static partial class Convert
@@ -17,7 +15,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
                 return null;
 
             List<Spatial.Point3D> points = new List<Spatial.Point3D>();
-            foreach(var vertex in polygon2D._vertices)
+            foreach (var vertex in polygon2D._vertices)
                 points.Add(Convert.ToSAM_Point3D(vertex));
 
             return new SAM.Geometry.Spatial.Polygon3D(points);

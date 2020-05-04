@@ -1,9 +1,7 @@
-﻿using System;
-
-using Grasshopper.Kernel;
+﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
-
 using SAM.Geometry.Grasshopper.LadybugTools.Properties;
+using System;
 
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
@@ -38,7 +36,9 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
-        /// <param name="dataAccess">The DA object is used to retrieve from inputs and store in outputs.</param>
+        /// <param name="dataAccess">
+        /// The DA object is used to retrieve from inputs and store in outputs.
+        /// </param>
         protected override void SolveInstance(IGH_DataAccess dataAccess)
         {
             GH_ObjectWrapper objectWrapper = null;
@@ -53,7 +53,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
 
             dynamic lBObject = obj as dynamic;
             string aName = lBObject._name;
-            switch(aName)
+            switch (aName)
             {
                 case ("Python Types: Point"):
                     //dataAccess.SetData(0, point3D.ToGrasshopper());
@@ -75,7 +75,6 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
             //    return;
             //}
 
-
             //Polygon3D polygon3D = obj as Polygon3D;
             //if (polygon3D != null)
             //{
@@ -84,7 +83,6 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
             //}
 
             AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Cannot convert geometry");
-
         }
 
         /// <summary>

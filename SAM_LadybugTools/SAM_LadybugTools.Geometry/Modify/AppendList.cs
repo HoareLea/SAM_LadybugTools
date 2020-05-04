@@ -14,7 +14,7 @@ namespace SAM.Geometry.LadybugTools
             if (result == null)
                 result = new List<List<double>>();
 
-            if(list.Count > 0)
+            if (list.Count > 0)
                 result.AddRange(list);
 
             return result;

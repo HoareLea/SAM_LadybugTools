@@ -6,7 +6,7 @@ namespace SAM.Analytical.LadybugTools
     {
         public static FaceTypeEnum FaceTypeEnum(this PanelType panelType)
         {
-            switch(panelType)
+            switch (panelType)
             {
                 case PanelType.Ceiling:
                 case PanelType.Roof:
@@ -14,12 +14,14 @@ namespace SAM.Analytical.LadybugTools
                 case PanelType.SolarPanel:
                 case PanelType.UndergroundCeiling: //To be confirmed
                     return HoneybeeSchema.Face.FaceTypeEnum.RoofCeiling;
+
                 case PanelType.Wall:
                 case PanelType.CurtainWall:
                 case PanelType.UndergroundWall:
                 case PanelType.WallExternal:
                 case PanelType.WallInternal:
                     return HoneybeeSchema.Face.FaceTypeEnum.Wall;
+
                 case PanelType.Floor:
                 case PanelType.FloorExposed:
                 case PanelType.FloorInternal:

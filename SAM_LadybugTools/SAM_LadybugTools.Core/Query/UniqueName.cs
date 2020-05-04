@@ -22,7 +22,7 @@ namespace SAM.Core.LadybugTools
 
             if (!string.IsNullOrWhiteSpace(name))
             {
-                if(name.Length > 68)
+                if (name.Length > 68)
                     name = name.Substring(0, 68);
 
                 values.Add(name);
@@ -39,4 +39,3 @@ namespace SAM.Core.LadybugTools
         }
     }
 }
-
