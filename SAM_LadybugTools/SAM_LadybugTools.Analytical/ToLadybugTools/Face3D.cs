@@ -21,7 +21,7 @@ namespace SAM.Analytical.LadybugTools
                     holes.Add(ToLadybugTools(internalBoundaryEdge3DLoop));
             }
 
-            return new Face3D(boundary, "Face3D", holes);
+            return new Face3D(boundary, holes);
         }
     }
 }

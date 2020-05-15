@@ -4,7 +4,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Query
     {
-        public static FaceTypeEnum FaceTypeEnum(this PanelType panelType)
+        public static HoneybeeSchema.FaceType FaceTypeEnum(this PanelType panelType)
         {
             switch (panelType)
             {
@@ -13,14 +13,14 @@ namespace SAM.Analytical.LadybugTools
                 case PanelType.Shade:
                 case PanelType.SolarPanel:
                 case PanelType.UndergroundCeiling: //To be confirmed
-                    return HoneybeeSchema.Face.FaceTypeEnum.RoofCeiling;
+                    return HoneybeeSchema.FaceType.RoofCeiling;
 
                 case PanelType.Wall:
                 case PanelType.CurtainWall:
                 case PanelType.UndergroundWall:
                 case PanelType.WallExternal:
                 case PanelType.WallInternal:
-                    return HoneybeeSchema.Face.FaceTypeEnum.Wall;
+                    return HoneybeeSchema.FaceType.Wall;
 
                 case PanelType.Floor:
                 case PanelType.FloorExposed:
@@ -28,10 +28,10 @@ namespace SAM.Analytical.LadybugTools
                 case PanelType.FloorRaised:
                 case PanelType.SlabOnGrade:
                 case PanelType.UndergroundSlab:
-                    return HoneybeeSchema.Face.FaceTypeEnum.Floor;
+                    return HoneybeeSchema.FaceType.Floor;
             }
 
-            return HoneybeeSchema.Face.FaceTypeEnum.AirBoundary;
+            return HoneybeeSchema.FaceType.AirBoundary;
         }
     }
 }
