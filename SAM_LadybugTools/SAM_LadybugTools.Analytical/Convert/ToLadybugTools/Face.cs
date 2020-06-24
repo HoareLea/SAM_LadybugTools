@@ -5,12 +5,14 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Face ToLadybugTools(this Panel panel)
+        public static Face ToLadybugTools_Face(this Panel panel)
         {
-            if (panel == null)
+            if (panel == null || panel.PanelType == PanelType.Shade)
                 return null;
 
             Face3D face3D = panel.PlanarBoundary3D.ToLadybugTools();
+            if (face3D == null)
+                return null;
 
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = panel.ToLadybugTools_BoundaryCondition();
 

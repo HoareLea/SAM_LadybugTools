@@ -53,12 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modify\AppendList.cs" />
-    <Compile Include="ToLadybugTools\List.cs" />
-    <Compile Include="ToLadybugTools\Face3D.cs" />
+    <Compile Include="Convert\ToLadybugTools\List.cs" />
+    <Compile Include="Convert\ToLadybugTools\Face3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ToSAM\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -57,17 +57,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToLadybugTools\Shade.cs" />
     <Compile Include="Query\FaceTypeEnum.cs" />
-    <Compile Include="ToLadybugTools\BoundaryCondition.cs" />
-    <Compile Include="ToLadybugTools\Aperture.cs" />
-    <Compile Include="ToLadybugTools\List.cs" />
-    <Compile Include="ToLadybugTools\Face3D.cs" />
-    <Compile Include="ToLadybugTools\Face.cs" />
+    <Compile Include="Convert\ToLadybugTools\BoundaryCondition.cs" />
+    <Compile Include="Convert\ToLadybugTools\Aperture.cs" />
+    <Compile Include="Convert\ToLadybugTools\List.cs" />
+    <Compile Include="Convert\ToLadybugTools\Face3D.cs" />
+    <Compile Include="Convert\ToLadybugTools\Face.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ToSAM\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\SAM_LadybugTools.Core\SAM.Core.LadybugTools.csproj">
       <Project>{49f38e39-1bfb-4d06-89f9-11c694e432a7}</Project>

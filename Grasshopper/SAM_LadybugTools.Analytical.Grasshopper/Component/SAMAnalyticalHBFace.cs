@@ -40,6 +40,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         protected override void RegisterOutputParams(GH_OutputParamManager outputParamManager)
         {
             outputParamManager.AddGenericParameter("HBFace", "HBFace", "Ladybug Tools HB Face", GH_ParamAccess.item);
+            outputParamManager.AddGenericParameter("HBShade", "HBShade", "Ladybug Tools HB Shade", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -56,9 +57,12 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
                 return;
             }
 
-            HoneybeeSchema.Face face = Analytical.LadybugTools.Convert.ToLadybugTools(panel);
+            HoneybeeSchema.Face face = Analytical.LadybugTools.Convert.ToLadybugTools_Face(panel);
 
-            dataAccess.SetData(0, face.ToJson());
+            HoneybeeSchema.Shade shade = Analytical.LadybugTools.Convert.ToLadybugTools_Shade(panel);
+
+            dataAccess.SetData(0, face?.ToJson());
+            dataAccess.SetData(1, shade?.ToJson());
         }
     }
 }

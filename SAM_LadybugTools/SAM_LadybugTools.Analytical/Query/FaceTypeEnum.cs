@@ -10,7 +10,6 @@ namespace SAM.Analytical.LadybugTools
             {
                 case PanelType.Ceiling:
                 case PanelType.Roof:
-                case PanelType.Shade:
                 case PanelType.SolarPanel:
                 case PanelType.UndergroundCeiling: //To be confirmed
                     return HoneybeeSchema.FaceType.RoofCeiling;
