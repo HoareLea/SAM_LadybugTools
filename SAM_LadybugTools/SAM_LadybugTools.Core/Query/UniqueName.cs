@@ -33,6 +33,7 @@ namespace SAM.Core.LadybugTools
             string result = string.Join("__", values);
 
             result = result.Replace(" ", "_");
+            result = result.Replace(":", "_");
 
             if (result.Length > 100)
                 result = result.Substring(0, 100);
