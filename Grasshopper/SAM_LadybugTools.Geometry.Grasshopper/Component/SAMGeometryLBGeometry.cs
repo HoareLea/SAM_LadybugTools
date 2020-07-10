@@ -1,11 +1,12 @@
 ﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
+using SAM.Core.Grasshopper;
 using SAM.Geometry.Grasshopper.LadybugTools.Properties;
 using System;
 
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
-    public class SAMGeometryLBGeometry : GH_Component
+    public class SAMGeometryLBGeometry : GH_SAMComponent
     {
         /// <summary>
         /// Initializes a new instance of the SAM_point3D class.

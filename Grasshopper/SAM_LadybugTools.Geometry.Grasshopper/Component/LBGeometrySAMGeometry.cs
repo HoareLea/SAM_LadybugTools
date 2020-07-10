@@ -1,6 +1,7 @@
 ﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Newtonsoft.Json.Linq;
+using SAM.Core.Grasshopper;
 using SAM.Geometry.Grasshopper.LadybugTools.Properties;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Reflection;
 
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
-    public class LBGeometrySAMGeometry : GH_Component
+    public class LBGeometrySAMGeometry : GH_SAMComponent
     {
         /// <summary>
         /// Initializes a new instance of the SAMGeometryByGHGeometry class.

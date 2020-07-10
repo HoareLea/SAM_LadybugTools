@@ -1,10 +1,11 @@
 ﻿using Grasshopper.Kernel;
 using SAM.Analytical.Grasshopper.LadybugTools.Properties;
+using SAM.Core.Grasshopper;
 using System;
 
 namespace SAM.Analytical.Grasshopper.LadybugTools
 {
-    public class SAMAnalyticalHBFace : GH_Component
+    public class SAMAnalyticalHBFace : GH_SAMComponent
     {
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
