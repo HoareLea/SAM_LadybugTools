@@ -11,7 +11,7 @@ namespace SAM.Geometry.LadybugTools
             if (face3D == null)
                 return null;
 
-            ISegmentable3D externalEdge = face3D.GetExternalEdge() as ISegmentable3D;
+            ISegmentable3D externalEdge = face3D.GetExternalEdge3D() as ISegmentable3D;
             if (externalEdge == null)
                 throw new System.NotImplementedException();
 
@@ -24,7 +24,7 @@ namespace SAM.Geometry.LadybugTools
                 return null;
 
             List<List<List<double>>> holes = new List<List<List<double>>>();
-            List<IClosedPlanar3D> internalEdges = face3D.GetInternalEdges();
+            List<IClosedPlanar3D> internalEdges = face3D.GetInternalEdge3Ds();
             if(internalEdges != null && internalEdges.Count > 0)
             {
                 foreach(IClosedPlanar3D internalEdge_Temp in internalEdges)
