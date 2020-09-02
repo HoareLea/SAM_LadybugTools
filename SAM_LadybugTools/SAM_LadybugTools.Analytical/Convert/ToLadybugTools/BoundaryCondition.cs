@@ -1,10 +1,11 @@
 ﻿using HoneybeeSchema;
+using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static AnyOf<Ground, Outdoors, Adiabatic, Surface> ToLadybugTools_BoundaryCondition(this Panel panel)
+        public static AnyOf<Ground, Outdoors, Adiabatic, Surface> ToLadybugTools_BoundaryCondition(this Panel panel, Space space = null)
         {
             if (panel == null)
                 return null;
@@ -33,9 +34,17 @@ namespace SAM.Analytical.LadybugTools
                 case PanelType.WallInternal:
                 case PanelType.Ceiling:
                 case PanelType.UndergroundCeiling:
-                    //return new Surface(); //boundaryConditionObjects have to be provided
-                    //https://www.ladybug.tools/honeybee-schema/model.html#tag/surface_model
-                    return null;
+                        //boundaryConditionObjects have to be provided
+                        //https://www.ladybug.tools/honeybee-schema/model.html#tag/surface_model
+
+                        List<string> uniqueNames = new List<string>();
+
+                        uniqueNames.Add(Core.LadybugTools.Query.UniqueName(panel));
+
+                        if (space != null)
+                            uniqueNames.Add(Core.LadybugTools.Query.UniqueName(space));
+
+                        return new Surface(uniqueNames); 
             }
 
             return null;

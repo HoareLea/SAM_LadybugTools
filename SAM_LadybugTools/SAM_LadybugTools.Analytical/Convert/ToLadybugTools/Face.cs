@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Face ToLadybugTools_Face(this Panel panel)
+        public static Face ToLadybugTools_Face(this Panel panel, Space space = null)
         {
             if (panel == null || panel.PanelType == PanelType.Shade)
                 return null;
@@ -14,13 +14,13 @@ namespace SAM.Analytical.LadybugTools
             if (face3D == null)
                 return null;
 
-            AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = panel.ToLadybugTools_BoundaryCondition();
+            AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = panel.ToLadybugTools_BoundaryCondition(space);
 
             Face face = new Face(Core.LadybugTools.Query.UniqueName(panel), face3D, Query.FaceTypeEnum(panel.PanelType), boundaryCondition, new FacePropertiesAbridged() { Energy = new FaceEnergyPropertiesAbridged() });
 
             List<Aperture> apertures = panel.Apertures;
             if (apertures != null && apertures.Count > 0)
-                face.Apertures = apertures.ConvertAll(x => x.ToLadybugTools());
+                face.Apertures = apertures.ConvertAll(x => x.ToLadybugTools(panel, space));
 
             return face;
         }
