@@ -16,7 +16,7 @@ namespace SAM.Analytical.LadybugTools
 
             ShadePropertiesAbridged shadePropertiesAbridged = new ShadePropertiesAbridged();
 
-            Shade shade = new Shade(Core.LadybugTools.Query.UniqueName(panel), face3D, shadePropertiesAbridged);
+            Shade shade = new Shade(Core.LadybugTools.Query.UniqueName(panel), face3D, shadePropertiesAbridged, panel.Name);
 
             return shade;
         }

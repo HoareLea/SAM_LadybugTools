@@ -32,7 +32,7 @@ namespace SAM.Analytical.LadybugTools
                 anyOf = new Surface(uniqueNames);
             }
 
-            return new HoneybeeSchema.Aperture(uniqueName, face3D, anyOf, new AperturePropertiesAbridged());
+            return new HoneybeeSchema.Aperture(uniqueName, face3D, anyOf, new AperturePropertiesAbridged(), aperture.Name);
         }
     }
 }
