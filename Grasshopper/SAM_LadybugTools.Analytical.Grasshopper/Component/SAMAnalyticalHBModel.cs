@@ -5,12 +5,12 @@ using System;
 
 namespace SAM.Analytical.Grasshopper.LadybugTools
 {
-    public class SAMAnalyticalHBFace : GH_SAMComponent
+    public class SAMAnalyticalHBModel : GH_SAMComponent
     {
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid => new Guid("920a78fd-5cc5-4e68-bfa4-c8f57ac7569b");
+        public override Guid ComponentGuid => new Guid("1591e2d0-2b21-49dc-b497-5dc5d45e99b7");
 
         /// <summary>
         /// Provides an Icon for the component.
@@ -20,9 +20,9 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// <summary>
         /// Initializes a new instance of the SAMGeometryByGHGeometry class.
         /// </summary>
-        public SAMAnalyticalHBFace()
-          : base("SAMAnalytical.HBFace", "SAMAnalytical.HBFace",
-              "SAM Analytical Panel to Ladybug Tools HB Face",
+        public SAMAnalyticalHBModel()
+          : base("SAMAnalytical.HBModel", "SAMAnalytical.HBModel",
+              "SAM Analytical AdjacencyCluster to Ladybug Tools HB Model",
               "SAM", "LadybugTools")
         {
         }
@@ -32,7 +32,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager inputParamManager)
         {
-            inputParamManager.AddParameter(new GooPanelParam(), "_panel", "_panel", "SAM Analytical Panel", GH_ParamAccess.item);
+            inputParamManager.AddParameter(new GooAdjacencyClusterParam(), "_adjacencyCluster", "_adjacencyCluster", "SAM Analytical AdjacencyCluster", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -40,8 +40,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager outputParamManager)
         {
-            outputParamManager.AddGenericParameter("HBFace", "HBFace", "Ladybug Tools HB Face", GH_ParamAccess.item);
-            outputParamManager.AddGenericParameter("HBShade", "HBShade", "Ladybug Tools HB Shade", GH_ParamAccess.item);
+            outputParamManager.AddGenericParameter("HBModel", "HBModel", "Ladybug Tools HB Model", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -50,20 +49,17 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// <param name="dataAccess">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess dataAccess)
         {
-            Panel panel = null;
+            AdjacencyCluster adjacencyCluster = null;
 
-            if (!dataAccess.GetData(0, ref panel) || panel == null)
+            if (!dataAccess.GetData(0, ref adjacencyCluster) || adjacencyCluster == null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;
             }
 
-            HoneybeeSchema.Face face = Analytical.LadybugTools.Convert.ToLadybugTools_Face(panel);
+            HoneybeeSchema.Model model = Analytical.LadybugTools.Convert.ToLadybugTools(adjacencyCluster);
 
-            HoneybeeSchema.Shade shade = Analytical.LadybugTools.Convert.ToLadybugTools_Shade(panel);
-
-            dataAccess.SetData(0, face?.ToJson());
-            dataAccess.SetData(1, shade?.ToJson());
+            dataAccess.SetData(0, model?.ToJson());
         }
     }
 }

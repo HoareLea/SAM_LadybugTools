@@ -89,6 +89,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\SAMAnalyticalHBModel.cs" />
     <Compile Include="Component\SAMAnalyticalHBFace.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
