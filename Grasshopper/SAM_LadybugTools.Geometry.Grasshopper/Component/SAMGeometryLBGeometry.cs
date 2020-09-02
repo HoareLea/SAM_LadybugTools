@@ -1,8 +1,10 @@
 ﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
+using HoneybeeSchema;
 using SAM.Core.Grasshopper;
 using SAM.Geometry.Grasshopper.LadybugTools.Properties;
 using System;
+using System.Collections;
 
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
@@ -23,7 +25,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager inputParamManager)
         {
-            inputParamManager.AddGenericParameter("_SAMGeometry", "_SAMGeometry", "SAM Geometry", GH_ParamAccess.item);
+            inputParamManager.AddParameter(new GooSAMGeometryParam(), "_SAMGeometry", "_SAMGeometry", "SAM Geometry", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -31,7 +33,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager outputParamManager)
         {
-            outputParamManager.AddGenericParameter("GHGeometry", "GHgeo", "GH Geometry", GH_ParamAccess.item);
+            outputParamManager.AddTextParameter("LBGeometry", "LBgeo", "LB Geometry", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,24 +44,27 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
         /// </param>
         protected override void SolveInstance(IGH_DataAccess dataAccess)
         {
-            GH_ObjectWrapper objectWrapper = null;
+            ISAMGeometry sAMGeometry = null;
 
-            if (!dataAccess.GetData(0, ref objectWrapper) || objectWrapper.Value == null)
+            if (!dataAccess.GetData(0, ref sAMGeometry) || sAMGeometry == null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;
             }
 
-            object obj = objectWrapper.Value;
+            HoneybeeObject honeybeeObject =  Geometry.LadybugTools.Convert.ToLadybugTools(sAMGeometry as dynamic) as HoneybeeObject;
+            dataAccess.SetData(0, honeybeeObject?.ToJson());
 
-            dynamic lBObject = obj as dynamic;
-            string aName = lBObject._name;
-            switch (aName)
-            {
-                case ("Python Types: Point"):
-                    //dataAccess.SetData(0, point3D.ToGrasshopper());
-                    return;
-            }
+            //object obj = objectWrapper.Value;
+
+            //dynamic lBObject = obj as dynamic;
+            //string aName = lBObject._name;
+            //switch (aName)
+            //{
+            //    case ("Python Types: Point"):
+            //        //dataAccess.SetData(0, point3D.ToGrasshopper());
+            //        return;
+            //}
 
             //Point3D point3D = obj as Point3D;
             //if (point3D != null)
@@ -83,7 +88,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
             //    return;
             //}
 
-            AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Cannot convert geometry");
+            //AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Cannot convert geometry");
         }
 
         /// <summary>
