@@ -10,9 +10,12 @@ namespace SAM.Analytical.LadybugTools
             if (planarBoundary3D == null)
                 return null;
 
-            List<List<double>> boundary = ToLadybugTools(planarBoundary3D.GetExternalEdge3DLoop());
+            PlanarBoundary3D planarBoundary3D_Temp = new PlanarBoundary3D(planarBoundary3D);
+            planarBoundary3D_Temp.Normalize();
 
-            List<BoundaryEdge3DLoop> internalBoundaryEdge3DLoops = planarBoundary3D.GetInternalEdge3DLoops();
+            List<List<double>> boundary = ToLadybugTools(planarBoundary3D_Temp.GetExternalEdge3DLoop());
+
+            List<BoundaryEdge3DLoop> internalBoundaryEdge3DLoops = planarBoundary3D_Temp.GetInternalEdge3DLoops();
             List<List<List<double>>> holes = null;
             if (internalBoundaryEdge3DLoops != null)
             {
