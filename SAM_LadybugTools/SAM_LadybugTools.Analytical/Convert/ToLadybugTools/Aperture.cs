@@ -14,14 +14,6 @@ namespace SAM.Analytical.LadybugTools
             if (planarBoundary3D == null)
                 return null;
 
-            if(panel != null)
-            {
-                Geometry.Spatial.Vector3D normal_Panel = panel.Normal;
-                Geometry.Spatial.Vector3D normal_Aperture = planarBoundary3D.Normal;
-                if (!normal_Panel.SameHalf(normal_Aperture))
-                    planarBoundary3D.Flip();
-            }
-
             AnyOf<Outdoors, Surface> anyOf = new Outdoors();
 
             string uniqueName = Core.LadybugTools.Query.UniqueName(aperture);

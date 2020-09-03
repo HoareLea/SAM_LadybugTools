@@ -1,12 +1,11 @@
 ﻿using HoneybeeSchema;
-using SAM.Geometry.LadybugTools;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Model ToLadybugTools(this AdjacencyCluster adjacencyCluster)
+        public static Model ToLadybugTools(this AdjacencyCluster adjacencyCluster, double silverSpacing = Core.Tolerance.MacroDistance, double tolerance = Core.Tolerance.Distance)
         {
             if (adjacencyCluster == null)
                 return null;
@@ -22,7 +21,11 @@ namespace SAM.Analytical.LadybugTools
                 
                 foreach (Space space in spaces)
                 {
-                    Room room = space.ToLadybugTools(adjacencyCluster.GetPanels(space));
+                    List<Panel> panels = adjacencyCluster.UpdateNormals(space, silverSpacing, tolerance);
+                    if (panels == null || panels.Count == 0)
+                        continue;
+
+                    Room room = space.ToLadybugTools(panels);
                     if (room == null)
                         continue;
 
