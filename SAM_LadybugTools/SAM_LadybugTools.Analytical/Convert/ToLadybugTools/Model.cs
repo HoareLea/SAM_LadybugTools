@@ -21,7 +21,7 @@ namespace SAM.Analytical.LadybugTools
                 
                 foreach (Space space in spaces)
                 {
-                    List<Panel> panels = adjacencyCluster.UpdateNormals(space, silverSpacing, tolerance);
+                    List<Panel> panels = adjacencyCluster.UpdateNormals(space, false, silverSpacing, tolerance);
                     if (panels == null || panels.Count == 0)
                         continue;
 
