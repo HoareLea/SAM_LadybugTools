@@ -5,12 +5,12 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static HoneybeeSchema.Aperture ToLadybugTools(this Aperture aperture, int index = -1, int index_Adjacent = -1, string adjacentPanelUniqueName = null, string adjacentSpaceUniqueName = null)
+        public static Door ToLadybugTools_Door(this Aperture aperture, int index = -1, int index_Adjacent = -1, string adjacentPanelUniqueName = null, string adjacentSpaceUniqueName = null)
         {
             if (aperture == null)
                 return null;
 
-            if (aperture.ApertureType == ApertureType.Door)
+            if (aperture.ApertureType != ApertureType.Door)
                 return null;
 
             PlanarBoundary3D planarBoundary3D = aperture.PlanarBoundary3D;
@@ -30,7 +30,7 @@ namespace SAM.Analytical.LadybugTools
                 anyOf = new Surface(uniqueNames);
             }
 
-            return new HoneybeeSchema.Aperture(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new AperturePropertiesAbridged(), aperture.Name);
+            return new Door(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new DoorPropertiesAbridged(), aperture.Name);
         }
     }
 }

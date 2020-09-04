@@ -22,9 +22,7 @@ namespace SAM.Analytical.LadybugTools
                 for(int i=0; i < spaces.Count; i++)
                 {
                     Space space = spaces[i];
-
-                    List<Panel> panels = adjacencyCluster.UpdateNormals(space, false, silverSpacing, tolerance);
-                    if (panels == null || panels.Count == 0)
+                    if (space == null)
                         continue;
 
                     Room room = space.ToLadybugTools(adjacencyCluster, silverSpacing, tolerance);

@@ -47,8 +47,11 @@ namespace SAM.Analytical.LadybugTools
 
             List<Aperture> apertures = Analytical.Query.OffsetAperturesOnEdge(panel, 0.1);
             if (apertures != null && apertures.Count > 0)
-                face.Apertures = apertures.ConvertAll(x => x.ToLadybugTools(index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName));
-
+            {
+                face.Apertures = apertures.ConvertAll(x => x.ToLadybugTools(index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
+                face.Doors = apertures.ConvertAll(x => x.ToLadybugTools_Door(index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
+            }
+                
             return face;
         }
     }
