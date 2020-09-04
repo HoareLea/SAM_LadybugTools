@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static AnyOf<Ground, Outdoors, Adiabatic, Surface> ToLadybugTools_BoundaryCondition(this Panel panel, Space space = null)
+        public static AnyOf<Ground, Outdoors, Adiabatic, Surface> ToLadybugTools_BoundaryCondition(this Panel panel, string adjacentPanelUniqueName = null, string adjacentSpaceUniqueName = null)
         {
             if (panel == null)
                 return null;
@@ -39,12 +39,13 @@ namespace SAM.Analytical.LadybugTools
 
                         List<string> uniqueNames = new List<string>();
 
-                        uniqueNames.Add(Core.LadybugTools.Query.UniqueName(panel));
+                    if(!string.IsNullOrEmpty(adjacentPanelUniqueName))
+                        uniqueNames.Add(adjacentPanelUniqueName);
 
-                        if (space != null)
-                            uniqueNames.Add(Core.LadybugTools.Query.UniqueName(space));
+                    if (!string.IsNullOrEmpty(adjacentSpaceUniqueName))
+                        uniqueNames.Add(adjacentSpaceUniqueName);
 
-                        return new Surface(uniqueNames); 
+                    return new Surface(uniqueNames); 
             }
 
             return null;

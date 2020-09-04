@@ -18,19 +18,22 @@ namespace SAM.Analytical.LadybugTools
             if (spaces != null)
             {
                 rooms = new List<Room>();
-                
-                foreach (Space space in spaces)
+
+                for(int i=0; i < spaces.Count; i++)
                 {
+                    Space space = spaces[i];
+
                     List<Panel> panels = adjacencyCluster.UpdateNormals(space, false, silverSpacing, tolerance);
                     if (panels == null || panels.Count == 0)
                         continue;
 
-                    Room room = space.ToLadybugTools(panels);
+                    Room room = space.ToLadybugTools(adjacencyCluster, silverSpacing, tolerance);
                     if (room == null)
                         continue;
 
                     rooms.Add(room);
-                }
+                }    
+               
             }
 
             List<Shade> shades = null;

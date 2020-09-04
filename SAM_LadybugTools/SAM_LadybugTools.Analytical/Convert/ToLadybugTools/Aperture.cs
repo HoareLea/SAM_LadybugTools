@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static HoneybeeSchema.Aperture ToLadybugTools(this Aperture aperture, Panel panel = null, Space space = null)
+        public static HoneybeeSchema.Aperture ToLadybugTools(this Aperture aperture, int index = -1, int index_Adjacent = -1, string adjacentPanelUniqueName = null, string adjacentSpaceUniqueName = null)
         {
             if (aperture == null)
                 return null;
@@ -16,27 +16,18 @@ namespace SAM.Analytical.LadybugTools
 
             AnyOf<Outdoors, Surface> anyOf = new Outdoors();
 
-            string uniqueName = Core.LadybugTools.Query.UniqueName(aperture);
-
             Face3D face3D = planarBoundary3D.ToLadybugTools();
-            if(panel != null)
+            if (!string.IsNullOrEmpty(adjacentPanelUniqueName) && !string.IsNullOrEmpty(adjacentSpaceUniqueName))
             {
-                if(panel.IsInternal())
-                {
-                    List<string> uniqueNames = new List<string>();
-                    uniqueNames.Add(uniqueName);
+                List<string> uniqueNames = new List<string>();
+                uniqueNames.Add(Core.LadybugTools.Query.UniqueName(aperture, index_Adjacent));
+                uniqueNames.Add(adjacentPanelUniqueName);
+                uniqueNames.Add(adjacentSpaceUniqueName);
 
-                    uniqueNames.Add(Core.LadybugTools.Query.UniqueName(panel));
-
-                    if (space != null)
-                        uniqueNames.Add(Core.LadybugTools.Query.UniqueName(space));
-
-                    anyOf = new Surface(uniqueNames);
-                }
-
+                anyOf = new Surface(uniqueNames);
             }
 
-            return new HoneybeeSchema.Aperture(uniqueName, face3D, anyOf, new AperturePropertiesAbridged(), aperture.Name);
+            return new HoneybeeSchema.Aperture(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new AperturePropertiesAbridged(), aperture.Name);
         }
     }
 }
