@@ -18,7 +18,7 @@ namespace SAM.Analytical.LadybugTools
 
             Face face = new Face(Core.LadybugTools.Query.UniqueName(panel), face3D, Query.FaceTypeEnum(panel.PanelType), boundaryCondition, new FacePropertiesAbridged() { Energy = new FaceEnergyPropertiesAbridged() }, panel.Name);
 
-            List<Aperture> apertures = panel.Apertures;
+            List<Aperture> apertures = Analytical.Query.OffsetAperturesOnEdge(panel, 0.1);
             if (apertures != null && apertures.Count > 0)
                 face.Apertures = apertures.ConvertAll(x => x.ToLadybugTools(panel, space));
 

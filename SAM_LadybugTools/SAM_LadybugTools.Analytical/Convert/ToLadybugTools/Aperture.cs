@@ -19,17 +19,21 @@ namespace SAM.Analytical.LadybugTools
             string uniqueName = Core.LadybugTools.Query.UniqueName(aperture);
 
             Face3D face3D = planarBoundary3D.ToLadybugTools();
-            if(panel != null && panel.IsInternal())
+            if(panel != null)
             {
-                List<string> uniqueNames = new List<string>();
-                uniqueNames.Add(uniqueName);
+                if(panel.IsInternal())
+                {
+                    List<string> uniqueNames = new List<string>();
+                    uniqueNames.Add(uniqueName);
 
-                uniqueNames.Add(Core.LadybugTools.Query.UniqueName(panel));
+                    uniqueNames.Add(Core.LadybugTools.Query.UniqueName(panel));
 
-                if(space != null)
-                    uniqueNames.Add(Core.LadybugTools.Query.UniqueName(space));
+                    if (space != null)
+                        uniqueNames.Add(Core.LadybugTools.Query.UniqueName(space));
 
-                anyOf = new Surface(uniqueNames);
+                    anyOf = new Surface(uniqueNames);
+                }
+
             }
 
             return new HoneybeeSchema.Aperture(uniqueName, face3D, anyOf, new AperturePropertiesAbridged(), aperture.Name);

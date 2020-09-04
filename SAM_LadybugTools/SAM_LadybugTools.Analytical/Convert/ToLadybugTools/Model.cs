@@ -68,7 +68,7 @@ namespace SAM.Analytical.LadybugTools
 
             }
 
-            Model model = new Model(uniqueName, new ModelProperties(), adjacencyCluster.Name, null, "1.38.1",rooms, faces_Orphaned, shades);
+            Model model = new Model(uniqueName, new ModelProperties(), adjacencyCluster.Name, null, "1.38.1", rooms, faces_Orphaned, shades);
 
             return model;
         }
