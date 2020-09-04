@@ -17,17 +17,20 @@ namespace SAM.Analytical.LadybugTools
 
             Space space_Adjacent = null;
             int index_Adjacent = -1;
-            if(adjacencyCluster != null)
+            if (adjacencyCluster != null && index != -1)
             {
                 List<Space> spaces = adjacencyCluster.GetSpaces(panel);
-                if(spaces != null && spaces.Count != 0)
+                if (spaces != null && spaces.Count != 0)
                 {
-                    foreach(Space space in spaces)
+                    foreach (Space space in spaces)
                     {
-                        index_Adjacent = adjacencyCluster.GetIndex(space);
-                        space_Adjacent = space;
+                        int index_Temp = adjacencyCluster.GetIndex(space);
                         if (!index_Adjacent.Equals(index))
+                        {
+                            space_Adjacent = space;
+                            index_Adjacent = index_Temp;
                             break;
+                        }
                     }
                 }
             }
@@ -35,7 +38,7 @@ namespace SAM.Analytical.LadybugTools
             string adjacentPanelUniqueName = null;
             string adjacentSpaceUniqueName = null;
 
-            if (space_Adjacent != null)
+            if (space_Adjacent != null && index_Adjacent != -1)
             {
                 adjacentPanelUniqueName = Core.LadybugTools.Query.UniqueName(panel, index_Adjacent);
                 adjacentSpaceUniqueName = Core.LadybugTools.Query.UniqueName(space_Adjacent, index_Adjacent);
