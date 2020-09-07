@@ -1,5 +1,6 @@
 ﻿using HoneybeeSchema;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAM.Analytical.LadybugTools
 {
@@ -40,7 +41,7 @@ namespace SAM.Analytical.LadybugTools
                     if (room.Properties.Energy == null)
                         room.Properties.Energy = new RoomEnergyPropertiesAbridged();
 
-                    //room.Properties.Energy.Hvac = idealAirSystemAbridged.Identifier;
+                    room.Properties.Energy.Hvac = idealAirSystemAbridged.Identifier;
 
                     rooms.Add(room);
                 }    
@@ -80,11 +81,30 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            ModelEnergyProperties modelEnergyProperties = new ModelEnergyProperties(null, null, null, null);
+            ConstructionSetAbridged constructionSetAbridged = Query.StandardConstructionSetAbridged("Default Generic Construction Set", Core.TextComparisonType.Equals, true);
+            List<AnyOf<ConstructionSetAbridged, ConstructionSet>> constructionSets = new List<AnyOf<ConstructionSetAbridged, ConstructionSet>>() { constructionSetAbridged  };
+
+
+            List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>> constructions = new List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>>();
+            HoneybeeSchema.Helper.EnergyLibrary.DefaultConstructions?.ToList().ForEach(x => constructions.Add(x as dynamic));
+
+            List<AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>> materials = new List<AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>>();
+            HoneybeeSchema.Helper.EnergyLibrary.DefaultMaterials?.ToList().ForEach(x => materials.Add(x as dynamic));
+
+            List<AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>> schedules = new List<AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>>();
+            HoneybeeSchema.Helper.EnergyLibrary.DefaultScheduleRuleset?.ToList().ForEach(x => schedules.Add(x as dynamic));
+
+            List<AnyOf<ProgramTypeAbridged, ProgramType>> programTypes = new List<AnyOf<ProgramTypeAbridged, ProgramType>>();
+            HoneybeeSchema.Helper.EnergyLibrary.DefaultProgramTypes?.ToList().ForEach(x => programTypes.Add(x as dynamic));
+
+            List<ScheduleTypeLimit> scheduleTypeLimits = new List<ScheduleTypeLimit>();
+            HoneybeeSchema.Helper.EnergyLibrary.DefaultScheduleTypeLimit?.ToList().ForEach(x => scheduleTypeLimits.Add(x));
+
+            ModelEnergyProperties modelEnergyProperties = new ModelEnergyProperties(constructionSets, constructions, materials, hvacs, programTypes, schedules, scheduleTypeLimits);
 
             ModelProperties modelProperties = new ModelProperties(modelEnergyProperties);
 
-            Model model = new Model(uniqueName, new ModelProperties(), adjacencyCluster.Name, null, "1.38.1", rooms, faces_Orphaned, shades);
+            Model model = new Model(uniqueName, modelProperties, adjacencyCluster.Name, null, "1.38.1", rooms, faces_Orphaned, shades);
 
             return model;
         }

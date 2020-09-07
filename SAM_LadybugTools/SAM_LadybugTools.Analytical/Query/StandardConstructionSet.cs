@@ -8,14 +8,14 @@ namespace SAM.Analytical.LadybugTools
     {
         public static ConstructionSetAbridged StandardConstructionSetAbridged(string text, TextComparisonType textComparisonType, bool caseSensitive = true)
         {
-            Dictionary<string, ConstructionSetAbridged> dictionary = HoneybeeSchema.Helper.EnergyLibrary.StandardsConstructionSets;
-            if (dictionary == null)
+           IEnumerable<ConstructionSetAbridged> constructionSetsAbridged = HoneybeeSchema.Helper.EnergyLibrary.DefaultConstructionSets;
+            if (constructionSetsAbridged == null)
                 return null;
             
-            foreach(KeyValuePair<string, ConstructionSetAbridged> keyValyePair in dictionary)
+            foreach(ConstructionSetAbridged constructionSetAbridged in constructionSetsAbridged)
             {
-                if (Core.Query.Compare(keyValyePair.Key, text, textComparisonType, caseSensitive))
-                    return keyValyePair.Value;
+                if (Core.Query.Compare(constructionSetAbridged.Identifier, text, textComparisonType, caseSensitive))
+                    return constructionSetAbridged;
             }
 
             return null;

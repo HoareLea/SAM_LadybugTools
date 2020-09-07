@@ -41,7 +41,11 @@ namespace SAM.Analytical.LadybugTools
                 result.Properties = new RoomPropertiesAbridged();
 
             if (result.Properties.Energy == null)
-                result.Properties.Energy = new RoomEnergyPropertiesAbridged("Default Generic Construction Set", "Generic Office Program");
+            {
+                result.Properties.Energy = new RoomEnergyPropertiesAbridged("Default Generic Construction Set");
+                //result.Properties.Energy.ProgramType = "Generic Office Program";
+            }
+                
 
             return result;
         }
