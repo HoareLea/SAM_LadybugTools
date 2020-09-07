@@ -36,17 +36,7 @@ namespace SAM.Analytical.LadybugTools
 
             
 
-            Room result = new Room(uniqueName, faces, new RoomPropertiesAbridged(), space.Name);
-            if (result.Properties == null)
-                result.Properties = new RoomPropertiesAbridged();
-
-            if (result.Properties.Energy == null)
-            {
-                result.Properties.Energy = new RoomEnergyPropertiesAbridged("Default Generic Construction Set");
-                //result.Properties.Energy.ProgramType = "Generic Office Program";
-            }
-                
-
+            Room result = new Room(uniqueName, faces, new RoomPropertiesAbridged(), space.Name);              
             return result;
         }
     }
