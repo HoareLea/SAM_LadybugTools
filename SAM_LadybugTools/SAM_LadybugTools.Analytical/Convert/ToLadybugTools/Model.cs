@@ -13,10 +13,12 @@ namespace SAM.Analytical.LadybugTools
             string uniqueName = Core.LadybugTools.Query.UniqueName(adjacencyCluster);
 
             List<Room> rooms = null;
-            
+            List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>> hvacs = null;
+
             List<Space> spaces = adjacencyCluster.GetSpaces();
             if (spaces != null)
             {
+                hvacs = new List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>>();
                 rooms = new List<Room>();
 
                 for(int i=0; i < spaces.Count; i++)
@@ -25,9 +27,19 @@ namespace SAM.Analytical.LadybugTools
                     if (space == null)
                         continue;
 
+                    IdealAirSystemAbridged idealAirSystemAbridged = new IdealAirSystemAbridged(string.Format("{0}_{1}", "IASA", uniqueName), string.Format("Ideal Air System Abridged {0}", space.Name));
+
                     Room room = space.ToLadybugTools(adjacencyCluster, silverSpacing, tolerance);
                     if (room == null)
                         continue;
+
+                    if(room.Properties == null)
+                        room.Properties = new RoomPropertiesAbridged();
+
+                    if (room.Properties.Energy == null)
+                        room.Properties.Energy = new RoomEnergyPropertiesAbridged();
+
+                    room.Properties.Energy.Hvac = idealAirSystemAbridged.Identifier;
 
                     rooms.Add(room);
                 }    
@@ -65,11 +77,13 @@ namespace SAM.Analytical.LadybugTools
 
                     faces_Orphaned.Add(face_Orphaned);
                 }
-
-
             }
 
-            Model model = new Model(uniqueName, new ModelProperties(), adjacencyCluster.Name, null, "1.38.1", rooms, faces_Orphaned, shades);
+            ModelEnergyProperties modelEnergyProperties = new ModelEnergyProperties(null, null, null, hvacs);
+
+            ModelProperties modelProperties = new ModelProperties(modelEnergyProperties);
+
+            Model model = new Model(uniqueName, modelProperties, adjacencyCluster.Name, null, "1.38.1", rooms, faces_Orphaned, shades);
 
             return model;
         }
