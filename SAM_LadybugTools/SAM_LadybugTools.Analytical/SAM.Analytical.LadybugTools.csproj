@@ -64,6 +64,7 @@
     <Compile Include="Convert\ToLadybugTools\Model.cs" />
     <Compile Include="Convert\ToLadybugTools\Room.cs" />
     <Compile Include="Convert\ToLadybugTools\Shade.cs" />
+    <Compile Include="Query\StandardConstructionSet.cs" />
     <Compile Include="Query\FaceTypeEnum.cs" />
     <Compile Include="Convert\ToLadybugTools\BoundaryCondition.cs" />
     <Compile Include="Convert\ToLadybugTools\Aperture.cs" />

@@ -18,6 +18,8 @@ namespace SAM.Analytical.LadybugTools
                 panels = adjacencyCluster.UpdateNormals(space, false, silverSpacing, tolerance);
             }
 
+            string uniqueName = Core.LadybugTools.Query.UniqueName(space, index);
+
             List<Face> faces = null;
             if(panels != null)
             {
@@ -32,9 +34,14 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            string uniqueName = Core.LadybugTools.Query.UniqueName(space, index);
+            
 
             Room result = new Room(uniqueName, faces, new RoomPropertiesAbridged(), space.Name);
+            if (result.Properties == null)
+                result.Properties = new RoomPropertiesAbridged();
+
+            if (result.Properties.Energy == null)
+                result.Properties.Energy = new RoomEnergyPropertiesAbridged("Default Generic Construction Set", "Generic Office Program");
 
             return result;
         }

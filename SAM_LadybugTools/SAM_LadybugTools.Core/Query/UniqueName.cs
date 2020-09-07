@@ -14,5 +14,13 @@ namespace SAM.Core.LadybugTools
             else
                 return string.Format("{0}__{1}", index.ToString(), sAMObject.Guid.ToString("N"));
         }
+
+        public static string UniqueName(string prefix, string uniqueName)
+        {
+            if (string.IsNullOrWhiteSpace(uniqueName))
+                return null;
+
+            return string.Format("{0}_{1}", prefix, uniqueName);
+        }
     }
 }
