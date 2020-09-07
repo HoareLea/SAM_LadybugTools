@@ -1,6 +1,5 @@
 ﻿using HoneybeeSchema;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SAM.Analytical.LadybugTools
 {
@@ -46,7 +45,16 @@ namespace SAM.Analytical.LadybugTools
 
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = panel.ToLadybugTools_BoundaryCondition(adjacentPanelUniqueName, adjacentSpaceUniqueName);
 
-            Face face = new Face(Core.LadybugTools.Query.UniqueName(panel, index), face3D, Query.FaceTypeEnum(panel.PanelType), boundaryCondition, new FacePropertiesAbridged() { Energy = new FaceEnergyPropertiesAbridged() }, panel.Name);
+            FaceType faceType;
+
+            PanelType panelType = panel.PanelType;
+            PanelGroup panelGroup = panelType.PanelGroup();
+            if(panelGroup == PanelGroup.Floor && Analytical.Query.PanelType(panel.Normal) == PanelType.Roof)
+                faceType = FaceType.RoofCeiling;
+            else
+                faceType = Query.FaceTypeEnum(panelType);
+
+            Face face = new Face(Core.LadybugTools.Query.UniqueName(panel, index), face3D, faceType, boundaryCondition, new FacePropertiesAbridged() { Energy = new FaceEnergyPropertiesAbridged() }, panel.Name);
 
             List<Aperture> apertures = Analytical.Query.OffsetAperturesOnEdge(panel, 0.1);
             if (apertures != null && apertures.Count > 0)
