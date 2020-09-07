@@ -25,7 +25,7 @@ namespace SAM.Analytical.LadybugTools
                     foreach (Space space in spaces)
                     {
                         int index_Temp = adjacencyCluster.GetIndex(space);
-                        if (!index_Adjacent.Equals(index))
+                        if (!index_Temp.Equals(index))
                         {
                             space_Adjacent = space;
                             index_Adjacent = index_Temp;
