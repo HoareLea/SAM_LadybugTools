@@ -27,19 +27,20 @@ namespace SAM.Analytical.LadybugTools
                     if (space == null)
                         continue;
 
-                    IdealAirSystemAbridged idealAirSystemAbridged = new IdealAirSystemAbridged(string.Format("{0}_{1}", "IASA", uniqueName), string.Format("Ideal Air System Abridged {0}", space.Name));
-
                     Room room = space.ToLadybugTools(adjacencyCluster, silverSpacing, tolerance);
                     if (room == null)
                         continue;
 
-                    if(room.Properties == null)
+                    IdealAirSystemAbridged idealAirSystemAbridged = new IdealAirSystemAbridged(string.Format("{0}_{1}", "IASA", room.Identifier), string.Format("Ideal Air System Abridged {0}", space.Name));
+                    hvacs.Add(idealAirSystemAbridged);
+
+                    if (room.Properties == null)
                         room.Properties = new RoomPropertiesAbridged();
 
                     if (room.Properties.Energy == null)
                         room.Properties.Energy = new RoomEnergyPropertiesAbridged();
 
-                    room.Properties.Energy.Hvac = idealAirSystemAbridged.Identifier;
+                    //room.Properties.Energy.Hvac = idealAirSystemAbridged.Identifier;
 
                     rooms.Add(room);
                 }    
@@ -79,11 +80,11 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            ModelEnergyProperties modelEnergyProperties = new ModelEnergyProperties(null, null, null, hvacs);
+            ModelEnergyProperties modelEnergyProperties = new ModelEnergyProperties(null, null, null, null);
 
             ModelProperties modelProperties = new ModelProperties(modelEnergyProperties);
 
-            Model model = new Model(uniqueName, modelProperties, adjacencyCluster.Name, null, "1.38.1", rooms, faces_Orphaned, shades);
+            Model model = new Model(uniqueName, new ModelProperties(), adjacencyCluster.Name, null, "1.38.1", rooms, faces_Orphaned, shades);
 
             return model;
         }
