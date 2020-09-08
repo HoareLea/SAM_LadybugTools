@@ -32,7 +32,7 @@ namespace SAM.Analytical.LadybugTools
                     if (room == null)
                         continue;
 
-                    IdealAirSystemAbridged idealAirSystemAbridged = new IdealAirSystemAbridged(string.Format("{0}_{1}", "IASA", room.Identifier), string.Format("Ideal Air System Abridged {0}", space.Name));
+                    IdealAirSystemAbridged idealAirSystemAbridged = new IdealAirSystemAbridged(string.Format("{0}_{1}", room.Identifier, "IDEALAIR"), string.Format("Ideal Air System Abridged {0}", space.Name));
                     hvacs.Add(idealAirSystemAbridged);
 
                     if (room.Properties == null)
