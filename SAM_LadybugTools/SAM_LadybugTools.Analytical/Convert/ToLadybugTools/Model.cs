@@ -22,7 +22,10 @@ namespace SAM.Analytical.LadybugTools
                 hvacs = new List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>>();
                 rooms = new List<Room>();
 
-                for(int i=0; i < spaces.Count; i++)
+                Dictionary<double, List<Panel>> dictionary_elevations = Analytical.Query.MinElevationDictionary(adjacencyCluster.GetPanels(), true);
+                List<Architectural.Level> levels = dictionary_elevations?.Keys.ToList().ConvertAll(x => Architectural.Create.Level(x));
+
+                for (int i = 0; i < spaces.Count; i++)
                 {
                     Space space = spaces[i];
                     if (space == null)
@@ -31,6 +34,21 @@ namespace SAM.Analytical.LadybugTools
                     Room room = space.ToLadybugTools(adjacencyCluster, silverSpacing, tolerance);
                     if (room == null)
                         continue;
+
+                    if (levels != null && levels.Count > 0)
+                    {
+                        double elevation_Min = space.MinElevation(adjacencyCluster);
+                        if (!double.IsNaN(elevation_Min))
+                        {
+                            List<double> elevations = levels.ConvertAll(x => x.Elevation - elevation_Min);
+                            elevations.Sort();
+                            int index = elevations.FindIndex(x => x > 0);
+                            if (index == -1)
+                                index = elevations.Count - 1;
+
+                            room.Story = levels[index].Name;
+                        }
+                    }
 
                     IdealAirSystemAbridged idealAirSystemAbridged = new IdealAirSystemAbridged(string.Format("{0}_{1}", room.Identifier, "IdealAir"), string.Format("Ideal Air System Abridged {0}", space.Name));
                     hvacs.Add(idealAirSystemAbridged);
