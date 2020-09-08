@@ -28,6 +28,9 @@ namespace SAM.Analytical.LadybugTools
                 case PanelType.SlabOnGrade:
                 case PanelType.UndergroundSlab:
                     return HoneybeeSchema.FaceType.Floor;
+
+                case PanelType.Air:
+                    return HoneybeeSchema.FaceType.AirBoundary;
             }
 
             return HoneybeeSchema.FaceType.AirBoundary;

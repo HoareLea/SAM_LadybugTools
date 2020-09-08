@@ -63,8 +63,6 @@ namespace SAM.Analytical.LadybugTools
                 face.Doors = apertures.ConvertAll(x => x.ToLadybugTools_Door(index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
             }
 
-
-                
             return face;
         }
     }
