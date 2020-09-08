@@ -1,4 +1,5 @@
 ﻿using HoneybeeSchema;
+using SAM.Architectural;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,13 +41,19 @@ namespace SAM.Analytical.LadybugTools
                         double elevation_Min = space.MinElevation(adjacencyCluster);
                         if (!double.IsNaN(elevation_Min))
                         {
-                            List<double> elevations = levels.ConvertAll(x => x.Elevation - elevation_Min);
-                            elevations.Sort();
-                            int index = elevations.FindIndex(x => x > 0);
-                            if (index == -1)
-                                index = elevations.Count - 1;
+                            double difference_Min = double.MaxValue;
+                            Level level_Min = null;
+                            foreach(Level level in levels)
+                            {
+                                double difference = System.Math.Abs(elevation_Min - level.Elevation);
+                                if(difference < difference_Min)
+                                {
+                                    difference_Min = difference;
+                                    level_Min = level;
+                                }
+                            }
 
-                            room.Story = levels[index].Name;
+                            room.Story = level_Min.Name;
                         }
                     }
 
