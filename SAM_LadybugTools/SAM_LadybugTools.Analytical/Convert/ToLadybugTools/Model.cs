@@ -132,6 +132,8 @@ namespace SAM.Analytical.LadybugTools
             ModelProperties modelProperties = new ModelProperties(modelEnergyProperties);
 
             Model model = new Model(uniqueName, modelProperties, adjacencyCluster.Name, null, "1.38.1", rooms, faces_Orphaned, shades);
+            model.AngleTolerance = Core.Tolerance.Angle;
+            model.Tolerance = Core.Tolerance.MacroDistance;
 
             return model;
         }
