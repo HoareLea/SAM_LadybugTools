@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Convert\ToLadybugTools\Door.cs" />
+    <Compile Include="Convert\ToLadybugTools\EnergyMaterial.cs" />
     <Compile Include="Convert\ToLadybugTools\Model.cs" />
     <Compile Include="Convert\ToLadybugTools\Room.cs" />
     <Compile Include="Convert\ToLadybugTools\Shade.cs" />
