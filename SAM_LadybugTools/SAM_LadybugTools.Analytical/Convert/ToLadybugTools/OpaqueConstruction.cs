@@ -19,7 +19,7 @@ namespace SAM.Analytical.LadybugTools
             return opaqueConstruction;
         }
 
-        public static OpaqueConstruction ToLadybugTools(this Construction construction, MaterialLibrary materialLibrary)
+        public static OpaqueConstruction ToLadybugTools(this Construction construction, MaterialLibrary materialLibrary, double angle)
         {
             if (construction == null || materialLibrary == null)
                 return null;
@@ -39,7 +39,7 @@ namespace SAM.Analytical.LadybugTools
                 }
 
                 if (material is GasMaterial)
-                    materials.Add(((GasMaterial)material).ToLadybugTools());
+                    materials.Add(((GasMaterial)material).ToLadybugTools(angle, constructionLayer.Thickness));
                 else if (material is OpaqueMaterial)
                     materials.Add(((OpaqueMaterial)material).ToLadybugTools());
             }
@@ -62,7 +62,7 @@ namespace SAM.Analytical.LadybugTools
             return opaqueConstruction;
         }
 
-        public static OpaqueConstruction ToLadybugTools(this ApertureConstruction apertureConstruction, MaterialLibrary materialLibrary)
+        public static OpaqueConstruction ToLadybugTools(this ApertureConstruction apertureConstruction, MaterialLibrary materialLibrary, double angle)
         {
             if (apertureConstruction == null || materialLibrary == null)
                 return null;
@@ -82,7 +82,7 @@ namespace SAM.Analytical.LadybugTools
                 }
 
                 if (material is GasMaterial)
-                    materials.Add(((GasMaterial)material).ToLadybugTools());
+                    materials.Add(((GasMaterial)material).ToLadybugTools(angle, constructionLayer.Thickness));
                 else if (material is OpaqueMaterial)
                     materials.Add(((OpaqueMaterial)material).ToLadybugTools());
             }

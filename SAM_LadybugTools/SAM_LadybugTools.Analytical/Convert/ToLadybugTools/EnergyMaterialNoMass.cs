@@ -5,16 +5,24 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static EnergyMaterialNoMass ToLadybugTools(this GasMaterial gasMaterial)
+        public static EnergyMaterialNoMass ToLadybugTools(this GasMaterial gasMaterial, double angle, double thickness = double.NaN)
         {
             if (gasMaterial == null || string.IsNullOrEmpty(gasMaterial.Name))
                 return null;
 
             GasType? gasType = gasMaterial.GasType();
-            if (gasType == null || !gasType.HasValue)
+            if (gasType == null || !gasType.HasValue || gasType != GasType.Air)
                 return null;
 
-            return new EnergyMaterialNoMass(gasMaterial.Name, double.NaN, gasMaterial.DisplayName);
+            double thickness_Temp = thickness;
+            if (double.IsNaN(thickness_Temp))
+                thickness_Temp = gasMaterial.DefaultThickness();
+
+            double airspaceThermalResistance = Analytical.Query.AirspaceThermalResistance(angle, thickness_Temp);
+            if (double.IsNaN(airspaceThermalResistance))
+                return null;
+
+            return new EnergyMaterialNoMass(gasMaterial.Name, airspaceThermalResistance, gasMaterial.DisplayName);
         }
     }
 }
