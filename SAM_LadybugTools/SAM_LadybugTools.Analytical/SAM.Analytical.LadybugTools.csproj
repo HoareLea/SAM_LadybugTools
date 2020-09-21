@@ -64,11 +64,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToLadybugTools\EnergyMaterialNoMass.cs" />
+    <Compile Include="Convert\ToLadybugTools\GasType.cs" />
     <Compile Include="Convert\ToLadybugTools\Door.cs" />
+    <Compile Include="Convert\ToLadybugTools\EnergyWindowMaterialGas.cs" />
+    <Compile Include="Convert\ToLadybugTools\EnergyWindowMaterialGlazing.cs" />
     <Compile Include="Convert\ToLadybugTools\EnergyMaterial.cs" />
     <Compile Include="Convert\ToLadybugTools\Model.cs" />
     <Compile Include="Convert\ToLadybugTools\Room.cs" />
     <Compile Include="Convert\ToLadybugTools\Shade.cs" />
+    <Compile Include="Query\GasType.cs" />
     <Compile Include="Query\StandardConstructionSet.cs" />
     <Compile Include="Query\FaceTypeEnum.cs" />
     <Compile Include="Convert\ToLadybugTools\BoundaryCondition.cs" />
