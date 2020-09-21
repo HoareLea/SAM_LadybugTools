@@ -14,7 +14,7 @@ namespace SAM.Analytical.LadybugTools
             if (gasType == null || !gasType.HasValue)
                 return null;
 
-            return new EnergyWindowMaterialGas(gasMaterial.Name, gasMaterial.DisplayName, gasMaterial.DefaultThickness(), gasType);
+            return new EnergyWindowMaterialGas(Query.PaneMaterialName(gasMaterial), gasMaterial.DisplayName, gasMaterial.DefaultThickness(), gasType);
         }
     }
 }

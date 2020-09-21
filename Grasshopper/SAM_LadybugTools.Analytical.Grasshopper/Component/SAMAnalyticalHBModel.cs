@@ -22,7 +22,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// </summary>
         public SAMAnalyticalHBModel()
           : base("SAMAnalytical.HBModel", "SAMAnalytical.HBModel",
-              "SAM Analytical AdjacencyCluster to Ladybug Tools HB Model",
+              "SAM AnalyticalModel to Ladybug Tools HB Model",
               "SAM", "LadybugTools")
         {
         }
@@ -32,7 +32,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager inputParamManager)
         {
-            inputParamManager.AddParameter(new GooAdjacencyClusterParam(), "_adjacencyCluster", "_adjacencyCluster", "SAM Analytical AdjacencyCluster", GH_ParamAccess.item);
+            inputParamManager.AddParameter(new GooAnalyticalModelParam(), "_analyticalModel", "_analyticalModel", "SAM AnalyticalModel", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -49,15 +49,15 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// <param name="dataAccess">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess dataAccess)
         {
-            AdjacencyCluster adjacencyCluster = null;
+            AnalyticalModel analyticalModel = null;
 
-            if (!dataAccess.GetData(0, ref adjacencyCluster) || adjacencyCluster == null)
+            if (!dataAccess.GetData(0, ref analyticalModel) || analyticalModel == null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;
             }
 
-            HoneybeeSchema.Model model = Analytical.LadybugTools.Convert.ToLadybugTools(adjacencyCluster);
+            HoneybeeSchema.Model model = Analytical.LadybugTools.Convert.ToLadybugTools(analyticalModel);
 
             dataAccess.SetData(0, model?.ToJson());
         }

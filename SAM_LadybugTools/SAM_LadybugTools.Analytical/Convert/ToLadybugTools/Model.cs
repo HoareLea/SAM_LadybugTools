@@ -1,5 +1,6 @@
 ﻿using HoneybeeSchema;
 using SAM.Architectural;
+using SAM.Core;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,24 +8,26 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Model ToLadybugTools(this AdjacencyCluster adjacencyCluster, double silverSpacing = Core.Tolerance.MacroDistance, double tolerance = Core.Tolerance.Distance)
+        public static Model ToLadybugTools(this AnalyticalModel analyticalModel, double silverSpacing = Core.Tolerance.MacroDistance, double tolerance = Core.Tolerance.Distance)
         {
-            if (adjacencyCluster == null)
+            if (analyticalModel == null)
                 return null;
 
-            string uniqueName = Core.LadybugTools.Query.UniqueName(adjacencyCluster);
+            string uniqueName = Core.LadybugTools.Query.UniqueName(analyticalModel);
+
+            AdjacencyCluster adjacencyCluster = analyticalModel.AdjacencyCluster;
 
             List<Room> rooms = null;
             List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>> hvacs = null;
 
-            List<Space> spaces = adjacencyCluster.GetSpaces();
+            List<Space> spaces = adjacencyCluster?.GetSpaces();
             if (spaces != null)
             {
                 hvacs = new List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>>();
                 rooms = new List<Room>();
 
                 Dictionary<double, List<Panel>> dictionary_elevations = Analytical.Query.MinElevationDictionary(adjacencyCluster.GetPanels(), true);
-                List<Architectural.Level> levels = dictionary_elevations?.Keys.ToList().ConvertAll(x => Architectural.Create.Level(x));
+                List<Level> levels = dictionary_elevations?.Keys.ToList().ConvertAll(x => Architectural.Create.Level(x));
 
                 for (int i = 0; i < spaces.Count; i++)
                 {
@@ -108,15 +111,97 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            ConstructionSetAbridged constructionSetAbridged = Query.StandardConstructionSetAbridged("Default Generic Construction Set", Core.TextComparisonType.Equals, true);
-            List<AnyOf<ConstructionSetAbridged, ConstructionSet>> constructionSets = new List<AnyOf<ConstructionSetAbridged, ConstructionSet>>() { constructionSetAbridged  };
+            MaterialLibrary materialLibrary = analyticalModel.MaterialLibrary;
 
+            List<Construction> constructions_AdjacencyCluster = adjacencyCluster.GetConstructions();
+            List<ApertureConstruction> apertureConstructions_AdjacencyCluster = adjacencyCluster.GetApertureConstructions();
+
+            ConstructionSetAbridged constructionSetAbridged = Query.StandardConstructionSetAbridged("Default Generic Construction Set", TextComparisonType.Equals, true);
+            List<AnyOf<ConstructionSetAbridged, ConstructionSet>> constructionSets = new List<AnyOf<ConstructionSetAbridged, ConstructionSet>>() { constructionSetAbridged  };
 
             List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>> constructions = new List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>>();
             HoneybeeSchema.Helper.EnergyLibrary.DefaultConstructions?.ToList().ForEach(x => constructions.Add(x as dynamic));
 
+            Dictionary<string, HoneybeeSchema.Energy.IMaterial> dictionary_Materials = new Dictionary<string, HoneybeeSchema.Energy.IMaterial>();
+            if(constructions_AdjacencyCluster != null)
+            {
+                foreach(Construction construction in constructions_AdjacencyCluster)
+                {
+                    List<ConstructionLayer> constructionLayers = construction.ConstructionLayers;
+                    if (constructionLayers == null)
+                        continue;
+
+                    constructions.Add(construction.ToLadybugTools());
+
+                    foreach(ConstructionLayer constructionLayer in constructionLayers)
+                    {
+                        IMaterial material = materialLibrary.GetMaterial(constructionLayer.Name);
+                        if (material == null)
+                            continue;
+
+                        if (dictionary_Materials.ContainsKey(material.Name))
+                            continue;
+
+                        dictionary_Materials[material.Name] = (material as dynamic).ToLadybugTools();
+
+                    }
+                }
+            }
+
+            if(apertureConstructions_AdjacencyCluster != null)
+            {
+                foreach (ApertureConstruction apertureConstruction in apertureConstructions_AdjacencyCluster)
+                {
+                    List<ConstructionLayer> constructionLayers = null;
+
+                    constructionLayers = apertureConstruction.PaneConstruction?.ConstructionLayers;
+                    if (constructionLayers != null)
+                    {
+                        constructions.Add(apertureConstruction.ToLadybugTools_WindowConstruction());
+
+                        foreach (ConstructionLayer constructionLayer in constructionLayers)
+                        {
+                            IMaterial material = materialLibrary.GetMaterial(constructionLayer.Name);
+                            if (material == null)
+                                continue;
+
+                            string name = Query.PaneMaterialName(material);
+
+                            if (dictionary_Materials.ContainsKey(name))
+                                continue;
+
+                            if(material is TransparentMaterial)
+                                dictionary_Materials[name] = ((TransparentMaterial)material).ToLadybugTools();
+                            else if (material is GasMaterial)
+                                dictionary_Materials[name] = ((GasMaterial)material).ToLadybugTools_EnergyWindowMaterialGas();
+                        }
+                    }
+
+                    constructionLayers = apertureConstruction.FrameConstruction?.ConstructionLayers;
+                    if (constructionLayers != null)
+                    {
+                        constructions.Add(apertureConstruction.ToLadybugTools());
+
+                        foreach (ConstructionLayer constructionLayer in constructionLayers)
+                        {
+                            IMaterial material = materialLibrary.GetMaterial(constructionLayer.Name);
+                            if (material == null)
+                                continue;
+
+                            if (dictionary_Materials.ContainsKey(material.Name))
+                                continue;
+
+                            dictionary_Materials[material.Name] = (material as dynamic).ToLadybugTools();
+
+                        }
+                    }
+                }
+            }
+
             List<AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>> materials = new List<AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>>();
             HoneybeeSchema.Helper.EnergyLibrary.DefaultMaterials?.ToList().ForEach(x => materials.Add(x as dynamic));
+            dictionary_Materials.Values.ToList().ForEach(x => materials.Add(x as dynamic));
+
 
             List<AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>> schedules = new List<AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>>();
             HoneybeeSchema.Helper.EnergyLibrary.DefaultScheduleRuleset?.ToList().ForEach(x => schedules.Add(x as dynamic));
