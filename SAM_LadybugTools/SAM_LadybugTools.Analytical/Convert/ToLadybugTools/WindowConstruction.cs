@@ -11,11 +11,7 @@ namespace SAM.Analytical.LadybugTools
             if (apertureConstruction == null)
                 return null;
 
-            Construction paneConstruction = apertureConstruction.PaneConstruction;
-            if (paneConstruction == null)
-                return null;
-
-            List<ConstructionLayer> constructionLayers = paneConstruction.ConstructionLayers;
+            List<ConstructionLayer> constructionLayers = apertureConstruction.PaneConstructionLayers;
             if (constructionLayers == null)
                 return null;
 
@@ -29,11 +25,7 @@ namespace SAM.Analytical.LadybugTools
             if (apertureConstruction == null)
                 return null;
 
-            Construction paneConstruction = apertureConstruction.PaneConstruction;
-            if (paneConstruction == null)
-                return null;
-
-            List<ConstructionLayer> constructionLayers = paneConstruction.ConstructionLayers;
+            List<ConstructionLayer> constructionLayers = apertureConstruction.PaneConstructionLayers;
             if (constructionLayers == null)
                 return null;
 

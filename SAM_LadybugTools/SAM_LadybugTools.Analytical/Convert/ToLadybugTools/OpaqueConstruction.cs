@@ -54,11 +54,7 @@ namespace SAM.Analytical.LadybugTools
             if (apertureConstruction == null)
                 return null;
 
-            Construction frameConstruction = apertureConstruction.FrameConstruction;
-            if (frameConstruction == null)
-                return null;
-
-            List<ConstructionLayer> constructionLayers = frameConstruction.ConstructionLayers;
+            List<ConstructionLayer> constructionLayers = apertureConstruction.FrameConstructionLayers;
             if (constructionLayers == null || constructionLayers.Count == 0)
                 return null;
 
@@ -71,11 +67,7 @@ namespace SAM.Analytical.LadybugTools
             if (apertureConstruction == null || materialLibrary == null)
                 return null;
 
-            Construction frameConstruction = apertureConstruction.FrameConstruction;
-            if (frameConstruction == null)
-                return null;
-
-            List<ConstructionLayer> constructionLayers = frameConstruction.ConstructionLayers;
+            List<ConstructionLayer> constructionLayers = apertureConstruction.FrameConstructionLayers;
             if (constructionLayers == null || constructionLayers.Count == 0)
                 return null;
 
