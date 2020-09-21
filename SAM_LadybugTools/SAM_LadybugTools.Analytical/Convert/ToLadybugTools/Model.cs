@@ -133,7 +133,7 @@ namespace SAM.Analytical.LadybugTools
 
                     constructions.Add(construction.ToLadybugTools());
 
-                    foreach(ConstructionLayer constructionLayer in constructionLayers)
+                    foreach (ConstructionLayer constructionLayer in constructionLayers)
                     {
                         IMaterial material = materialLibrary.GetMaterial(constructionLayer.Name);
                         if (material == null)
@@ -142,9 +142,21 @@ namespace SAM.Analytical.LadybugTools
                         if (dictionary_Materials.ContainsKey(material.Name))
                             continue;
 
-                        dictionary_Materials[material.Name] = (material as dynamic).ToLadybugTools();
+                        if (material is GasMaterial)
+                        {
+                            List<Panel> panels = Analytical.Query.Panels(adjacencyCluster, construction);
+                            List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
+                            double tilt = tilts.Distinct().ToList().Average();
 
+                            dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
+                        }
+                        else
+                        {
+                            dictionary_Materials[material.Name] = (material as dynamic).ToLadybugTools();
+                        }
                     }
+
+
                 }
             }
 
@@ -191,7 +203,18 @@ namespace SAM.Analytical.LadybugTools
                             if (dictionary_Materials.ContainsKey(material.Name))
                                 continue;
 
-                            dictionary_Materials[material.Name] = (material as dynamic).ToLadybugTools();
+                            if (material is GasMaterial)
+                            {
+                                List<Aperture> panels = Analytical.Query.Apertures(adjacencyCluster, apertureConstruction);
+                                List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
+                                double tilt = tilts.Distinct().ToList().Average();
+
+                                dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
+                            }
+                            else
+                            {
+                                dictionary_Materials[material.Name] = (material as dynamic).ToLadybugTools();
+                            }
 
                         }
                     }
