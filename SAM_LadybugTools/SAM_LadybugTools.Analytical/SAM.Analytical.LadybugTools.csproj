@@ -70,8 +70,10 @@
     <Compile Include="Convert\ToLadybugTools\EnergyWindowMaterialGas.cs" />
     <Compile Include="Convert\ToLadybugTools\EnergyWindowMaterialGlazing.cs" />
     <Compile Include="Convert\ToLadybugTools\EnergyMaterial.cs" />
+    <Compile Include="Convert\ToLadybugTools\WindowConstruction.cs" />
     <Compile Include="Convert\ToLadybugTools\Model.cs" />
     <Compile Include="Convert\ToLadybugTools\Room.cs" />
+    <Compile Include="Convert\ToLadybugTools\OpaqueConstruction.cs" />
     <Compile Include="Convert\ToLadybugTools\Shade.cs" />
     <Compile Include="Query\GasType.cs" />
     <Compile Include="Query\StandardConstructionSet.cs" />
