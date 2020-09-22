@@ -82,32 +82,35 @@ namespace SAM.Analytical.LadybugTools
             List<Face> faces_Orphaned = null;
 
             List<Panel> panels_Shading = adjacencyCluster.GetShadingPanels();
-            foreach(Panel panel_Shading in panels_Shading)
+            if(panels_Shading != null)
             {
-                if (panels_Shading == null)
-                    continue;
-
-                if(panel_Shading.PanelType == PanelType.Shade)
+                foreach (Panel panel_Shading in panels_Shading)
                 {
-                    Shade shade = panel_Shading.ToLadybugTools_Shade();
-                    if (shade == null)
+                    if (panels_Shading == null)
                         continue;
 
-                    if (shades == null)
-                        shades = new List<Shade>();
+                    if (panel_Shading.PanelType == PanelType.Shade)
+                    {
+                        Shade shade = panel_Shading.ToLadybugTools_Shade();
+                        if (shade == null)
+                            continue;
 
-                    shades.Add(shade);
-                }
-                else
-                {
-                    Face face_Orphaned = panel_Shading.ToLadybugTools_Face();
-                    if (face_Orphaned == null)
-                        continue;
+                        if (shades == null)
+                            shades = new List<Shade>();
 
-                    if (faces_Orphaned == null)
-                        faces_Orphaned = new List<Face>();
+                        shades.Add(shade);
+                    }
+                    else
+                    {
+                        Face face_Orphaned = panel_Shading.ToLadybugTools_Face();
+                        if (face_Orphaned == null)
+                            continue;
 
-                    faces_Orphaned.Add(face_Orphaned);
+                        if (faces_Orphaned == null)
+                            faces_Orphaned = new List<Face>();
+
+                        faces_Orphaned.Add(face_Orphaned);
+                    }
                 }
             }
 
@@ -150,9 +153,9 @@ namespace SAM.Analytical.LadybugTools
 
                             dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
                         }
-                        else
+                        else if(material is OpaqueMaterial)
                         {
-                            dictionary_Materials[material.Name] = (material as dynamic).ToLadybugTools();
+                            dictionary_Materials[material.Name] = ((OpaqueMaterial)material).ToLadybugTools();
                         }
                     }
 
@@ -211,9 +214,9 @@ namespace SAM.Analytical.LadybugTools
 
                                 dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
                             }
-                            else
+                            else if (material is OpaqueMaterial)
                             {
-                                dictionary_Materials[material.Name] = (material as dynamic).ToLadybugTools();
+                                dictionary_Materials[material.Name] = ((OpaqueMaterial)material).ToLadybugTools();
                             }
 
                         }
