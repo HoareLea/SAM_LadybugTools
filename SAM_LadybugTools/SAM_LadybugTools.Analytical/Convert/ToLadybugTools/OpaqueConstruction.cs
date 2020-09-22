@@ -15,7 +15,7 @@ namespace SAM.Analytical.LadybugTools
             if (constructionLayers == null || constructionLayers.Count == 0)
                 return null;
 
-            OpaqueConstruction opaqueConstruction = new OpaqueConstruction(construction.Name, constructionLayers.ConvertAll(x => x.Name), null, construction.Name);
+            OpaqueConstruction opaqueConstruction = new OpaqueConstruction(construction.Name, constructionLayers.ConvertAll(x => x.Name), new List<AnyOf<EnergyMaterial, EnergyMaterialNoMass>>(), construction.Name);
             return opaqueConstruction;
         }
 
