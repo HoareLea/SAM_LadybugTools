@@ -6,19 +6,6 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static OpaqueConstruction ToLadybugTools(this Construction construction)
-        {
-            if (construction == null)
-                return null;
-
-            List<ConstructionLayer> constructionLayers = construction.ConstructionLayers;
-            if (constructionLayers == null || constructionLayers.Count == 0)
-                return null;
-
-            OpaqueConstruction opaqueConstruction = new OpaqueConstruction(construction.Name, constructionLayers.ConvertAll(x => x.Name), new List<AnyOf<EnergyMaterial, EnergyMaterialNoMass>>(), construction.Name);
-            return opaqueConstruction;
-        }
-
         public static OpaqueConstruction ToLadybugTools(this Construction construction, MaterialLibrary materialLibrary, double angle)
         {
             if (construction == null || materialLibrary == null)
@@ -47,19 +34,6 @@ namespace SAM.Analytical.LadybugTools
             OpaqueConstruction opaqueConstruction = new OpaqueConstruction(construction.Name, constructionLayers.ConvertAll(x => x.Name), materials, construction.Name);
             return opaqueConstruction;
 
-        }
-
-        public static OpaqueConstruction ToLadybugTools(this ApertureConstruction apertureConstruction)
-        {
-            if (apertureConstruction == null)
-                return null;
-
-            List<ConstructionLayer> constructionLayers = apertureConstruction.FrameConstructionLayers;
-            if (constructionLayers == null || constructionLayers.Count == 0)
-                return null;
-
-            OpaqueConstruction opaqueConstruction = new OpaqueConstruction(apertureConstruction.Name, constructionLayers.ConvertAll(x => x.Name), null, apertureConstruction.Name);
-            return opaqueConstruction;
         }
 
         public static OpaqueConstruction ToLadybugTools(this ApertureConstruction apertureConstruction, MaterialLibrary materialLibrary, double angle)
