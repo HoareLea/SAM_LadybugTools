@@ -172,7 +172,7 @@ namespace SAM.Analytical.LadybugTools
                     constructionLayers = apertureConstruction.PaneConstructionLayers;
                     if (constructionLayers != null)
                     {
-                        constructions.Add(apertureConstruction.ToLadybugTools_WindowConstruction());
+                        constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
 
                         foreach (ConstructionLayer constructionLayer in constructionLayers)
                         {

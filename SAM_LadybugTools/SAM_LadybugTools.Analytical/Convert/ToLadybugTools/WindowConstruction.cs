@@ -6,20 +6,6 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static WindowConstruction ToLadybugTools_WindowConstruction(this ApertureConstruction apertureConstruction)
-        {
-            if (apertureConstruction == null)
-                return null;
-
-            List<ConstructionLayer> constructionLayers = apertureConstruction.PaneConstructionLayers;
-            if (constructionLayers == null)
-                return null;
-
-            WindowConstruction result = new WindowConstruction(apertureConstruction.Name, constructionLayers.ConvertAll(x => x.Name), null, apertureConstruction.Name);
-
-            return result;
-        }
-
         public static WindowConstruction ToLadybugTools_WindowConstruction(this ApertureConstruction apertureConstruction, MaterialLibrary materialLibrary)
         {
             if (apertureConstruction == null)
