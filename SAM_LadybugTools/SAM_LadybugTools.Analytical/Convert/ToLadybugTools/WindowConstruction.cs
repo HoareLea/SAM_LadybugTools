@@ -18,7 +18,7 @@ namespace SAM.Analytical.LadybugTools
             List<AnyOf<EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialGlazing, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture>> materials = new List<AnyOf<EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialGlazing, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture>>();
             foreach (ConstructionLayer constructionLayer in constructionLayers)
             {
-                IMaterial material = materialLibrary.GetMaterial(constructionLayer.Name);
+                IMaterial material = constructionLayer.Material(materialLibrary);
                 if (material == null)
                 {
                     materials.Add(null);

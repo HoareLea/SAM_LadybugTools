@@ -18,7 +18,7 @@ namespace SAM.Analytical.LadybugTools
             List<AnyOf<EnergyMaterial, EnergyMaterialNoMass>> materials = new List<AnyOf<EnergyMaterial, EnergyMaterialNoMass>>();
             foreach (ConstructionLayer constructionLayer in constructionLayers)
             {
-                IMaterial material = materialLibrary.GetMaterial(constructionLayer.Name);
+                IMaterial material = constructionLayer.Material(materialLibrary);
                 if (material == null)
                 {
                     materials.Add(null);
@@ -48,7 +48,7 @@ namespace SAM.Analytical.LadybugTools
             List<AnyOf<EnergyMaterial, EnergyMaterialNoMass>> materials = new List<AnyOf<EnergyMaterial, EnergyMaterialNoMass>>();
             foreach (ConstructionLayer constructionLayer in constructionLayers)
             {
-                IMaterial material = materialLibrary.GetMaterial(constructionLayer.Name);
+                IMaterial material = constructionLayer.Material(materialLibrary);
                 if (material == null)
                 {
                     materials.Add(null);

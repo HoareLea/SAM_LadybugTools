@@ -138,7 +138,7 @@ namespace SAM.Analytical.LadybugTools
 
                     foreach (ConstructionLayer constructionLayer in constructionLayers)
                     {
-                        IMaterial material = materialLibrary.GetMaterial(constructionLayer.Name);
+                        IMaterial material = constructionLayer.Material(materialLibrary);
                         if (material == null)
                             continue;
 
@@ -178,7 +178,7 @@ namespace SAM.Analytical.LadybugTools
 
                         foreach (ConstructionLayer constructionLayer in constructionLayers)
                         {
-                            IMaterial material = materialLibrary.GetMaterial(constructionLayer.Name);
+                            IMaterial material = constructionLayer.Material(materialLibrary);
                             if (material == null)
                                 continue;
 
@@ -202,7 +202,7 @@ namespace SAM.Analytical.LadybugTools
 
                         foreach (ConstructionLayer constructionLayer in constructionLayers)
                         {
-                            IMaterial material = materialLibrary.GetMaterial(constructionLayer.Name);
+                            IMaterial material = constructionLayer.Material(materialLibrary);
                             if (material == null)
                                 continue;
 
