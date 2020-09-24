@@ -151,6 +151,8 @@ namespace SAM.Analytical.LadybugTools
                             List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
                             double tilt = tilts.Distinct().ToList().Average();
 
+                            tilt = tilt * (System.Math.PI / 180);
+
                             dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
                         }
                         else if(material is OpaqueMaterial)
@@ -180,7 +182,8 @@ namespace SAM.Analytical.LadybugTools
                             if (material == null)
                                 continue;
 
-                            string name = Query.PaneMaterialName(material);
+                            //string name = Query.PaneMaterialName(material);
+                            string name = material.Name;
 
                             if (dictionary_Materials.ContainsKey(name))
                                 continue;
@@ -211,6 +214,8 @@ namespace SAM.Analytical.LadybugTools
                                 List<Aperture> panels = Analytical.Query.Apertures(adjacencyCluster, apertureConstruction);
                                 List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
                                 double tilt = tilts.Distinct().ToList().Average();
+
+                                tilt = tilt * (System.Math.PI / 180);
 
                                 dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
                             }
