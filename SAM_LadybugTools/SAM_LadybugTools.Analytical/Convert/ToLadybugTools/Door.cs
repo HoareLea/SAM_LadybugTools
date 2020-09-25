@@ -30,7 +30,9 @@ namespace SAM.Analytical.LadybugTools
                 anyOf = new Surface(uniqueNames);
             }
 
-            return new Door(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new DoorPropertiesAbridged(), aperture.Name);
+            DoorEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new DoorEnergyPropertiesAbridged(Core.LadybugTools.Query.UniqueName(aperture.ApertureConstruction));
+
+            return new Door(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new DoorPropertiesAbridged(apertureEnergyPropertiesAbridged), aperture.Name);
         }
     }
 }

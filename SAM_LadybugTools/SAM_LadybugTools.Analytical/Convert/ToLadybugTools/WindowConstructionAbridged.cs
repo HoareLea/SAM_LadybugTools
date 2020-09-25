@@ -1,5 +1,4 @@
 ﻿using HoneybeeSchema;
-using SAM.Core;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
@@ -15,7 +14,7 @@ namespace SAM.Analytical.LadybugTools
             if (constructionLayers == null)
                 return null;
 
-            WindowConstructionAbridged result = new WindowConstructionAbridged(apertureConstruction.Name, constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
+            WindowConstructionAbridged result = new WindowConstructionAbridged(Core.LadybugTools.Query.UniqueName(apertureConstruction), constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
 
             return result;
         }

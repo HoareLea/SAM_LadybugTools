@@ -70,7 +70,7 @@ namespace SAM.Analytical.LadybugTools
                         room.Properties.Energy = new RoomEnergyPropertiesAbridged();
 
                     room.Properties.Energy.Hvac = idealAirSystemAbridged.Identifier;
-                    room.Properties.Energy.ConstructionSet = "Default Generic Construction Set";
+                    //room.Properties.Energy.ConstructionSet = "Default Generic Construction Set";
                     room.Properties.Energy.ProgramType = "Generic Office Program";
 
                     rooms.Add(room);
@@ -120,10 +120,10 @@ namespace SAM.Analytical.LadybugTools
             List<ApertureConstruction> apertureConstructions_AdjacencyCluster = adjacencyCluster.GetApertureConstructions();
 
             ConstructionSetAbridged constructionSetAbridged = Query.StandardConstructionSetAbridged("Default Generic Construction Set", TextComparisonType.Equals, true);
-            List<AnyOf<ConstructionSetAbridged, ConstructionSet>> constructionSets = new List<AnyOf<ConstructionSetAbridged, ConstructionSet>>() { constructionSetAbridged  };
+            List<AnyOf<ConstructionSetAbridged, ConstructionSet>> constructionSets = new List<AnyOf<ConstructionSetAbridged, ConstructionSet>>();// { constructionSetAbridged  };
 
             List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>> constructions = new List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>>();
-            HoneybeeSchema.Helper.EnergyLibrary.DefaultConstructions?.ToList().ForEach(x => constructions.Add(x as dynamic));
+            //HoneybeeSchema.Helper.EnergyLibrary.DefaultConstructions?.ToList().ForEach(x => constructions.Add(x as dynamic));
 
             Dictionary<string, HoneybeeSchema.Energy.IMaterial> dictionary_Materials = new Dictionary<string, HoneybeeSchema.Energy.IMaterial>();
             if(constructions_AdjacencyCluster != null)
@@ -198,48 +198,50 @@ namespace SAM.Analytical.LadybugTools
                                     dictionary_Materials[name] = ((TransparentMaterial)material).ToLadybugTools();
                                 else if (material is GasMaterial)
                                     dictionary_Materials[name] = ((GasMaterial)material).ToLadybugTools_EnergyWindowMaterialGas();
+                                else
+                                    dictionary_Materials[name] = ((OpaqueMaterial)material).ToLadybugTools();
                             }
                         }
                     }
 
-                    constructionLayers = apertureConstruction.FrameConstructionLayers;
-                    if (constructionLayers != null)
-                    {
-                        MaterialType materialType = Analytical.Query.MaterialType(constructionLayers, materialLibrary);
-                        if (materialType != MaterialType.Undefined && materialType != MaterialType.Gas)
-                        {
-                            if (materialType == MaterialType.Opaque)
-                                constructions.Add(apertureConstruction.ToLadybugTools());
-                            else
-                                constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
+                    //constructionLayers = apertureConstruction.FrameConstructionLayers;
+                    //if (constructionLayers != null)
+                    //{
+                    //    MaterialType materialType = Analytical.Query.MaterialType(constructionLayers, materialLibrary);
+                    //    if (materialType != MaterialType.Undefined && materialType != MaterialType.Gas)
+                    //    {
+                    //        if (materialType == MaterialType.Opaque)
+                    //            constructions.Add(apertureConstruction.ToLadybugTools());
+                    //        else
+                    //            constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
 
-                            foreach (ConstructionLayer constructionLayer in constructionLayers)
-                            {
-                                IMaterial material = constructionLayer.Material(materialLibrary);
-                                if (material == null)
-                                    continue;
+                    //        foreach (ConstructionLayer constructionLayer in constructionLayers)
+                    //        {
+                    //            IMaterial material = constructionLayer.Material(materialLibrary);
+                    //            if (material == null)
+                    //                continue;
 
-                                if (dictionary_Materials.ContainsKey(material.Name))
-                                    continue;
+                    //            if (dictionary_Materials.ContainsKey(material.Name))
+                    //                continue;
 
-                                if (material is GasMaterial)
-                                {
-                                    List<Aperture> panels = Analytical.Query.Apertures(adjacencyCluster, apertureConstruction);
-                                    List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
-                                    double tilt = tilts.Distinct().ToList().Average();
+                    //            if (material is GasMaterial)
+                    //            {
+                    //                List<Aperture> panels = Analytical.Query.Apertures(adjacencyCluster, apertureConstruction);
+                    //                List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
+                    //                double tilt = tilts.Distinct().ToList().Average();
 
-                                    tilt = tilt * (System.Math.PI / 180);
+                    //                tilt = tilt * (System.Math.PI / 180);
 
-                                    dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
-                                }
-                                else if (material is OpaqueMaterial)
-                                {
-                                    dictionary_Materials[material.Name] = ((OpaqueMaterial)material).ToLadybugTools();
-                                }
+                    //                dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
+                    //            }
+                    //            else if (material is OpaqueMaterial)
+                    //            {
+                    //                dictionary_Materials[material.Name] = ((OpaqueMaterial)material).ToLadybugTools();
+                    //            }
 
-                            }
-                        }
-                    }
+                    //        }
+                    //    }
+                    //}
                 }
             }
 

@@ -15,7 +15,7 @@ namespace SAM.Analytical.LadybugTools
             if (constructionLayers == null || constructionLayers.Count == 0)
                 return null;
 
-            OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(construction.Name, constructionLayers.ConvertAll(x => x.Name), construction.Name);
+            OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(Core.LadybugTools.Query.UniqueName(construction), constructionLayers.ConvertAll(x => x.Name), construction.Name);
             return result;
         }
 
@@ -30,7 +30,7 @@ namespace SAM.Analytical.LadybugTools
 
 
 
-            OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(apertureConstruction.Name, constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
+            OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(Core.LadybugTools.Query.UniqueName(apertureConstruction), constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
             return result;
         }
     }

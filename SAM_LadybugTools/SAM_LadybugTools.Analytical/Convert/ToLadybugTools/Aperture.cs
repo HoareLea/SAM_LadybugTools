@@ -30,7 +30,9 @@ namespace SAM.Analytical.LadybugTools
                 anyOf = new Surface(uniqueNames);
             }
 
-            return new HoneybeeSchema.Aperture(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new AperturePropertiesAbridged(), aperture.Name);
+            ApertureEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new ApertureEnergyPropertiesAbridged(Core.LadybugTools.Query.UniqueName(aperture.ApertureConstruction));
+
+            return new HoneybeeSchema.Aperture(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new AperturePropertiesAbridged(apertureEnergyPropertiesAbridged), aperture.Name);
         }
     }
 }
