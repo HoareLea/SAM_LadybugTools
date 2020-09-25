@@ -174,56 +174,70 @@ namespace SAM.Analytical.LadybugTools
                     constructionLayers = apertureConstruction.PaneConstructionLayers;
                     if (constructionLayers != null)
                     {
-                        constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
-
-                        foreach (ConstructionLayer constructionLayer in constructionLayers)
+                        MaterialType materialType = Analytical.Query.MaterialType(constructionLayers, materialLibrary);
+                        if(materialType != MaterialType.Undefined && materialType != MaterialType.Gas)
                         {
-                            IMaterial material = constructionLayer.Material(materialLibrary);
-                            if (material == null)
-                                continue;
+                            if(materialType == MaterialType.Opaque)
+                                constructions.Add(apertureConstruction.ToLadybugTools());
+                            else
+                                constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
 
-                            //string name = Query.PaneMaterialName(material);
-                            string name = material.Name;
+                            foreach (ConstructionLayer constructionLayer in constructionLayers)
+                            {
+                                IMaterial material = constructionLayer.Material(materialLibrary);
+                                if (material == null)
+                                    continue;
 
-                            if (dictionary_Materials.ContainsKey(name))
-                                continue;
+                                //string name = Query.PaneMaterialName(material);
+                                string name = material.Name;
 
-                            if(material is TransparentMaterial)
-                                dictionary_Materials[name] = ((TransparentMaterial)material).ToLadybugTools();
-                            else if (material is GasMaterial)
-                                dictionary_Materials[name] = ((GasMaterial)material).ToLadybugTools_EnergyWindowMaterialGas();
+                                if (dictionary_Materials.ContainsKey(name))
+                                    continue;
+
+                                if (material is TransparentMaterial)
+                                    dictionary_Materials[name] = ((TransparentMaterial)material).ToLadybugTools();
+                                else if (material is GasMaterial)
+                                    dictionary_Materials[name] = ((GasMaterial)material).ToLadybugTools_EnergyWindowMaterialGas();
+                            }
                         }
                     }
 
                     constructionLayers = apertureConstruction.FrameConstructionLayers;
                     if (constructionLayers != null)
                     {
-                        constructions.Add(apertureConstruction.ToLadybugTools());
-
-                        foreach (ConstructionLayer constructionLayer in constructionLayers)
+                        MaterialType materialType = Analytical.Query.MaterialType(constructionLayers, materialLibrary);
+                        if (materialType != MaterialType.Undefined && materialType != MaterialType.Gas)
                         {
-                            IMaterial material = constructionLayer.Material(materialLibrary);
-                            if (material == null)
-                                continue;
+                            if (materialType == MaterialType.Opaque)
+                                constructions.Add(apertureConstruction.ToLadybugTools());
+                            else
+                                constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
 
-                            if (dictionary_Materials.ContainsKey(material.Name))
-                                continue;
-
-                            if (material is GasMaterial)
+                            foreach (ConstructionLayer constructionLayer in constructionLayers)
                             {
-                                List<Aperture> panels = Analytical.Query.Apertures(adjacencyCluster, apertureConstruction);
-                                List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
-                                double tilt = tilts.Distinct().ToList().Average();
+                                IMaterial material = constructionLayer.Material(materialLibrary);
+                                if (material == null)
+                                    continue;
 
-                                tilt = tilt * (System.Math.PI / 180);
+                                if (dictionary_Materials.ContainsKey(material.Name))
+                                    continue;
 
-                                dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
+                                if (material is GasMaterial)
+                                {
+                                    List<Aperture> panels = Analytical.Query.Apertures(adjacencyCluster, apertureConstruction);
+                                    List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
+                                    double tilt = tilts.Distinct().ToList().Average();
+
+                                    tilt = tilt * (System.Math.PI / 180);
+
+                                    dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
+                                }
+                                else if (material is OpaqueMaterial)
+                                {
+                                    dictionary_Materials[material.Name] = ((OpaqueMaterial)material).ToLadybugTools();
+                                }
+
                             }
-                            else if (material is OpaqueMaterial)
-                            {
-                                dictionary_Materials[material.Name] = ((OpaqueMaterial)material).ToLadybugTools();
-                            }
-
                         }
                     }
                 }
