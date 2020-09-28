@@ -58,12 +58,12 @@ namespace SAM.Analytical.LadybugTools
 
             Face face = new Face(Core.LadybugTools.Query.UniqueName(panel, index), face3D, faceType, boundaryCondition, new FacePropertiesAbridged(faceEnergyPropertiesAbridged), panel.Name);
 
-            List<Aperture> apertures = Analytical.Query.OffsetAperturesOnEdge(panel, 0.1);
+            List<Aperture> apertures = panel.Apertures;//Analytical.Query.OffsetAperturesOnEdge(panel, 0.1);
             if (apertures != null && apertures.Count > 0)
             {
                 face.Apertures = apertures.ConvertAll(x => x.ToLadybugTools(index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
                 List<Door> doors = apertures.ConvertAll(x => x.ToLadybugTools_Door(index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
-                doors.RemoveAll(x => x.BoundaryCondition.Obj is Surface); //Remove Internal Doors <-REMOVE THIS LINE IF NOT WORKING
+                //doors.RemoveAll(x => x.BoundaryCondition.Obj is Surface); //Remove Internal Doors <-REMOVE THIS LINE IF NOT WORKING
                 face.Doors = doors;
             }
 
