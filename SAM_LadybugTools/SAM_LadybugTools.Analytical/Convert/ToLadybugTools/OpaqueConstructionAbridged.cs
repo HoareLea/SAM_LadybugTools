@@ -24,11 +24,9 @@ namespace SAM.Analytical.LadybugTools
             if (apertureConstruction == null)
                 return null;
 
-            List<ConstructionLayer> constructionLayers = apertureConstruction.FrameConstructionLayers;
+            List<ConstructionLayer> constructionLayers = apertureConstruction.PaneConstructionLayers;
             if (constructionLayers == null || constructionLayers.Count == 0)
                 return null;
-
-
 
             OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(Core.LadybugTools.Query.UniqueName(apertureConstruction), constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
             return result;

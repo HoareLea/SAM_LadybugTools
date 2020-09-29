@@ -31,7 +31,6 @@ namespace SAM.Analytical.LadybugTools
             }
 
             DoorEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new DoorEnergyPropertiesAbridged(Core.LadybugTools.Query.UniqueName(aperture.ApertureConstruction));
-
             return new Door(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new DoorPropertiesAbridged(apertureEnergyPropertiesAbridged), aperture.Name);
         }
     }

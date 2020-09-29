@@ -8,7 +8,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Model ToLadybugTools(this AnalyticalModel analyticalModel, double silverSpacing = Core.Tolerance.MacroDistance, double tolerance = Core.Tolerance.Distance)
+        public static Model ToLadybugTools(this AnalyticalModel analyticalModel, double silverSpacing = Tolerance.MacroDistance, double tolerance = Tolerance.Distance)
         {
             if (analyticalModel == null)
                 return null;
@@ -116,7 +116,7 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            MaterialLibrary materialLibrary = analyticalModel.MaterialLibrary;
+            MaterialLibrary materialLibrary = analyticalModel?.MaterialLibrary;
 
             List<Construction> constructions_AdjacencyCluster = adjacencyCluster.GetConstructions();
             List<ApertureConstruction> apertureConstructions_AdjacencyCluster = adjacencyCluster.GetApertureConstructions();
@@ -180,9 +180,37 @@ namespace SAM.Analytical.LadybugTools
                         if(materialType != MaterialType.Undefined && materialType != MaterialType.Gas)
                         {
                             if(materialType == MaterialType.Opaque)
+                            {
                                 constructions.Add(apertureConstruction.ToLadybugTools());
+                            } 
                             else
-                                constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
+                            {
+                                WindowConstructionAbridged windowConstructionAbridged = apertureConstruction.ToLadybugTools_WindowConstructionAbridged();
+                                if(windowConstructionAbridged != null)
+                                {
+                                    //TODO: Find better way to update IsGlass Property (Implement inside Aperture ToLadybugToos Method)
+                                    //Setting door IsGlass property to true for all doors with this construction
+                                    string identifier = windowConstructionAbridged.Identifier;
+                                    foreach (Room room in rooms)
+                                    {
+                                        foreach (Face face in room.Faces)
+                                        {
+                                            List<Door> doors = face.Doors;
+                                            if (doors == null || doors.Count == 0)
+                                                continue;
+
+                                            foreach (Door door in doors)
+                                            {
+                                                if (door.Properties.Energy.Construction.Equals(identifier))
+                                                    door.IsGlass = true;
+                                            }
+                                        }
+                                    }
+
+                                    constructions.Add(windowConstructionAbridged);
+                                }
+                            }
+                                
 
                             foreach (ConstructionLayer constructionLayer in constructionLayers)
                             {
