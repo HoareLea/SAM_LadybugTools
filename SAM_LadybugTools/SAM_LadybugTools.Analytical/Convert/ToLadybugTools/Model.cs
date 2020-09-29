@@ -13,11 +13,13 @@ namespace SAM.Analytical.LadybugTools
             if (analyticalModel == null)
                 return null;
 
-            string uniqueName = Core.LadybugTools.Query.UniqueName(analyticalModel);
+            AnalyticalModel analyticalModel_Temp = new AnalyticalModel(analyticalModel);
+            
+            analyticalModel_Temp.OffsetAperturesOnEdge(0.1, tolerance);
+            
+            string uniqueName = Core.LadybugTools.Query.UniqueName(analyticalModel_Temp);
 
-            AdjacencyCluster adjacencyCluster = analyticalModel.AdjacencyCluster;
-
-            adjacencyCluster?.OffsetAperturesOnEdge(0.1, tolerance);
+            AdjacencyCluster adjacencyCluster = analyticalModel_Temp.AdjacencyCluster;
 
             List<Room> rooms = null;
             List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>> hvacs = null;
@@ -37,7 +39,7 @@ namespace SAM.Analytical.LadybugTools
                     if (space == null)
                         continue;
 
-                    Room room = space.ToLadybugTools(analyticalModel, silverSpacing, tolerance);
+                    Room room = space.ToLadybugTools(analyticalModel_Temp, silverSpacing, tolerance);
                     if (room == null)
                         continue;
 
@@ -116,7 +118,7 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            MaterialLibrary materialLibrary = analyticalModel?.MaterialLibrary;
+            MaterialLibrary materialLibrary = analyticalModel_Temp?.MaterialLibrary;
 
             List<Construction> constructions_AdjacencyCluster = adjacencyCluster.GetConstructions();
             List<ApertureConstruction> apertureConstructions_AdjacencyCluster = adjacencyCluster.GetApertureConstructions();
