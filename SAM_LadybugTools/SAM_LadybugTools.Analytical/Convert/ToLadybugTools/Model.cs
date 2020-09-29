@@ -17,6 +17,8 @@ namespace SAM.Analytical.LadybugTools
 
             AdjacencyCluster adjacencyCluster = analyticalModel.AdjacencyCluster;
 
+            adjacencyCluster?.OffsetAperturesOnEdge(0.1, tolerance);
+
             List<Room> rooms = null;
             List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>> hvacs = null;
 

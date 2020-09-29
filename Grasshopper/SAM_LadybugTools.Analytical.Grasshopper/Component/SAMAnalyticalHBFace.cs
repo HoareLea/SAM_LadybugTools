@@ -33,6 +33,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         protected override void RegisterInputParams(GH_InputParamManager inputParamManager)
         {
             inputParamManager.AddParameter(new GooPanelParam(), "_panel", "_panel", "SAM Analytical Panel", GH_ParamAccess.item);
+            inputParamManager.AddBooleanParameter("_offsetAperturesOnEdge_", "_offsetAperturesOnEdge_", "Offset Apertures On Edge", GH_ParamAccess.item, true);
         }
 
         /// <summary>
@@ -56,6 +57,15 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;
+            }
+
+            bool offsetAperturesOnEdge = true;
+            dataAccess.GetData(1, ref offsetAperturesOnEdge);
+            
+            if(offsetAperturesOnEdge)
+            {
+                panel = new Panel(panel);
+                panel.OffsetAperturesOnEdge(0.1);
             }
 
             HoneybeeSchema.Face face = Analytical.LadybugTools.Convert.ToLadybugTools_Face(panel);

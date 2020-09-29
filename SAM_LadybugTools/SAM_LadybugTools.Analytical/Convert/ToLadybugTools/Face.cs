@@ -63,7 +63,6 @@ namespace SAM.Analytical.LadybugTools
             {
                 face.Apertures = apertures.ConvertAll(x => x.ToLadybugTools(index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
                 List<Door> doors = apertures.ConvertAll(x => x.ToLadybugTools_Door(index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
-                //doors.RemoveAll(x => x.BoundaryCondition.Obj is Surface); //Remove Internal Doors <-REMOVE THIS LINE IF NOT WORKING
                 face.Doors = doors;
             }
 
