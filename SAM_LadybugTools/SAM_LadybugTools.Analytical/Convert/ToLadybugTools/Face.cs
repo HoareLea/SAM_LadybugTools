@@ -1,11 +1,12 @@
 ﻿using HoneybeeSchema;
+using SAM.Core;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Face ToLadybugTools_Face(this Panel panel, AdjacencyCluster adjacencyCluster = null, int index = -1)
+        public static Face ToLadybugTools_Face(this Panel panel, AnalyticalModel analyticalModel = null, int index = -1)
         {
             if (panel == null || panel.PanelType == PanelType.Shade)
                 return null;
@@ -13,6 +14,8 @@ namespace SAM.Analytical.LadybugTools
             Face3D face3D = panel.PlanarBoundary3D.ToLadybugTools();
             if (face3D == null)
                 return null;
+
+            AdjacencyCluster adjacencyCluster = analyticalModel?.AdjacencyCluster;
 
             Space space_Adjacent = null;
             int index_Adjacent = -1;
@@ -61,9 +64,10 @@ namespace SAM.Analytical.LadybugTools
             List<Aperture> apertures = panel.Apertures;//Analytical.Query.OffsetAperturesOnEdge(panel, 0.1);
             if (apertures != null && apertures.Count > 0)
             {
-                face.Apertures = apertures.ConvertAll(x => x.ToLadybugTools(index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
-                List<Door> doors = apertures.ConvertAll(x => x.ToLadybugTools_Door(index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
-                face.Doors = doors;
+                MaterialLibrary materialLibrary = analyticalModel?.MaterialLibrary;
+                
+                face.Apertures = apertures.ConvertAll(x => x.ToLadybugTools(materialLibrary, index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
+                face.Doors = apertures.ConvertAll(x => x.ToLadybugTools_Door(materialLibrary, index, index_Adjacent, adjacentPanelUniqueName, adjacentSpaceUniqueName)).FindAll(x => x != null);
             }
 
             return face;

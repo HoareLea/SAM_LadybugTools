@@ -1,17 +1,28 @@
 ﻿using HoneybeeSchema;
+using SAM.Core;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Door ToLadybugTools_Door(this Aperture aperture, int index = -1, int index_Adjacent = -1, string adjacentPanelUniqueName = null, string adjacentSpaceUniqueName = null)
+        public static Door ToLadybugTools_Door(this Aperture aperture, MaterialLibrary materialLibrary = null, int index = -1, int index_Adjacent = -1, string adjacentPanelUniqueName = null, string adjacentSpaceUniqueName = null)
         {
             if (aperture == null)
                 return null;
 
-            if (aperture.ApertureType != ApertureType.Door)
+            ApertureConstruction apertureConstruction = aperture.ApertureConstruction;
+            if (apertureConstruction == null)
                 return null;
+
+            MaterialType materialType = apertureConstruction.PaneConstructionLayers.MaterialType(materialLibrary);
+
+            if (aperture.ApertureType != ApertureType.Door)
+            {
+                //Opaque Windows to be replaced by Doors
+                if (materialType != MaterialType.Opaque)
+                    return null;
+            }
 
             PlanarBoundary3D planarBoundary3D = aperture.PlanarBoundary3D;
             if (planarBoundary3D == null)
@@ -30,8 +41,11 @@ namespace SAM.Analytical.LadybugTools
                 anyOf = new Surface(uniqueNames);
             }
 
-            DoorEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new DoorEnergyPropertiesAbridged(Core.LadybugTools.Query.UniqueName(aperture.ApertureConstruction));
-            return new Door(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new DoorPropertiesAbridged(apertureEnergyPropertiesAbridged), aperture.Name);
+            DoorEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new DoorEnergyPropertiesAbridged(Core.LadybugTools.Query.UniqueName(apertureConstruction));
+            
+            Door door = new Door(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new DoorPropertiesAbridged(apertureEnergyPropertiesAbridged), aperture.Name);
+            door.IsGlass = materialType == MaterialType.Transparent;
+            return door;
         }
     }
 }

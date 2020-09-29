@@ -5,10 +5,12 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Room ToLadybugTools(this Space space, AdjacencyCluster adjacencyCluster = null, double silverSpacing = Core.Tolerance.MacroDistance, double tolerance = Core.Tolerance.Distance)
+        public static Room ToLadybugTools(this Space space, AnalyticalModel analyticalModel = null, double silverSpacing = Core.Tolerance.MacroDistance, double tolerance = Core.Tolerance.Distance)
         {
             if (space == null)
                 return null;
+
+            AdjacencyCluster adjacencyCluster = analyticalModel?.AdjacencyCluster;
 
             int index = -1;
             List<Panel> panels = null;
@@ -26,15 +28,13 @@ namespace SAM.Analytical.LadybugTools
                 faces = new List<Face>();
                 foreach(Panel panel in panels)
                 {
-                    Face face = panel.ToLadybugTools_Face(adjacencyCluster, index);
+                    Face face = panel.ToLadybugTools_Face(analyticalModel, index);
                     if (face == null)
                         continue;
 
                     faces.Add(face);
                 }
             }
-
-            
 
             Room result = new Room(uniqueName, faces, new RoomPropertiesAbridged(), space.Name);              
             return result;

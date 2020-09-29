@@ -37,7 +37,7 @@ namespace SAM.Analytical.LadybugTools
                     if (space == null)
                         continue;
 
-                    Room room = space.ToLadybugTools(adjacencyCluster, silverSpacing, tolerance);
+                    Room room = space.ToLadybugTools(analyticalModel, silverSpacing, tolerance);
                     if (room == null)
                         continue;
 
@@ -178,39 +178,11 @@ namespace SAM.Analytical.LadybugTools
                     {
                         MaterialType materialType = Analytical.Query.MaterialType(constructionLayers, materialLibrary);
                         if(materialType != MaterialType.Undefined && materialType != MaterialType.Gas)
-                        {
+                        {                           
                             if(materialType == MaterialType.Opaque)
-                            {
                                 constructions.Add(apertureConstruction.ToLadybugTools());
-                            } 
                             else
-                            {
-                                WindowConstructionAbridged windowConstructionAbridged = apertureConstruction.ToLadybugTools_WindowConstructionAbridged();
-                                if(windowConstructionAbridged != null)
-                                {
-                                    //TODO: Find better way to update IsGlass Property (Implement inside Aperture ToLadybugToos Method)
-                                    //Setting door IsGlass property to true for all doors with this construction
-                                    string identifier = windowConstructionAbridged.Identifier;
-                                    foreach (Room room in rooms)
-                                    {
-                                        foreach (Face face in room.Faces)
-                                        {
-                                            List<Door> doors = face.Doors;
-                                            if (doors == null || doors.Count == 0)
-                                                continue;
-
-                                            foreach (Door door in doors)
-                                            {
-                                                if (door.Properties.Energy.Construction.Equals(identifier))
-                                                    door.IsGlass = true;
-                                            }
-                                        }
-                                    }
-
-                                    constructions.Add(windowConstructionAbridged);
-                                }
-                            }
-                                
+                                constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
 
                             foreach (ConstructionLayer constructionLayer in constructionLayers)
                             {
@@ -288,6 +260,10 @@ namespace SAM.Analytical.LadybugTools
 
             List<ScheduleTypeLimit> scheduleTypeLimits = new List<ScheduleTypeLimit>();
             HoneybeeSchema.Helper.EnergyLibrary.DefaultScheduleTypeLimit?.ToList().ForEach(x => scheduleTypeLimits.Add(x));
+
+            constructionSets.RemoveAll(x => x == null);
+            constructions.RemoveAll(x => x == null);
+            materials.RemoveAll(x => x == null);
 
             ModelEnergyProperties modelEnergyProperties = new ModelEnergyProperties(constructionSets, constructions, materials, hvacs, programTypes, schedules, scheduleTypeLimits);
 
