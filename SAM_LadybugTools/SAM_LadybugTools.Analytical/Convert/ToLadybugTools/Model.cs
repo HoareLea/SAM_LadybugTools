@@ -16,7 +16,8 @@ namespace SAM.Analytical.LadybugTools
             AnalyticalModel analyticalModel_Temp = new AnalyticalModel(analyticalModel);
             
             analyticalModel_Temp.OffsetAperturesOnEdge(0.1, tolerance);
-            
+            analyticalModel_Temp.ReplaceTransparentPanels(0.1);
+
             string uniqueName = Core.LadybugTools.Query.UniqueName(analyticalModel_Temp);
 
             AdjacencyCluster adjacencyCluster = analyticalModel_Temp.AdjacencyCluster;
