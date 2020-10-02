@@ -14,6 +14,7 @@ namespace SAM.Analytical.LadybugTools
                 case PanelType.UndergroundWall:
                 case PanelType.SlabOnGrade:
                 case PanelType.UndergroundSlab:
+                case PanelType.UndergroundCeiling:
                 case PanelType.Floor:
                     return new Ground();
 
@@ -33,7 +34,6 @@ namespace SAM.Analytical.LadybugTools
                 case PanelType.FloorInternal:
                 case PanelType.WallInternal:
                 case PanelType.Ceiling:
-                case PanelType.UndergroundCeiling:
                 case PanelType.Air:
                         //boundaryConditionObjects have to be provided
                         //https://www.ladybug.tools/honeybee-schema/model.html#tag/surface_model
