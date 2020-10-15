@@ -13,6 +13,11 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         public override Guid ComponentGuid => new Guid("1591e2d0-2b21-49dc-b497-5dc5d45e99b7");
 
         /// <summary>
+        /// The latest version of this component
+        /// </summary>
+        public override string LatestComponentVersion => "1.0.0";
+
+        /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon => Resources.SAM_Honeybee;
