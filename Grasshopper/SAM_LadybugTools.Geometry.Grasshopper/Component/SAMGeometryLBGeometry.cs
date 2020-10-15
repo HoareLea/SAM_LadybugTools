@@ -1,15 +1,23 @@
 ﻿using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types;
 using HoneybeeSchema;
 using SAM.Core.Grasshopper;
 using SAM.Geometry.Grasshopper.LadybugTools.Properties;
 using System;
-using System.Collections;
 
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
     public class SAMGeometryLBGeometry : GH_SAMComponent
     {
+        /// <summary>
+        /// Gets the unique ID for this component. Do not change this ID after release.
+        /// </summary>
+        public override Guid ComponentGuid => new Guid("c306f8ae-e25b-4bc9-93d2-5155a86b55ef");
+
+        /// <summary>
+        /// The latest version of this component
+        /// </summary>
+        public override string LatestComponentVersion => "1.0.0";
+
         /// <summary>
         /// Initializes a new instance of the SAM_point3D class.
         /// </summary>
@@ -102,14 +110,6 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
                 // return Resources.IconForThisComponent;
                 return Resources.SAM_Honeybee;
             }
-        }
-
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("c306f8ae-e25b-4bc9-93d2-5155a86b55ef"); }
         }
     }
 }
