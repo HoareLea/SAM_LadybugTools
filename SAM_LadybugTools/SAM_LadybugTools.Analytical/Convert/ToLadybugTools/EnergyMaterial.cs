@@ -10,7 +10,17 @@ namespace SAM.Analytical.LadybugTools
             if (opaqueMaterial == null || string.IsNullOrEmpty(opaqueMaterial.Name))
                 return null;
 
-            return new EnergyMaterial(opaqueMaterial.Name, opaqueMaterial.DefaultThickness(), opaqueMaterial.ThermalConductivity, opaqueMaterial.Density, opaqueMaterial.SpecificHeatCapacity, opaqueMaterial.DisplayName, null, opaqueMaterial.ExternalEmissivity(), 1 - opaqueMaterial.ExternalSolarReflectance(), 1 - opaqueMaterial.ExternalLightReflectance());
+            return new EnergyMaterial(
+                opaqueMaterial.Name,
+                opaqueMaterial.GetValue<double>(MaterialParameter.DefaultThickness),
+                opaqueMaterial.ThermalConductivity,
+                opaqueMaterial.Density,
+                opaqueMaterial.SpecificHeatCapacity,
+                opaqueMaterial.DisplayName,
+                null,
+                opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalEmissivity),
+                1 - opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalSolarReflectance),
+                1 - opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalLightReflectance));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace SAM.Analytical.LadybugTools
 
             double thickness_Temp = thickness;
             if (double.IsNaN(thickness_Temp))
-                thickness_Temp = gasMaterial.DefaultThickness();
+                thickness_Temp = gasMaterial.GetValue<double>(MaterialParameter.DefaultThickness);
 
             double airspaceThermalResistance = Analytical.Query.AirspaceThermalResistance(angle, thickness_Temp);
             if (double.IsNaN(airspaceThermalResistance))
