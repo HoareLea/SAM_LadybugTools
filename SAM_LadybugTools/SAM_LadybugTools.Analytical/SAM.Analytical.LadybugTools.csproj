@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HoneybeeSchema, Version=1.39.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HoneybeeSchema.1.39.4\lib\net45\HoneybeeSchema.dll</HintPath>
+    <Reference Include="HoneybeeSchema, Version=1.39.8.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\HoneybeeSchema.1.39.8.1\lib\net45\HoneybeeSchema.dll</HintPath>
     </Reference>
     <Reference Include="JsonSubTypes, Version=1.8.0.0, Culture=neutral, PublicKeyToken=ee75fc290dbc1176, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JsonSubTypes.1.8.0\lib\net47\JsonSubTypes.dll</HintPath>
