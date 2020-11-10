@@ -19,7 +19,7 @@ namespace SAM.Analytical.LadybugTools
                 gasMaterial.Name, 
                 gasMaterial.DisplayName, 
                 gasMaterial.GetValue<double>(MaterialParameter.DefaultThickness), 
-                gasType);
+                gasType.Value);
         }
     }
 }
