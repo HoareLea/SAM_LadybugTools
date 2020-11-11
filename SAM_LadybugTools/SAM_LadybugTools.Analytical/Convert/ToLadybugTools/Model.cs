@@ -156,7 +156,7 @@ namespace SAM.Analytical.LadybugTools
                             List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
                             double tilt = tilts.Distinct().ToList().Average();
 
-                            tilt = tilt * (System.Math.PI / 180);
+                            tilt = Units.Convert.ToRadians(tilt); //* (System.Math.PI / 180);
 
                             dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
                         }
@@ -208,45 +208,6 @@ namespace SAM.Analytical.LadybugTools
                             }
                         }
                     }
-
-                    //constructionLayers = apertureConstruction.FrameConstructionLayers;
-                    //if (constructionLayers != null)
-                    //{
-                    //    MaterialType materialType = Analytical.Query.MaterialType(constructionLayers, materialLibrary);
-                    //    if (materialType != MaterialType.Undefined && materialType != MaterialType.Gas)
-                    //    {
-                    //        if (materialType == MaterialType.Opaque)
-                    //            constructions.Add(apertureConstruction.ToLadybugTools());
-                    //        else
-                    //            constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
-
-                    //        foreach (ConstructionLayer constructionLayer in constructionLayers)
-                    //        {
-                    //            IMaterial material = constructionLayer.Material(materialLibrary);
-                    //            if (material == null)
-                    //                continue;
-
-                    //            if (dictionary_Materials.ContainsKey(material.Name))
-                    //                continue;
-
-                    //            if (material is GasMaterial)
-                    //            {
-                    //                List<Aperture> panels = Analytical.Query.Apertures(adjacencyCluster, apertureConstruction);
-                    //                List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
-                    //                double tilt = tilts.Distinct().ToList().Average();
-
-                    //                tilt = tilt * (System.Math.PI / 180);
-
-                    //                dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
-                    //            }
-                    //            else if (material is OpaqueMaterial)
-                    //            {
-                    //                dictionary_Materials[material.Name] = ((OpaqueMaterial)material).ToLadybugTools();
-                    //            }
-
-                    //        }
-                    //    }
-                    //}
                 }
             }
 
@@ -274,8 +235,8 @@ namespace SAM.Analytical.LadybugTools
 
             Model model = new Model(uniqueName, modelProperties, adjacencyCluster.Name, null, rooms, faces_Orphaned, shades);
             //model.AngleTolerance = Core.Tolerance.Angle;
-            model.AngleTolerance = 2;
-            model.Tolerance = Core.Tolerance.MacroDistance;
+            model.AngleTolerance = Units.Convert.ToDegrees(Tolerance.Angle);// 2;
+            model.Tolerance = Tolerance.MacroDistance;
 
             return model;
         }
