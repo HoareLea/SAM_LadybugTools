@@ -57,7 +57,9 @@ namespace SAM.Analytical.LadybugTools
             else
                 faceType = Query.FaceTypeEnum(panelType);
 
-            FaceEnergyPropertiesAbridged faceEnergyPropertiesAbridged = new FaceEnergyPropertiesAbridged(Core.LadybugTools.Query.UniqueName(panel.Construction));
+            FaceEnergyPropertiesAbridged faceEnergyPropertiesAbridged = new FaceEnergyPropertiesAbridged();
+            if (faceType != FaceType.AirBoundary)
+                faceEnergyPropertiesAbridged.Construction = Core.LadybugTools.Query.UniqueName(panel.Construction);
 
             Face face = new Face(Core.LadybugTools.Query.UniqueName(panel, index), face3D, faceType, boundaryCondition, new FacePropertiesAbridged(faceEnergyPropertiesAbridged), panel.Name);
 
