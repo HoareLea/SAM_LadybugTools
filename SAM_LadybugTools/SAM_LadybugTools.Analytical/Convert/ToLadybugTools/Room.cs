@@ -10,11 +10,11 @@ namespace SAM.Analytical.LadybugTools
             if (space == null)
                 return null;
 
-            AdjacencyCluster adjacencyCluster = analyticalModel?.AdjacencyCluster;
-
             int index = -1;
             List<Panel> panels = null;
-            if(adjacencyCluster != null)
+
+            AdjacencyCluster adjacencyCluster = analyticalModel?.AdjacencyCluster;
+            if (adjacencyCluster != null)
             {
                 index = adjacencyCluster.GetIndex(space);
                 panels = adjacencyCluster.UpdateNormals(space, false, silverSpacing, tolerance);
@@ -28,6 +28,9 @@ namespace SAM.Analytical.LadybugTools
                 faces = new List<Face>();
                 foreach(Panel panel in panels)
                 {
+                    if (panel == null)
+                        continue;
+                    
                     Face face = panel.ToLadybugTools_Face(analyticalModel, index);
                     if (face == null)
                         continue;
@@ -36,7 +39,7 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            Room result = new Room(uniqueName, faces, new RoomPropertiesAbridged(), space.Name);              
+            Room result = new Room(uniqueName, faces, new RoomPropertiesAbridged(), space.Name);
             return result;
         }
     }
