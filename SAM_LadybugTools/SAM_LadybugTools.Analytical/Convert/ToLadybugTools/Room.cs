@@ -39,7 +39,25 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            Room result = new Room(uniqueName, faces, new RoomPropertiesAbridged(), space.Name);
+            RoomPropertiesAbridged roomPropertiesAbridged = new RoomPropertiesAbridged();
+
+            Room result = new Room(uniqueName, faces, roomPropertiesAbridged, space.Name);
+
+            InternalCondition internalCondition = space.InternalCondition;
+            if(internalCondition != null)
+            {
+                string uniqueName_InternalCondition = Core.LadybugTools.Query.UniqueName(internalCondition);
+                if (!string.IsNullOrWhiteSpace(uniqueName_InternalCondition))
+                {
+                    roomPropertiesAbridged = result.Properties;
+                    RoomEnergyPropertiesAbridged roomEnergyPropertiesAbridged = roomPropertiesAbridged.Energy;
+                    if (roomEnergyPropertiesAbridged == null)
+                        roomEnergyPropertiesAbridged = new RoomEnergyPropertiesAbridged(programType: uniqueName_InternalCondition);
+
+                    result.Properties.Energy = roomEnergyPropertiesAbridged;
+                }
+            }
+            
             return result;
         }
     }

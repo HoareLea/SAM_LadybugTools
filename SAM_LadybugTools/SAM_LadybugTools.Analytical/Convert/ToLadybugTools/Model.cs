@@ -211,16 +211,57 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
+            Dictionary<System.Guid, ScheduleFixedIntervalAbridged> dictionary_Schedules = new Dictionary<System.Guid, ScheduleFixedIntervalAbridged>();
+            ProfileLibrary profileLibrary = analyticalModel.ProfileLibrary;
+
+            List<Profile> profiles = profileLibrary?.GetProfiles();
+            if (profiles != null)
+            {
+                foreach (Profile profile in profiles)
+                {
+                    if (profile == null)
+                        continue;
+
+                    if (dictionary_Schedules.ContainsKey(profile.Guid))
+                        continue;
+
+                    ScheduleFixedIntervalAbridged scheduleFixedIntervalAbridged = profile.ToLadybugTools();
+                    if (scheduleFixedIntervalAbridged == null)
+                        continue;
+
+                    dictionary_Schedules[profile.Guid] = scheduleFixedIntervalAbridged;
+                }
+            }
+
+            Dictionary<System.Guid, ProgramTypeAbridged> dictionary_InternalConditions = new Dictionary<System.Guid, ProgramTypeAbridged>();
+            if (spaces != null)
+            {
+                foreach (Space space in spaces)
+                {
+                    InternalCondition internalCondition = space?.InternalCondition;
+                    if (internalCondition == null)
+                        continue;
+
+                    if (dictionary_InternalConditions.ContainsKey(internalCondition.Guid))
+                        continue;
+
+                    ProgramTypeAbridged programTypeAbridged = internalCondition.ToLadybugTools(profileLibrary);
+                    if (programTypeAbridged != null)
+                        dictionary_InternalConditions[internalCondition.Guid] = programTypeAbridged;
+                }
+            }
+
             List<AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>> materials = new List<AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>>();
             HoneybeeSchema.Helper.EnergyLibrary.DefaultMaterials?.ToList().ForEach(x => materials.Add(x as dynamic));
             dictionary_Materials.Values.ToList().ForEach(x => materials.Add(x as dynamic));
 
-
             List<AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>> schedules = new List<AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>>();
-            HoneybeeSchema.Helper.EnergyLibrary.DefaultScheduleRuleset?.ToList().ForEach(x => schedules.Add(x as dynamic));
+            HoneybeeSchema.Helper.EnergyLibrary.DefaultScheduleRuleset?.ToList().ForEach(x => schedules.Add(x));
+            dictionary_Schedules.Values.ToList().ForEach(x => schedules.Add(x));
 
             List<AnyOf<ProgramTypeAbridged, ProgramType>> programTypes = new List<AnyOf<ProgramTypeAbridged, ProgramType>>();
-            HoneybeeSchema.Helper.EnergyLibrary.DefaultProgramTypes?.ToList().ForEach(x => programTypes.Add(x as dynamic));
+            HoneybeeSchema.Helper.EnergyLibrary.DefaultProgramTypes?.ToList().ForEach(x => programTypes.Add(x));
+            dictionary_InternalConditions.Values.ToList().ForEach(x => programTypes.Add(x));
 
             List<ScheduleTypeLimit> scheduleTypeLimits = new List<ScheduleTypeLimit>();
             HoneybeeSchema.Helper.EnergyLibrary.DefaultScheduleTypeLimit?.ToList().ForEach(x => scheduleTypeLimits.Add(x));
