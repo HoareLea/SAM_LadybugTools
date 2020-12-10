@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static ScheduleFixedInterval ToLadybugTools(this Profile profile)
+        public static ScheduleFixedInterval ToLadybugTools(this Profile profile, ProfileType profileType = ProfileType.Undefined)
         {
             if (profile == null)
                 return null;
@@ -14,7 +14,11 @@ namespace SAM.Analytical.LadybugTools
             if (string.IsNullOrWhiteSpace(uniqueName))
                 return null;
 
-            List<ScheduleUnitType> scheduleUnitTypes = Query.ScheduleUnitTypes(profile.ProfileType);
+            ProfileType profileType_Temp = profileType;
+            if (profileType_Temp == ProfileType.Undefined)
+                profileType_Temp = profile.ProfileType;
+
+            List<ScheduleUnitType> scheduleUnitTypes = Query.ScheduleUnitTypes(profileType_Temp);
             if (scheduleUnitTypes == null)
                 return null;
 
@@ -49,11 +53,7 @@ namespace SAM.Analytical.LadybugTools
 
             uniqueName = Core.LadybugTools.Query.UniqueName(typeof(ActivityLevel), uniqueName);
 
-            List<ScheduleUnitType> scheduleUnitTypes = Query.ScheduleUnitTypes(profile.ProfileType);
-            if (scheduleUnitTypes == null || !scheduleUnitTypes.Contains(ScheduleUnitType.ActivityLevel))
-                return null;
-
-            ScheduleTypeLimit scheduleTypeLimit = new ScheduleTypeLimit(Core.LadybugTools.Query.UniqueName(typeof(ScheduleTypeLimit), uniqueName), profile.Name, unitType: scheduleUnitTypes[0]);
+            ScheduleTypeLimit scheduleTypeLimit = new ScheduleTypeLimit(Core.LadybugTools.Query.UniqueName(typeof(ScheduleTypeLimit), uniqueName), profile.Name, unitType: ScheduleUnitType.ActivityLevel);
 
             List<double> values = new List<double>() { value };
             ScheduleFixedInterval result = new ScheduleFixedInterval(uniqueName, values, profile.Name, scheduleTypeLimit);

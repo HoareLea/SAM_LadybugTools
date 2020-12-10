@@ -36,9 +36,15 @@ namespace SAM.Analytical.LadybugTools
                     Profile profile = dictionary[ProfileType.Occupancy];
                     if (profile != null)
                     {
-                        string uniqueName_Profile = Core.LadybugTools.Query.UniqueName(typeof(PeopleAbridged), uniqueName);
-
-                        people = new People(string.Format("{0}_People", uniqueName), peoplePerArea, profile.ToLadybugTools(), profile.ToLadybugTools_ActivityLevel(sensibleGain + latentGain));
+                        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.Occupancy);
+                        if(scheduleFixedInterval != null)
+                        {
+                            ScheduleFixedInterval scheduleFixedInterval_ActivityLevel = profile.ToLadybugTools_ActivityLevel(sensibleGain + latentGain);
+                            if(scheduleFixedInterval_ActivityLevel != null)
+                            {
+                                people = new People(string.Format("{0}_People", uniqueName), peoplePerArea, scheduleFixedInterval, scheduleFixedInterval_ActivityLevel);
+                            }
+                        }
                     }
                 }
             }
