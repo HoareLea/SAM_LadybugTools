@@ -76,7 +76,7 @@ namespace SAM.Analytical.LadybugTools
 
                     room.Properties.Energy.Hvac = idealAirSystemAbridged.Identifier;
                     //room.Properties.Energy.ConstructionSet = "Default Generic Construction Set";
-                    room.Properties.Energy.ProgramType = "Generic Office Program";
+                    //room.Properties.Energy.ProgramType = "Generic Office Program";
 
                     rooms.Add(room);
                 }    

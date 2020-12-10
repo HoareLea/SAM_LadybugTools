@@ -15,21 +15,21 @@ namespace SAM.Analytical.LadybugTools
                 return null;
 
             PeopleAbridged peopleAbridged = null;
-            if(profileLibrary != null)
+            if (profileLibrary != null)
             {
                 Dictionary<ProfileType, Profile> dictionary = internalCondition.GetProfileDictionary(profileLibrary);
 
-                double peoplePerArea = double.NaN;
-                if(internalCondition.TryGetValue(InternalConditionParameter.OccupancyPerArea, out peopleAbridged) && double.IsNaN(peoplePerArea))
+                double peoplePerArea = 0;
+                if (!internalCondition.TryGetValue(InternalConditionParameter.OccupancyPerArea, out peopleAbridged))
+                    peoplePerArea = 0;
+
+                if (dictionary.ContainsKey(ProfileType.Occupancy))
                 {
-                    if (dictionary.ContainsKey(ProfileType.Occupancy))
+                    Profile profile = dictionary[ProfileType.Occupancy];
+                    if (profile != null)
                     {
-                        Profile profile = dictionary[ProfileType.Occupancy];
-                        if(profile != null)
-                        {
-                            string uniqueName_Profile = Core.LadybugTools.Query.UniqueName(profile);
-                            peopleAbridged = new PeopleAbridged(string.Format("{0}_People", uniqueName), peoplePerArea, uniqueName_Profile, uniqueName_Profile);
-                        }
+                        string uniqueName_Profile = Core.LadybugTools.Query.UniqueName(profile);
+                        peopleAbridged = new PeopleAbridged(string.Format("{0}_People", uniqueName), peoplePerArea, uniqueName_Profile, uniqueName_Profile);
                     }
                 }
             }
