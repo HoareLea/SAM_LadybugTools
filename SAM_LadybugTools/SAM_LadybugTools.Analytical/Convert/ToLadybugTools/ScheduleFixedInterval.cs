@@ -1,5 +1,6 @@
 ﻿using HoneybeeSchema;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAM.Analytical.LadybugTools
 {
@@ -55,7 +56,7 @@ namespace SAM.Analytical.LadybugTools
 
             ScheduleTypeLimit scheduleTypeLimit = new ScheduleTypeLimit(Core.LadybugTools.Query.UniqueName(typeof(ScheduleTypeLimit), uniqueName), profile.Name, unitType: ScheduleUnitType.ActivityLevel);
 
-            List<double> values = new List<double>() { value };
+            List<double> values = Enumerable.Repeat(value, 24).ToList();
             ScheduleFixedInterval result = new ScheduleFixedInterval(uniqueName, values, profile.Name, scheduleTypeLimit);
 
             return result;
