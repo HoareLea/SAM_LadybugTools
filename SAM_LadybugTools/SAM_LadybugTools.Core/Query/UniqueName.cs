@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SAM.Core.LadybugTools
 {
@@ -21,6 +22,14 @@ namespace SAM.Core.LadybugTools
                 return null;
 
             return string.Format("{0}_{1}", prefix, uniqueName);
+        }
+
+        public static string UniqueName(Type type, string uniqueName)
+        {
+            if (string.IsNullOrWhiteSpace(uniqueName))
+                return null;
+
+            return string.Format("{0}_{1}", type.Name, uniqueName);
         }
     }
 }

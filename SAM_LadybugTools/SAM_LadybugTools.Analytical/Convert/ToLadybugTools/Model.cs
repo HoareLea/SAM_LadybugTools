@@ -211,7 +211,7 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            Dictionary<System.Guid, ScheduleFixedIntervalAbridged> dictionary_Schedules = new Dictionary<System.Guid, ScheduleFixedIntervalAbridged>();
+            Dictionary<System.Guid, ScheduleFixedInterval> dictionary_Schedules = new Dictionary<System.Guid, ScheduleFixedInterval>();
             ProfileLibrary profileLibrary = analyticalModel.ProfileLibrary;
 
             List<Profile> profiles = profileLibrary?.GetProfiles();
@@ -225,15 +225,15 @@ namespace SAM.Analytical.LadybugTools
                     if (dictionary_Schedules.ContainsKey(profile.Guid))
                         continue;
 
-                    ScheduleFixedIntervalAbridged scheduleFixedIntervalAbridged = profile.ToLadybugTools();
-                    if (scheduleFixedIntervalAbridged == null)
+                    ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools();
+                    if (scheduleFixedInterval == null)
                         continue;
 
-                    dictionary_Schedules[profile.Guid] = scheduleFixedIntervalAbridged;
+                    //dictionary_Schedules[profile.Guid] = scheduleFixedInterval;
                 }
             }
 
-            Dictionary<System.Guid, ProgramTypeAbridged> dictionary_InternalConditions = new Dictionary<System.Guid, ProgramTypeAbridged>();
+            Dictionary<System.Guid, ProgramType> dictionary_InternalConditions = new Dictionary<System.Guid, ProgramType>();
             if (spaces != null)
             {
                 foreach (Space space in spaces)
@@ -245,9 +245,9 @@ namespace SAM.Analytical.LadybugTools
                     if (dictionary_InternalConditions.ContainsKey(internalCondition.Guid))
                         continue;
 
-                    ProgramTypeAbridged programTypeAbridged = internalCondition.ToLadybugTools(profileLibrary);
-                    if (programTypeAbridged != null)
-                        dictionary_InternalConditions[internalCondition.Guid] = programTypeAbridged;
+                    ProgramType programType = internalCondition.ToLadybugTools(profileLibrary);
+                    if (programType != null)
+                        dictionary_InternalConditions[internalCondition.Guid] = programType;
                 }
             }
 

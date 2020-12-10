@@ -82,13 +82,14 @@
     <Compile Include="Convert\ToLadybugTools\EnergyWindowMaterialGas.cs" />
     <Compile Include="Convert\ToLadybugTools\EnergyWindowMaterialGlazing.cs" />
     <Compile Include="Convert\ToLadybugTools\EnergyMaterial.cs" />
-    <Compile Include="Convert\ToLadybugTools\ScheduleFixedIntervalAbridged.cs" />
-    <Compile Include="Convert\ToLadybugTools\ProgramTypeAbridged.cs" />
+    <Compile Include="Convert\ToLadybugTools\ScheduleFixedInterval.cs" />
+    <Compile Include="Convert\ToLadybugTools\ProgramType.cs" />
     <Compile Include="Convert\ToLadybugTools\WindowConstructionAbridged.cs" />
     <Compile Include="Convert\ToLadybugTools\Model.cs" />
     <Compile Include="Convert\ToLadybugTools\Room.cs" />
     <Compile Include="Convert\ToLadybugTools\OpaqueConstructionAbridged.cs" />
     <Compile Include="Convert\ToLadybugTools\Shade.cs" />
+    <Compile Include="Query\ScheduleUnitTypes.cs" />
     <Compile Include="Query\PaneMaterialName.cs" />
     <Compile Include="Query\GasType.cs" />
     <Compile Include="Query\StandardConstructionSet.cs" />
