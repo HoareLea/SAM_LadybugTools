@@ -24,11 +24,11 @@ namespace SAM.Analytical.LadybugTools
                     peoplePerArea = 0;
 
                 double sensibleGain = 0;
-                if (internalCondition.TryGetValue(InternalConditionParameter.OccupancySensibleGainPerPerson, out sensibleGain))
+                if (!internalCondition.TryGetValue(InternalConditionParameter.OccupancySensibleGainPerPerson, out sensibleGain))
                     sensibleGain = 0;
 
                 double latentGain = 0;
-                if (internalCondition.TryGetValue(InternalConditionParameter.OccupancyLatentGainPerPerson, out latentGain))
+                if (!internalCondition.TryGetValue(InternalConditionParameter.OccupancyLatentGainPerPerson, out latentGain))
                     latentGain = 0;
 
                 if (dictionary.ContainsKey(ProfileType.Occupancy))
