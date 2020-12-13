@@ -56,7 +56,7 @@ namespace SAM.Analytical.LadybugTools
 
             ScheduleTypeLimit scheduleTypeLimit = new ScheduleTypeLimit(Core.LadybugTools.Query.UniqueName(typeof(ScheduleTypeLimit), uniqueName), profile.Name, unitType: ScheduleUnitType.ActivityLevel);
 
-            List<double> values = Enumerable.Repeat(value, 24).ToList();
+            List<double> values = Enumerable.Repeat(value, 8760).ToList();
             ScheduleFixedInterval result = new ScheduleFixedInterval(uniqueName, values, profile.Name, scheduleTypeLimit);
 
             return result;
