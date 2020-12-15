@@ -20,8 +20,11 @@ namespace SAM.Analytical.LadybugTools
                 Dictionary<ProfileType, Profile> dictionary = internalCondition.GetProfileDictionary(profileLibrary);
 
                 double peoplePerArea = 0;
-                if (!internalCondition.TryGetValue(InternalConditionParameter.OccupancyPerArea, out peoplePerArea))
+                if (!internalCondition.TryGetValue(InternalConditionParameter.AreaPerPerson, out peoplePerArea))
                     peoplePerArea = 0;
+
+                if (peoplePerArea != 0)
+                    peoplePerArea = 1 / peoplePerArea;
 
                 double sensibleGain = 0;
                 if (!internalCondition.TryGetValue(InternalConditionParameter.OccupancySensibleGainPerPerson, out sensibleGain))
