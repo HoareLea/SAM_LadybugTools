@@ -15,6 +15,9 @@ namespace SAM.Analytical.LadybugTools
                 return null;
 
             People people = null;
+            Lighting lighting = null;
+            ElectricEquipment electricEquipment = null;
+
             if (profileLibrary != null)
             {
                 Dictionary<ProfileType, Profile> dictionary = internalCondition.GetProfileDictionary(profileLibrary);
@@ -45,14 +48,49 @@ namespace SAM.Analytical.LadybugTools
                             ScheduleFixedInterval scheduleFixedInterval_ActivityLevel = profile.ToLadybugTools_ActivityLevel(sensibleGain + latentGain);
                             if(scheduleFixedInterval_ActivityLevel != null)
                             {
-                                people = new People(string.Format("{0}_People", uniqueName), peoplePerArea, scheduleFixedInterval, scheduleFixedInterval_ActivityLevel);
+                                people = new People(string.Format("{0}_People", uniqueName), peoplePerArea, scheduleFixedInterval, scheduleFixedInterval_ActivityLevel, profile.Name);
                             }
                         }
                     }
                 }
+
+                if(dictionary.ContainsKey(ProfileType.Lighting))
+                {
+                    double lightingGainPerArea = 0;
+                    if (!internalCondition.TryGetValue(InternalConditionParameter.LightingGainPerArea, out lightingGainPerArea))
+                        lightingGainPerArea = 0;
+
+                    Profile profile = dictionary[ProfileType.Lighting];
+                    if (profile != null)
+                    {
+                        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.Lighting);
+                        if (scheduleFixedInterval != null)
+                        {
+                            lighting = new Lighting(string.Format("{0}_Lighting", uniqueName), lightingGainPerArea, scheduleFixedInterval, profile.Name);
+                        }
+                    }
+                }
+
+                if (dictionary.ContainsKey(ProfileType.EquipmentLatent))
+                {
+                    double equipmentLatentGainPerArea = 0;
+                    if (!internalCondition.TryGetValue(InternalConditionParameter.EquipmentLatentGainPerArea, out equipmentLatentGainPerArea))
+                        equipmentLatentGainPerArea = 0;
+
+                    Profile profile = dictionary[ProfileType.EquipmentLatent];
+                    if (profile != null)
+                    {
+                        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.EquipmentLatent);
+                        if (scheduleFixedInterval != null)
+                        {
+                            electricEquipment = new ElectricEquipment(string.Format("{0}_ElectricEquipment", uniqueName), equipmentLatentGainPerArea, scheduleFixedInterval, profile.Name);
+                        }
+                    }
+                }
+
             }
 
-            ProgramType result = new ProgramType(uniqueName, internalCondition.Name, people);
+            ProgramType result = new ProgramType(uniqueName, internalCondition.Name, people, lighting, electricEquipment);
             return result;
         }
     }
