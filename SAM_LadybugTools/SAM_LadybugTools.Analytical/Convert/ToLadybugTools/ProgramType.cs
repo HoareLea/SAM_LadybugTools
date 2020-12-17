@@ -54,7 +54,7 @@ namespace SAM.Analytical.LadybugTools
                     }
                 }
 
-                if(dictionary.ContainsKey(ProfileType.Lighting))
+                if (dictionary.ContainsKey(ProfileType.Lighting))
                 {
                     double lightingGainPerArea = 0;
                     if (!internalCondition.TryGetValue(InternalConditionParameter.LightingGainPerArea, out lightingGainPerArea))
@@ -71,19 +71,19 @@ namespace SAM.Analytical.LadybugTools
                     }
                 }
 
-                if (dictionary.ContainsKey(ProfileType.EquipmentLatent))
+                if (dictionary.ContainsKey(ProfileType.EquipmentSensible))
                 {
-                    double equipmentLatentGainPerArea = 0;
-                    if (!internalCondition.TryGetValue(InternalConditionParameter.EquipmentLatentGainPerArea, out equipmentLatentGainPerArea))
-                        equipmentLatentGainPerArea = 0;
+                    double equipmentSensibleGainPerArea = 0;
+                    if (!internalCondition.TryGetValue(InternalConditionParameter.EquipmentSensibleGainPerArea, out equipmentSensibleGainPerArea))
+                        equipmentSensibleGainPerArea = 0;
 
-                    Profile profile = dictionary[ProfileType.EquipmentLatent];
+                    Profile profile = dictionary[ProfileType.EquipmentSensible];
                     if (profile != null)
                     {
-                        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.EquipmentLatent);
+                        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.EquipmentSensible);
                         if (scheduleFixedInterval != null)
                         {
-                            electricEquipment = new ElectricEquipment(string.Format("{0}_ElectricEquipment", uniqueName), equipmentLatentGainPerArea, scheduleFixedInterval, profile.Name);
+                            electricEquipment = new ElectricEquipment(string.Format("{0}_ElectricEquipment", uniqueName), equipmentSensibleGainPerArea, scheduleFixedInterval, profile.Name);
                         }
                     }
                 }
