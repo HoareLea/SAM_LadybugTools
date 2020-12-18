@@ -89,6 +89,7 @@
     <Compile Include="Convert\ToLadybugTools\Room.cs" />
     <Compile Include="Convert\ToLadybugTools\OpaqueConstructionAbridged.cs" />
     <Compile Include="Convert\ToLadybugTools\Shade.cs" />
+    <Compile Include="Query\InfiltrationAirFlowPerExteriorArea.cs" />
     <Compile Include="Query\ScheduleUnitTypes.cs" />
     <Compile Include="Query\PaneMaterialName.cs" />
     <Compile Include="Query\GasType.cs" />

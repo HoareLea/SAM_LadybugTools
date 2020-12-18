@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static ProgramType ToLadybugTools(this Space space, ProfileLibrary profileLibrary)
+        public static ProgramType ToLadybugTools(this Space space, AdjacencyCluster adjacencyCluster, ProfileLibrary profileLibrary)
         {
             InternalCondition internalCondition = space.InternalCondition;
             
@@ -119,7 +119,9 @@ namespace SAM.Analytical.LadybugTools
                         ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.Infiltration);
                         if (scheduleFixedInterval != null)
                         {
-                            infiltration = new Infiltration(string.Format("{0}_Infiltration", uniqueName), 0.2, scheduleFixedInterval, profile.Name);
+                            double airFlowPerExteriorArea = Query.InfiltrationAirFlowPerExteriorArea(adjacencyCluster, space);
+                            
+                            infiltration = new Infiltration(string.Format("{0}_Infiltration", uniqueName), airFlowPerExteriorArea, scheduleFixedInterval, profile.Name);
                         }
                     }
                 }
