@@ -50,7 +50,7 @@ namespace SAM.Analytical.LadybugTools
                             if (!double.IsNaN(occupancy) && occupancy != 0)
                                 gainPerPeople = gainPerPeople / occupancy;
 
-                            ScheduleFixedInterval scheduleFixedInterval_ActivityLevel = profile.ToLadybugTools_ActivityLevel(gain);
+                            ScheduleFixedInterval scheduleFixedInterval_ActivityLevel = profile.ToLadybugTools_ActivityLevel(gainPerPeople);
                             if(scheduleFixedInterval_ActivityLevel != null)
                             {
                                 double peoplePerArea = SAM.Analytical.Query.CalculatedPeoplePerArea(space);
