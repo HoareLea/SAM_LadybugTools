@@ -42,6 +42,14 @@ namespace SAM.Analytical.LadybugTools
                         ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.Occupancy);
                         if(scheduleFixedInterval != null)
                         {
+                            double gainPerPeople = gain;
+                            if (double.IsNaN(gainPerPeople))
+                                gainPerPeople = 0;
+
+                            double occupancy = Analytical.Query.CalculatedOccupancy(space);
+                            if (!double.IsNaN(occupancy) && occupancy != 0)
+                                gainPerPeople = gainPerPeople / occupancy;
+
                             ScheduleFixedInterval scheduleFixedInterval_ActivityLevel = profile.ToLadybugTools_ActivityLevel(gain);
                             if(scheduleFixedInterval_ActivityLevel != null)
                             {

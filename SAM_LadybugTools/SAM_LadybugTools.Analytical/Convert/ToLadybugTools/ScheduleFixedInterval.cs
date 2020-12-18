@@ -36,7 +36,15 @@ namespace SAM.Analytical.LadybugTools
             for(int i=0; i < 8760; i++)
                 values.Add(profile[i]);
 
-            ScheduleTypeLimit scheduleTypeLimit = new ScheduleTypeLimit(Core.LadybugTools.Query.UniqueName(typeof(ScheduleTypeLimit), uniqueName), profile.Name, lowerLimit: 0, upperLimit: 1, unitType: scheduleUnitTypes[0]);
+            double upperLimit = 1;
+            double lowerLimit = 0;
+            if(scheduleUnitTypes[0] != ScheduleUnitType.Dimensionless)
+            {
+                upperLimit = values.Max();
+                lowerLimit = values.Min();
+            }
+
+            ScheduleTypeLimit scheduleTypeLimit = new ScheduleTypeLimit(Core.LadybugTools.Query.UniqueName(typeof(ScheduleTypeLimit), uniqueName), profile.Name, lowerLimit: lowerLimit, upperLimit: upperLimit, unitType: scheduleUnitTypes[0]);
 
             ScheduleFixedInterval result = new ScheduleFixedInterval(uniqueName, values, profile.Name, scheduleTypeLimit);
 
