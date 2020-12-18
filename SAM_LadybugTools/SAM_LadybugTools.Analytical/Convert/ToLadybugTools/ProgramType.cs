@@ -134,7 +134,7 @@ namespace SAM.Analytical.LadybugTools
                         ScheduleFixedInterval scheduleFixedInterval_Heating = profile_Heating.ToLadybugTools(ProfileType.Heating);
                         if(scheduleFixedInterval_Cooling != null && scheduleFixedInterval_Heating != null)
                         {
-                            setpoint = new Setpoint(string.Format("{0}_Setpoint", uniqueName), scheduleFixedInterval_Cooling, scheduleFixedInterval_Heating, string.Format("Heating {0} Cooling {1}", profile_Heating.Name, profile_Cooling.Name))
+                            setpoint = new Setpoint(string.Format("{0}_Setpoint", uniqueName), scheduleFixedInterval_Cooling, scheduleFixedInterval_Heating, string.Format("Heating {0} Cooling {1}", profile_Heating.Name, profile_Cooling.Name));
                         }
                     }
                 }
