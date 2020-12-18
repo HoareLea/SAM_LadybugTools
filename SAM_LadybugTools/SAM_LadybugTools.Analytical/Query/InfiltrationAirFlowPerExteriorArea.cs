@@ -29,7 +29,7 @@ namespace SAM.Analytical.LadybugTools
             if (panels == null || panels.Count == 0)
                 return double.NaN;
 
-            panels.RemoveAll(x => adjacencyCluster.Internal(x));
+            panels.RemoveAll(x => !adjacencyCluster.ExposedToSun(x));
 
             double area = 0;
             foreach(Panel panel in panels)
