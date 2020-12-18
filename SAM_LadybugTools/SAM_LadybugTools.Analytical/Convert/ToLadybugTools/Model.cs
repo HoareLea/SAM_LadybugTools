@@ -245,7 +245,7 @@ namespace SAM.Analytical.LadybugTools
                     if (dictionary_InternalConditions.ContainsKey(internalCondition.Guid))
                         continue;
 
-                    ProgramType programType = internalCondition.ToLadybugTools(profileLibrary);
+                    ProgramType programType = space.ToLadybugTools(profileLibrary);
                     if (programType != null)
                         dictionary_InternalConditions[internalCondition.Guid] = programType;
                 }
