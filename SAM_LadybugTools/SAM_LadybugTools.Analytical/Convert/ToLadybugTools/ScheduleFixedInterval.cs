@@ -36,12 +36,25 @@ namespace SAM.Analytical.LadybugTools
             for(int i=0; i < 8760; i++)
                 values.Add(profile[i]);
 
-            double upperLimit = 1;
-            double lowerLimit = 0;
-            if(scheduleUnitTypes[0] != ScheduleUnitType.Dimensionless)
+            double upperLimit;
+            double lowerLimit;
+
+            switch(scheduleUnitTypes[0])
             {
-                upperLimit = values.Max();
-                lowerLimit = values.Min();
+                case ScheduleUnitType.Dimensionless:
+                    upperLimit = values.Max();
+                    lowerLimit = values.Min();
+                    break;
+
+                case ScheduleUnitType.Percent:
+                    upperLimit = 100;
+                    lowerLimit = 0;
+                    break;
+                default:
+                    upperLimit = 1;
+                    lowerLimit = 0;
+                    break;
+
             }
 
             ScheduleTypeLimit scheduleTypeLimit = new ScheduleTypeLimit(Core.LadybugTools.Query.UniqueName(typeof(ScheduleTypeLimit), uniqueName), profile.Name, lowerLimit: lowerLimit, upperLimit: upperLimit, unitType: scheduleUnitTypes[0]);
