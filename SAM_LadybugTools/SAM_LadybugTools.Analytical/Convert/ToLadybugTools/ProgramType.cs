@@ -119,7 +119,7 @@ namespace SAM.Analytical.LadybugTools
                         ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.Infiltration);
                         if (scheduleFixedInterval != null)
                         {
-                            electricEquipment = new ElectricEquipment(string.Format("{0}_Infiltration", uniqueName), 0.2, scheduleFixedInterval, profile.Name);
+                            infiltration = new Infiltration(string.Format("{0}_Infiltration", uniqueName), 0.2, scheduleFixedInterval, profile.Name);
                         }
                     }
                 }
