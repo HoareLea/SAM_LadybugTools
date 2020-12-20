@@ -162,7 +162,10 @@ namespace SAM.Analytical.LadybugTools
                         }
                         else if(material is OpaqueMaterial)
                         {
-                            dictionary_Materials[material.Name] = ((OpaqueMaterial)material).ToLadybugTools();
+                            EnergyMaterial energyMaterial = ((OpaqueMaterial)material).ToLadybugTools();
+                            dictionary_Materials[material.Name] = energyMaterial;
+                            if (!double.IsNaN(constructionLayer.Thickness))
+                                energyMaterial.Thickness = constructionLayer.Thickness;
                         }
                     }
 
