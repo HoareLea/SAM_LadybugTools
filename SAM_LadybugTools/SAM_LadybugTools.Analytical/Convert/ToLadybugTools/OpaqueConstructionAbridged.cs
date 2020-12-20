@@ -1,5 +1,4 @@
 ﻿using HoneybeeSchema;
-using SAM.Core;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
@@ -14,6 +13,8 @@ namespace SAM.Analytical.LadybugTools
             List<ConstructionLayer> constructionLayers = construction.ConstructionLayers;
             if (constructionLayers == null || constructionLayers.Count == 0)
                 return null;
+
+            constructionLayers.Reverse();
 
             OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(Core.LadybugTools.Query.UniqueName(construction), constructionLayers.ConvertAll(x => x.Name), construction.Name);
             return result;
