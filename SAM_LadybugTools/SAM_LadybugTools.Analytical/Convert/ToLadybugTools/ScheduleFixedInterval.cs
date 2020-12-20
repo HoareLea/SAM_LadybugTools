@@ -42,8 +42,8 @@ namespace SAM.Analytical.LadybugTools
             switch(scheduleUnitTypes[0])
             {
                 case ScheduleUnitType.Dimensionless:
-                    upperLimit = values.Max();
-                    lowerLimit = values.Min();
+                    upperLimit = 1;//values.Max();
+                    lowerLimit = 0; // values.Min();
                     break;
 
                 case ScheduleUnitType.Percent:
@@ -51,8 +51,8 @@ namespace SAM.Analytical.LadybugTools
                     lowerLimit = 0;
                     break;
                 default:
-                    upperLimit = 1;
-                    lowerLimit = 0;
+                    upperLimit = values.Max(); //1
+                    lowerLimit = values.Min(); //0
                     break;
 
             }
