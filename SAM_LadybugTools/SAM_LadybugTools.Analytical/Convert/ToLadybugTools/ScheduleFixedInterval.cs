@@ -47,7 +47,7 @@ namespace SAM.Analytical.LadybugTools
                     break;
                 case ScheduleUnitType.Temperature:
                     upperLimit = values.Max();
-                    lowerLimit = 0; // values.Min();
+                    lowerLimit = values.Min(); //0
                     break;
 
                 case ScheduleUnitType.Percent:
