@@ -45,6 +45,10 @@ namespace SAM.Analytical.LadybugTools
                     upperLimit = 1;//values.Max();
                     lowerLimit = 0; // values.Min();
                     break;
+                case ScheduleUnitType.Temperature:
+                    upperLimit = values.Max();
+                    lowerLimit = 0; // values.Min();
+                    break;
 
                 case ScheduleUnitType.Percent:
                     upperLimit = 100;

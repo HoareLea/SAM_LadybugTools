@@ -141,6 +141,8 @@ namespace SAM.Analytical.LadybugTools
 
                     constructions.Add(construction.ToLadybugTools());
 
+                    constructionLayers.Reverse();
+
                     foreach (ConstructionLayer constructionLayer in constructionLayers)
                     {
                         IMaterial material = constructionLayer.Material(materialLibrary);
