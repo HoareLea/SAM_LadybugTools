@@ -53,11 +53,17 @@ namespace SAM.Analytical.LadybugTools
                             ScheduleFixedInterval scheduleFixedInterval_ActivityLevel = profile.ToLadybugTools_ActivityLevel(gainPerPeople);
                             if(scheduleFixedInterval_ActivityLevel != null)
                             {
-                                double peoplePerArea = SAM.Analytical.Query.CalculatedPeoplePerArea(space);
+                                double peoplePerArea = Analytical.Query.CalculatedPeoplePerArea(space);
                                 if (double.IsNaN(peoplePerArea))
                                     peoplePerArea = 0;
-                                
-                                people = new People(string.Format("{0}_People", uniqueName), peoplePerArea, scheduleFixedInterval, scheduleFixedInterval_ActivityLevel, profile.Name);
+
+                                double latentFraction = 0.3;
+                                double sensibleOccupancyGain = Analytical.Query.CalculatedOccupancySensibleGain(space);
+                                double latentOccupancyGain = Analytical.Query.CalculatedOccupancyLatentGain(space);
+                                if(!double.IsNaN(sensibleOccupancyGain) || !double.IsNaN(latentOccupancyGain))
+                                    latentFraction = latentOccupancyGain / (latentOccupancyGain + sensibleOccupancyGain);
+
+                                people = new People(string.Format("{0}_People", uniqueName), peoplePerArea, scheduleFixedInterval, scheduleFixedInterval_ActivityLevel, profile.Name, latentFraction: latentFraction);
                             }
                         }
                     }
