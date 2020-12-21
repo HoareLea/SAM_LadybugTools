@@ -214,27 +214,28 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            Dictionary<System.Guid, ScheduleFixedInterval> dictionary_Schedules = new Dictionary<System.Guid, ScheduleFixedInterval>();
+            
             ProfileLibrary profileLibrary = analyticalModel.ProfileLibrary;
 
-            List<Profile> profiles = profileLibrary?.GetProfiles();
-            if (profiles != null)
-            {
-                foreach (Profile profile in profiles)
-                {
-                    if (profile == null)
-                        continue;
+            //Dictionary<System.Guid, ScheduleFixedInterval> dictionary_Schedules = new Dictionary<System.Guid, ScheduleFixedInterval>();
+            //List<Profile> profiles = profileLibrary?.GetProfiles();
+            //if (profiles != null)
+            //{
+            //    foreach (Profile profile in profiles)
+            //    {
+            //        if (profile == null)
+            //            continue;
 
-                    if (dictionary_Schedules.ContainsKey(profile.Guid))
-                        continue;
+            //        if (dictionary_Schedules.ContainsKey(profile.Guid))
+            //            continue;
 
-                    ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools();
-                    if (scheduleFixedInterval == null)
-                        continue;
+            //        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools();
+            //        if (scheduleFixedInterval == null)
+            //            continue;
 
-                    //dictionary_Schedules[profile.Guid] = scheduleFixedInterval;
-                }
-            }
+            //        dictionary_Schedules[profile.Guid] = scheduleFixedInterval;
+            //    }
+            //}
 
             Dictionary<System.Guid, ProgramType> dictionary_InternalConditions = new Dictionary<System.Guid, ProgramType>();
             if (spaces != null)
@@ -260,7 +261,7 @@ namespace SAM.Analytical.LadybugTools
 
             List<AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>> schedules = new List<AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>>();
             HoneybeeSchema.Helper.EnergyLibrary.DefaultScheduleRuleset?.ToList().ForEach(x => schedules.Add(x));
-            dictionary_Schedules.Values.ToList().ForEach(x => schedules.Add(x));
+            //dictionary_Schedules.Values.ToList().ForEach(x => schedules.Add(x));
 
             List<AnyOf<ProgramTypeAbridged, ProgramType>> programTypes = new List<AnyOf<ProgramTypeAbridged, ProgramType>>();
             HoneybeeSchema.Helper.EnergyLibrary.DefaultProgramTypes?.ToList().ForEach(x => programTypes.Add(x));
