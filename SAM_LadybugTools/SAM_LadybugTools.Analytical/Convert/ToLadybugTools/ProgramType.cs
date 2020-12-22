@@ -144,15 +144,15 @@ namespace SAM.Analytical.LadybugTools
                         {
                             setpoint = new Setpoint(string.Format("{0}_Setpoint", uniqueName), scheduleFixedInterval_Cooling, scheduleFixedInterval_Heating, string.Format("Heating {0} Cooling {1}", profile_Heating.Name, profile_Cooling.Name));
 
-                            //ScheduleFixedInterval scheduleFixedInterval_Humidification = null;
-                            //if (dictionary.ContainsKey(ProfileType.Humidification))
-                            //    scheduleFixedInterval_Humidification = dictionary[ProfileType.Humidification]?.ToLadybugTools(ProfileType.Humidification);
+                            ScheduleFixedInterval scheduleFixedInterval_Humidification = null;
+                            if (dictionary.ContainsKey(ProfileType.Humidification))
+                                scheduleFixedInterval_Humidification = dictionary[ProfileType.Humidification]?.ToLadybugTools(ProfileType.Humidification);
 
-                            //ScheduleFixedInterval scheduleFixedInterval_Dehumidification = null;
-                            //if (dictionary.ContainsKey(ProfileType.Dehumidification))
-                            //    scheduleFixedInterval_Dehumidification = dictionary[ProfileType.Dehumidification]?.ToLadybugTools(ProfileType.Dehumidification);
+                            ScheduleFixedInterval scheduleFixedInterval_Dehumidification = null;
+                            if (dictionary.ContainsKey(ProfileType.Dehumidification))
+                                scheduleFixedInterval_Dehumidification = dictionary[ProfileType.Dehumidification]?.ToLadybugTools(ProfileType.Dehumidification);
 
-                            //setpoint = new Setpoint(string.Format("{0}_Setpoint", uniqueName), scheduleFixedInterval_Cooling, scheduleFixedInterval_Heating, string.Format("Heating {0} Cooling {1}", profile_Heating.Name, profile_Cooling.Name), scheduleFixedInterval_Humidification, scheduleFixedInterval_Dehumidification);
+                            setpoint = new Setpoint(string.Format("{0}_Setpoint", uniqueName), scheduleFixedInterval_Cooling, scheduleFixedInterval_Heating, string.Format("Heating {0} Cooling {1}", profile_Heating.Name, profile_Cooling.Name), scheduleFixedInterval_Humidification, scheduleFixedInterval_Dehumidification);
                         }
                     }
                 }
