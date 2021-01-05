@@ -29,6 +29,8 @@ namespace SAM.Analytical.LadybugTools
             if (constructionLayers == null || constructionLayers.Count == 0)
                 return null;
 
+            constructionLayers.Reverse();
+
             OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(Core.LadybugTools.Query.UniqueName(apertureConstruction), constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
             return result;
         }

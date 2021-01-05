@@ -14,6 +14,8 @@ namespace SAM.Analytical.LadybugTools
             if (constructionLayers == null)
                 return null;
 
+            constructionLayers.Reverse();
+
             WindowConstructionAbridged result = new WindowConstructionAbridged(Core.LadybugTools.Query.UniqueName(apertureConstruction), constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
 
             return result;

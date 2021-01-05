@@ -75,8 +75,6 @@ namespace SAM.Analytical.LadybugTools
                         room.Properties.Energy = new RoomEnergyPropertiesAbridged();
 
                     room.Properties.Energy.Hvac = idealAirSystemAbridged.Identifier;
-                    //room.Properties.Energy.ConstructionSet = "Default Generic Construction Set";
-                    //room.Properties.Energy.ProgramType = "Generic Office Program";
 
                     rooms.Add(room);
                 }    
@@ -128,7 +126,6 @@ namespace SAM.Analytical.LadybugTools
             List<AnyOf<ConstructionSetAbridged, ConstructionSet>> constructionSets = new List<AnyOf<ConstructionSetAbridged, ConstructionSet>>();// { constructionSetAbridged  };
 
             List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>> constructions = new List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>>();
-            //HoneybeeSchema.Helper.EnergyLibrary.DefaultConstructions?.ToList().ForEach(x => constructions.Add(x as dynamic));
 
             Dictionary<string, HoneybeeSchema.Energy.IMaterial> dictionary_Materials = new Dictionary<string, HoneybeeSchema.Energy.IMaterial>();
             if(constructions_AdjacencyCluster != null)
@@ -156,7 +153,7 @@ namespace SAM.Analytical.LadybugTools
                             List<double> tilts = panels.ConvertAll(x => Analytical.Query.Tilt(x).Round(Tolerance.MacroDistance));
                             double tilt = tilts.Distinct().ToList().Average();
 
-                            tilt = Units.Convert.ToRadians(tilt); //* (System.Math.PI / 180);
+                            tilt = Units.Convert.ToRadians(tilt);
 
                             dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools(tilt, constructionLayer.Thickness);
                         }
@@ -168,8 +165,6 @@ namespace SAM.Analytical.LadybugTools
                                 energyMaterial.Thickness = constructionLayer.Thickness;
                         }
                     }
-
-
                 }
             }
 
@@ -184,7 +179,7 @@ namespace SAM.Analytical.LadybugTools
                     {
                         MaterialType materialType = Analytical.Query.MaterialType(constructionLayers, materialLibrary);
                         if(materialType != MaterialType.Undefined && materialType != MaterialType.Gas)
-                        {                           
+                        {
                             if(materialType == MaterialType.Opaque)
                                 constructions.Add(apertureConstruction.ToLadybugTools());
                             else
@@ -196,7 +191,6 @@ namespace SAM.Analytical.LadybugTools
                                 if (material == null)
                                     continue;
 
-                                //string name = Query.PaneMaterialName(material);
                                 string name = material.Name;
 
                                 if (dictionary_Materials.ContainsKey(name))
@@ -216,26 +210,6 @@ namespace SAM.Analytical.LadybugTools
 
             
             ProfileLibrary profileLibrary = analyticalModel.ProfileLibrary;
-
-            //Dictionary<System.Guid, ScheduleFixedInterval> dictionary_Schedules = new Dictionary<System.Guid, ScheduleFixedInterval>();
-            //List<Profile> profiles = profileLibrary?.GetProfiles();
-            //if (profiles != null)
-            //{
-            //    foreach (Profile profile in profiles)
-            //    {
-            //        if (profile == null)
-            //            continue;
-
-            //        if (dictionary_Schedules.ContainsKey(profile.Guid))
-            //            continue;
-
-            //        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools();
-            //        if (scheduleFixedInterval == null)
-            //            continue;
-
-            //        dictionary_Schedules[profile.Guid] = scheduleFixedInterval;
-            //    }
-            //}
 
             Dictionary<System.Guid, ProgramType> dictionary_InternalConditions = new Dictionary<System.Guid, ProgramType>();
             if (spaces != null)
@@ -261,7 +235,6 @@ namespace SAM.Analytical.LadybugTools
 
             List<AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>> schedules = new List<AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>>();
             HoneybeeSchema.Helper.EnergyLibrary.DefaultScheduleRuleset?.ToList().ForEach(x => schedules.Add(x));
-            //dictionary_Schedules.Values.ToList().ForEach(x => schedules.Add(x));
 
             List<AnyOf<ProgramTypeAbridged, ProgramType>> programTypes = new List<AnyOf<ProgramTypeAbridged, ProgramType>>();
             HoneybeeSchema.Helper.EnergyLibrary.DefaultProgramTypes?.ToList().ForEach(x => programTypes.Add(x));
@@ -279,7 +252,6 @@ namespace SAM.Analytical.LadybugTools
             ModelProperties modelProperties = new ModelProperties(modelEnergyProperties);
 
             Model model = new Model(uniqueName, modelProperties, adjacencyCluster.Name, null, rooms, faces_Orphaned, shades);
-            //model.AngleTolerance = Core.Tolerance.Angle;
             model.AngleTolerance = Units.Convert.ToDegrees(Tolerance.Angle);// 2;
             model.Tolerance = Tolerance.MacroDistance;
 
