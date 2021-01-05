@@ -130,10 +130,25 @@ namespace SAM.Core.LadybugTools
             if (material == null)
                 return null;
 
-            if (material.Obj is IIDdBase)
-                return Log((IIDdBase)material.Obj);
+            Log result = new Log();
 
-            return null;
+            if (material.Obj is IIDdBase)
+                Modify.AddRange(result, Log((IIDdBase)material.Obj));
+
+            if(material.Obj is EnergyMaterial)
+            {
+                EnergyMaterial energyMaterial = (EnergyMaterial)material.Obj;
+                if(energyMaterial.Thickness * 200 < energyMaterial.Conductivity)
+                {
+                    string identifier = energyMaterial.Identifier;
+                    if (string.IsNullOrWhiteSpace(identifier))
+                        identifier = "???";
+
+                    result.Add("Possible converge error due to small thickness for {0} material ", LogRecordType.Warning, identifier);
+                }
+            }
+
+            return result;
         }
 
         public static Log Log(this AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater> hvac)
