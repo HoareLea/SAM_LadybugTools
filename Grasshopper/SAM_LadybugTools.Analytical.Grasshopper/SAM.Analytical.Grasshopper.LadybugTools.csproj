@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Component\SAMAnalyticalHBModel.cs" />
     <Compile Include="Component\SAMAnalyticalHBFace.cs" />
+    <Compile Include="Component\SAMAnalyticalHoneybeeCheck.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

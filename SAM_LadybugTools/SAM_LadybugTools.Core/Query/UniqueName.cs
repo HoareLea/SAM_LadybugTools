@@ -18,6 +18,11 @@ namespace SAM.Core.LadybugTools
             if(!string.IsNullOrWhiteSpace(name))
             {
                 name = name.Replace(" ", "_");
+                name = name.Replace(",", string.Empty);
+                name = name.Replace(";", string.Empty);
+                name = name.Replace("!", string.Empty);
+                name = name.Replace("\n", " ");
+                name = name.Replace("\t", " ");
                 values.Add(name);
             }
 
