@@ -79,7 +79,7 @@ namespace SAM.Analytical.LadybugTools
 
             uniqueName = Core.LadybugTools.Query.UniqueName(typeof(ActivityLevel), uniqueName);
 
-            ScheduleTypeLimit scheduleTypeLimit = new ScheduleTypeLimit(Core.LadybugTools.Query.UniqueName(typeof(ScheduleTypeLimit), uniqueName + "_" + value.ToString()), profile.Name, lowerLimit: 0, upperLimit: value, unitType: ScheduleUnitType.ActivityLevel);
+            ScheduleTypeLimit scheduleTypeLimit = new ScheduleTypeLimit(Core.LadybugTools.Query.UniqueName(typeof(ScheduleTypeLimit), value.ToString() + "__" + uniqueName), profile.Name, lowerLimit: 0, upperLimit: value, unitType: ScheduleUnitType.ActivityLevel);
 
             List<double> values = Enumerable.Repeat(value, 8760).ToList();
             ScheduleFixedInterval result = new ScheduleFixedInterval(uniqueName, values, profile.Name, scheduleTypeLimit);

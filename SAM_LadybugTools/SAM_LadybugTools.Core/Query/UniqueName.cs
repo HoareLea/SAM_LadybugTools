@@ -10,10 +10,20 @@ namespace SAM.Core.LadybugTools
             if (sAMObject == null)
                 return null;
 
-            if (index == -1)
-                return sAMObject.Guid.ToString("N");
-            else
-                return string.Format("{0}__{1}", index.ToString(), sAMObject.Guid.ToString("N"));
+            List<string> values = new List<string>();
+            if (index != -1)
+                values.Add(index.ToString());
+
+            string name = sAMObject.Name;
+            if(!string.IsNullOrWhiteSpace(name))
+            {
+                name = name.Replace(" ", "_");
+                values.Add(name);
+            }
+
+            values.Add(sAMObject.Guid.ToString("N"));
+
+            return string.Join("__", values);
         }
 
         public static string UniqueName(string prefix, string uniqueName)
@@ -21,7 +31,7 @@ namespace SAM.Core.LadybugTools
             if (string.IsNullOrWhiteSpace(uniqueName))
                 return null;
 
-            return string.Format("{0}_{1}", prefix, uniqueName);
+            return string.Format("{0}__{1}", prefix, uniqueName);
         }
 
         public static string UniqueName(Type type, string uniqueName)
@@ -29,7 +39,7 @@ namespace SAM.Core.LadybugTools
             if (string.IsNullOrWhiteSpace(uniqueName))
                 return null;
 
-            return string.Format("{0}_{1}", type.Name, uniqueName);
+            return string.Format("{0}__{1}", type.Name, uniqueName);
         }
     }
 }
