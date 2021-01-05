@@ -17,7 +17,7 @@ namespace SAM.Analytical.LadybugTools
                 opaqueMaterial.Density,
                 opaqueMaterial.SpecificHeatCapacity,
                 opaqueMaterial.DisplayName,
-                0,
+                Roughness.MediumSmooth,
                 opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalEmissivity),
                 1 - opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalSolarReflectance),
                 1 - opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalLightReflectance));

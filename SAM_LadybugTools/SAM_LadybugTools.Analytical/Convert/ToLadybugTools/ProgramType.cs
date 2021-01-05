@@ -158,7 +158,7 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            ProgramType result = new ProgramType(uniqueName, internalCondition.Name, people, lighting, electricEquipment, null, infiltration, null, setpoint);
+            ProgramType result = new ProgramType(uniqueName, internalCondition.Name, people, lighting, electricEquipment, infiltration: infiltration, setpoint: setpoint);
             return result;
         }
     }

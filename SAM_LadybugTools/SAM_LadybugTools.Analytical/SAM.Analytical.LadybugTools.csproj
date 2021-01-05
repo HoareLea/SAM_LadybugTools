@@ -102,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HoneybeeSchema">
-      <Version>1.39.8.1</Version>
+      <Version>1.40.0.1</Version>
     </PackageReference>
     <PackageReference Include="JsonSubTypes">
       <Version>1.8.0</Version>
