@@ -58,8 +58,8 @@ namespace SAM.Analytical.LadybugTools
                                     peoplePerArea = 0;
 
                                 double latentFraction = 0.3;
-                                double sensibleOccupancyGain = Analytical.Query.CalculatedOccupancySensibleGain(space);
-                                double latentOccupancyGain = Analytical.Query.CalculatedOccupancyLatentGain(space);
+                                double sensibleOccupancyGain = Analytical.Query.OccupancySensibleGain(space);
+                                double latentOccupancyGain = Analytical.Query.OccupancyLatentGain(space);
                                 if(!double.IsNaN(sensibleOccupancyGain) || !double.IsNaN(latentOccupancyGain))
                                     latentFraction = latentOccupancyGain / (latentOccupancyGain + sensibleOccupancyGain);
 
