@@ -35,7 +35,7 @@ namespace SAM.Analytical.LadybugTools
                     Profile profile = dictionary[ProfileType.Occupancy];
                     if (profile != null)
                     {
-                        double gain = Analytical.Query.CalculatedOccupancyGain(space);
+                        double gain = Analytical.Query.OccupancyGain(space);
                         if (double.IsNaN(gain))
                             gain = 0;
                         
