@@ -57,11 +57,14 @@ namespace SAM.Analytical.LadybugTools
                                 if (double.IsNaN(peoplePerArea))
                                     peoplePerArea = 0;
 
-                                double latentFraction = 0.3;
+                                double latentFraction = double.NaN;
                                 double sensibleOccupancyGain = Analytical.Query.OccupancySensibleGain(space);
                                 double latentOccupancyGain = Analytical.Query.OccupancyLatentGain(space);
                                 if(!double.IsNaN(sensibleOccupancyGain) || !double.IsNaN(latentOccupancyGain))
                                     latentFraction = latentOccupancyGain / (latentOccupancyGain + sensibleOccupancyGain);
+
+                                if (double.IsNaN(latentFraction))
+                                    latentFraction = 0;
 
                                 people = new People(string.Format("{0}_People", uniqueName), peoplePerArea, scheduleFixedInterval, scheduleFixedInterval_ActivityLevel, profile.Name, latentFraction: latentFraction);
                             }

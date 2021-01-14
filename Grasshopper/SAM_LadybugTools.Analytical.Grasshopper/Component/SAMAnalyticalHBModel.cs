@@ -64,7 +64,9 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
 
             HoneybeeSchema.Model model = Analytical.LadybugTools.Convert.ToLadybugTools(analyticalModel);
 
-            dataAccess.SetData(0, model?.ToJson());
+            string json = model?.ToJson();
+
+            dataAccess.SetData(0, json);
         }
     }
 }
