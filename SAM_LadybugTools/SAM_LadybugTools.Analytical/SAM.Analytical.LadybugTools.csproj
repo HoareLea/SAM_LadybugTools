@@ -67,6 +67,8 @@
     <Compile Include="Convert\ToLadybugTools\EnergyWindowMaterialGas.cs" />
     <Compile Include="Convert\ToLadybugTools\EnergyWindowMaterialGlazing.cs" />
     <Compile Include="Convert\ToLadybugTools\EnergyMaterial.cs" />
+    <Compile Include="Convert\ToLadybugTools\ScheduleDay.cs" />
+    <Compile Include="Convert\ToLadybugTools\ScheduleRuleset.cs" />
     <Compile Include="Convert\ToLadybugTools\ScheduleFixedInterval.cs" />
     <Compile Include="Convert\ToLadybugTools\ProgramType.cs" />
     <Compile Include="Convert\ToLadybugTools\WindowConstructionAbridged.cs" />

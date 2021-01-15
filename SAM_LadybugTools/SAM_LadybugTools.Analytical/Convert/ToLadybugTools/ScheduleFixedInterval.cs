@@ -6,7 +6,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static ScheduleFixedInterval ToLadybugTools(this Profile profile, ProfileType profileType = ProfileType.Undefined)
+        public static ScheduleFixedInterval ToLadybugTools_ScheduleFixedInterval(this Profile profile, ProfileType profileType = ProfileType.Undefined)
         {
             if (profile == null)
                 return null;
@@ -68,7 +68,7 @@ namespace SAM.Analytical.LadybugTools
             return result;
         }
 
-        public static ScheduleFixedInterval ToLadybugTools_ActivityLevel(this Profile profile, double value)
+        public static ScheduleFixedInterval ToLadybugTools_ScheduleFixedInterval_ActivityLevel(this Profile profile, double value)
         {
             if (profile == null || double.IsNaN(value))
                 return null;

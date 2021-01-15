@@ -38,9 +38,10 @@ namespace SAM.Analytical.LadybugTools
                         double gain = Analytical.Query.OccupancyGain(space);
                         if (double.IsNaN(gain))
                             gain = 0;
-                        
-                        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.Occupancy);
-                        if(scheduleFixedInterval != null)
+
+                        //ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools_ScheduleFixedInterval(ProfileType.Occupancy);
+                        ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
+                        if(scheduleRuleset != null)
                         {
                             double gainPerPeople = gain;
                             if (double.IsNaN(gainPerPeople))
@@ -50,8 +51,9 @@ namespace SAM.Analytical.LadybugTools
                             if (!double.IsNaN(occupancy) && occupancy != 0)
                                 gainPerPeople = gainPerPeople / occupancy;
 
-                            ScheduleFixedInterval scheduleFixedInterval_ActivityLevel = profile.ToLadybugTools_ActivityLevel(gainPerPeople);
-                            if(scheduleFixedInterval_ActivityLevel != null)
+                            // ScheduleFixedInterval scheduleFixedInterval_ActivityLevel = profile.ToLadybugTools_ScheduleFixedInterval_ActivityLevel(gainPerPeople);
+                            ScheduleRuleset scheduleRuleset_ActivityLevel = profile.ToLadybugTools_ActivityLevel(gainPerPeople);
+                            if (scheduleRuleset_ActivityLevel != null)
                             {
                                 double peoplePerArea = Analytical.Query.CalculatedPeoplePerArea(space);
                                 if (double.IsNaN(peoplePerArea))
@@ -66,7 +68,7 @@ namespace SAM.Analytical.LadybugTools
                                 if (double.IsNaN(latentFraction))
                                     latentFraction = 0;
 
-                                people = new People(string.Format("{0}_People", uniqueName), peoplePerArea, scheduleFixedInterval, scheduleFixedInterval_ActivityLevel, profile.Name, latentFraction: latentFraction);
+                                people = new People(string.Format("{0}_People", uniqueName), peoplePerArea, scheduleRuleset, scheduleRuleset_ActivityLevel, profile.Name, latentFraction: latentFraction);
                             }
                         }
                     }
@@ -81,8 +83,9 @@ namespace SAM.Analytical.LadybugTools
                         if (double.IsNaN(gain))
                             gain = 0;
 
-                        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.Lighting);
-                        if (scheduleFixedInterval != null)
+                        //ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools_ScheduleFixedInterval(ProfileType.Lighting);
+                        ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
+                        if (scheduleRuleset != null)
                         {
                             double gainPerArea = gain;
                             if (double.IsNaN(gainPerArea))
@@ -91,7 +94,7 @@ namespace SAM.Analytical.LadybugTools
                             if (!double.IsNaN(area) && area != 0)
                                 gainPerArea = gainPerArea / area;
                             
-                            lighting = new Lighting(string.Format("{0}_Lighting", uniqueName), gainPerArea, scheduleFixedInterval, profile.Name);
+                            lighting = new Lighting(string.Format("{0}_Lighting", uniqueName), gainPerArea, scheduleRuleset, profile.Name);
                         }
                     }
                 }
@@ -105,8 +108,9 @@ namespace SAM.Analytical.LadybugTools
                     Profile profile = dictionary[ProfileType.EquipmentSensible];
                     if (profile != null)
                     {
-                        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.EquipmentSensible);
-                        if (scheduleFixedInterval != null)
+                        //ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools_ScheduleFixedInterval(ProfileType.EquipmentSensible);
+                        ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
+                        if (scheduleRuleset != null)
                         {
                             double gainPerArea = gain;
                             if (double.IsNaN(gainPerArea))
@@ -115,7 +119,7 @@ namespace SAM.Analytical.LadybugTools
                             if (!double.IsNaN(area) && area != 0)
                                 gainPerArea = gainPerArea / area;
 
-                            electricEquipment = new ElectricEquipment(string.Format("{0}_ElectricEquipment", uniqueName), gainPerArea, scheduleFixedInterval, profile.Name);
+                            electricEquipment = new ElectricEquipment(string.Format("{0}_ElectricEquipment", uniqueName), gainPerArea, scheduleRuleset, profile.Name);
                         }
                     }
                 }
@@ -125,12 +129,13 @@ namespace SAM.Analytical.LadybugTools
                     Profile profile = dictionary[ProfileType.Infiltration];
                     if (profile != null)
                     {
-                        ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools(ProfileType.Infiltration);
-                        if (scheduleFixedInterval != null)
+                        //ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools_ScheduleFixedInterval(ProfileType.Infiltration);
+                        ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
+                        if (scheduleRuleset != null)
                         {
                             double airFlowPerExteriorArea = Query.InfiltrationAirFlowPerExteriorArea(adjacencyCluster, space);
                             
-                            infiltration = new Infiltration(string.Format("{0}_Infiltration", uniqueName), airFlowPerExteriorArea, scheduleFixedInterval, profile.Name);
+                            infiltration = new Infiltration(string.Format("{0}_Infiltration", uniqueName), airFlowPerExteriorArea, scheduleRuleset, profile.Name);
                         }
                     }
                 }
@@ -141,27 +146,32 @@ namespace SAM.Analytical.LadybugTools
                     Profile profile_Heating = dictionary[ProfileType.Heating];
                     if(profile_Cooling != null && profile_Heating != null)
                     {
-                        ScheduleFixedInterval scheduleFixedInterval_Cooling = profile_Cooling.ToLadybugTools(ProfileType.Cooling);
-                        ScheduleFixedInterval scheduleFixedInterval_Heating = profile_Heating.ToLadybugTools(ProfileType.Heating);
-                        if(scheduleFixedInterval_Cooling != null && scheduleFixedInterval_Heating != null)
+                        
+                        //ScheduleFixedInterval scheduleFixedInterval_Cooling = profile_Cooling.ToLadybugTools_ScheduleFixedInterval(ProfileType.Cooling);
+                        //ScheduleFixedInterval scheduleFixedInterval_Heating = profile_Heating.ToLadybugTools_ScheduleFixedInterval(ProfileType.Heating);
+                        ScheduleRuleset scheduleRuleset_Cooling = profile_Cooling.ToLadybugTools();
+                        ScheduleRuleset scheduleRuleset_Heating = profile_Heating.ToLadybugTools();
+                        if (scheduleRuleset_Cooling != null && scheduleRuleset_Heating != null)
                         {
-                            //setpoint = new Setpoint(string.Format("{0}_Setpoint", uniqueName), scheduleFixedInterval_Cooling, scheduleFixedInterval_Heating, string.Format("Heating {0} Cooling {1}", profile_Heating.Name, profile_Cooling.Name));
+                            setpoint = new Setpoint(string.Format("{0}_Setpoint", uniqueName), scheduleRuleset_Cooling, scheduleRuleset_Heating, string.Format("Heating {0} Cooling {1}", profile_Heating.Name, profile_Cooling.Name));
 
-                            ScheduleFixedInterval scheduleFixedInterval_Humidification = null;
-                            if (dictionary.ContainsKey(ProfileType.Humidification))
-                                scheduleFixedInterval_Humidification = dictionary[ProfileType.Humidification]?.ToLadybugTools(ProfileType.Humidification);
+                            Profile profile;
 
-                            ScheduleFixedInterval scheduleFixedInterval_Dehumidification = null;
-                            if (dictionary.ContainsKey(ProfileType.Dehumidification))
-                                scheduleFixedInterval_Dehumidification = dictionary[ProfileType.Dehumidification]?.ToLadybugTools(ProfileType.Dehumidification);
+                            if (dictionary.TryGetValue(ProfileType.Humidification, out profile))
+                            {
+                                ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
+                                if (scheduleRuleset != null)
+                                    setpoint.HumidifyingSchedule = scheduleRuleset;
 
-                            setpoint = new Setpoint(string.Format("{0}_Setpoint", uniqueName), scheduleFixedInterval_Cooling, scheduleFixedInterval_Heating, string.Format("Heating {0} Cooling {1}", profile_Heating.Name, profile_Cooling.Name));//, scheduleFixedInterval_Humidification, scheduleFixedInterval_Dehumidification);
-                            
-                            if (scheduleFixedInterval_Dehumidification != null)
-                                setpoint.DehumidifyingSchedule = scheduleFixedInterval_Dehumidification;
-                            
-                            if (scheduleFixedInterval_Humidification != null)
-                                setpoint.HumidifyingSchedule = scheduleFixedInterval_Humidification;
+                            }
+
+                            if (dictionary.TryGetValue(ProfileType.Dehumidification, out profile))
+                            {
+                                ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
+                                if (scheduleRuleset != null)
+                                    setpoint.DehumidifyingSchedule = scheduleRuleset;
+
+                            }
                         }
                     }
                 }
