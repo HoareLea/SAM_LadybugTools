@@ -39,7 +39,6 @@ namespace SAM.Analytical.LadybugTools
                         if (double.IsNaN(gain))
                             gain = 0;
 
-                        //ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools_ScheduleFixedInterval(ProfileType.Occupancy);
                         ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
                         if(scheduleRuleset != null)
                         {
@@ -51,7 +50,6 @@ namespace SAM.Analytical.LadybugTools
                             if (!double.IsNaN(occupancy) && occupancy != 0)
                                 gainPerPeople = gainPerPeople / occupancy;
 
-                            // ScheduleFixedInterval scheduleFixedInterval_ActivityLevel = profile.ToLadybugTools_ScheduleFixedInterval_ActivityLevel(gainPerPeople);
                             ScheduleRuleset scheduleRuleset_ActivityLevel = profile.ToLadybugTools_ActivityLevel(gainPerPeople);
                             if (scheduleRuleset_ActivityLevel != null)
                             {
@@ -83,7 +81,6 @@ namespace SAM.Analytical.LadybugTools
                         if (double.IsNaN(gain))
                             gain = 0;
 
-                        //ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools_ScheduleFixedInterval(ProfileType.Lighting);
                         ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
                         if (scheduleRuleset != null)
                         {
@@ -108,7 +105,6 @@ namespace SAM.Analytical.LadybugTools
                     Profile profile = dictionary[ProfileType.EquipmentSensible];
                     if (profile != null)
                     {
-                        //ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools_ScheduleFixedInterval(ProfileType.EquipmentSensible);
                         ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
                         if (scheduleRuleset != null)
                         {
@@ -129,7 +125,6 @@ namespace SAM.Analytical.LadybugTools
                     Profile profile = dictionary[ProfileType.Infiltration];
                     if (profile != null)
                     {
-                        //ScheduleFixedInterval scheduleFixedInterval = profile.ToLadybugTools_ScheduleFixedInterval(ProfileType.Infiltration);
                         ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
                         if (scheduleRuleset != null)
                         {
@@ -146,9 +141,6 @@ namespace SAM.Analytical.LadybugTools
                     Profile profile_Heating = dictionary[ProfileType.Heating];
                     if(profile_Cooling != null && profile_Heating != null)
                     {
-                        
-                        //ScheduleFixedInterval scheduleFixedInterval_Cooling = profile_Cooling.ToLadybugTools_ScheduleFixedInterval(ProfileType.Cooling);
-                        //ScheduleFixedInterval scheduleFixedInterval_Heating = profile_Heating.ToLadybugTools_ScheduleFixedInterval(ProfileType.Heating);
                         ScheduleRuleset scheduleRuleset_Cooling = profile_Cooling.ToLadybugTools();
                         ScheduleRuleset scheduleRuleset_Heating = profile_Heating.ToLadybugTools();
                         if (scheduleRuleset_Cooling != null && scheduleRuleset_Heating != null)
