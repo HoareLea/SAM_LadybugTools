@@ -26,7 +26,7 @@ namespace SAM.Core.LadybugTools
                 values.Add(name);
             }
 
-            values.Add(sAMObject.Guid.ToString("N"));
+            values.Add(sAMObject.Guid.ToString("N").Substring(0, 8));
 
             return string.Join("__", values);
         }
