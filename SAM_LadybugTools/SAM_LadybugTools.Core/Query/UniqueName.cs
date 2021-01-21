@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace SAM.Core.LadybugTools
 {
@@ -18,11 +19,10 @@ namespace SAM.Core.LadybugTools
             if(!string.IsNullOrWhiteSpace(name))
             {
                 name = name.Replace(" ", "_");
-                name = name.Replace(",", string.Empty);
-                name = name.Replace(";", string.Empty);
-                name = name.Replace("!", string.Empty);
                 name = name.Replace("\n", " ");
                 name = name.Replace("\t", " ");
+
+                name = Regex.Replace(name, "[^0-9A-Za-z _]", string.Empty);
                 values.Add(name);
             }
 
