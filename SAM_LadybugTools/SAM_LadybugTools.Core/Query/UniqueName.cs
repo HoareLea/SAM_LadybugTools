@@ -18,11 +18,12 @@ namespace SAM.Core.LadybugTools
             string name = sAMObject.Name;
             if(!string.IsNullOrWhiteSpace(name))
             {
+                name = name.Replace("\n", "_");
+                name = name.Replace("\t", "_");
                 name = name.Replace(" ", "_");
-                name = name.Replace("\n", " ");
-                name = name.Replace("\t", " ");
 
-                name = Regex.Replace(name, "[^0-9A-Za-z _]", string.Empty);
+                name = Regex.Replace(name, "[^0-9A-Za-z_]", string.Empty);
+                
                 values.Add(name);
             }
 
