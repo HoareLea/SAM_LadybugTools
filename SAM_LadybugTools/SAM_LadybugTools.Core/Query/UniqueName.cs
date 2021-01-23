@@ -22,7 +22,7 @@ namespace SAM.Core.LadybugTools
                 name = name.Replace("\t", "_");
                 name = name.Replace(" ", "_");
 
-                name = Regex.Replace(name, "[^0-9A-Za-z_]", string.Empty);
+                name = Regex.Replace(name, "[^A-Za-z0-9_-]", string.Empty);
                 
                 values.Add(name);
             }
