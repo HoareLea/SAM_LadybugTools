@@ -27,25 +27,26 @@ namespace SAM.Core.LadybugTools
                 values.Add(name);
             }
 
-            values.Add(sAMObject.Guid.ToString("N").Substring(0, 8));
+            string result = string.Join("__", values);
+            if (result.Length > 92)
+                result = result.Substring(0, 92);
 
-            return string.Join("__", values);
-        }
+            result = string.Format("{0}__{1}", result, sAMObject.Guid.ToString("N").Substring(0, 8));
 
-        public static string UniqueName(string prefix, string uniqueName)
-        {
-            if (string.IsNullOrWhiteSpace(uniqueName))
-                return null;
-
-            return string.Format("{0}__{1}", prefix, uniqueName);
+            return result;
         }
 
         public static string UniqueName(Type type, string uniqueName)
         {
-            if (string.IsNullOrWhiteSpace(uniqueName))
+            if (type == null || string.IsNullOrWhiteSpace(uniqueName))
                 return null;
 
-            return string.Format("{0}__{1}", type.Name, uniqueName);
+            string typeName = type.Name;
+            int count = typeName.Length + uniqueName.Length;
+            if (count < 100)
+                return string.Format("{0}__{1}", type.Name, uniqueName);
+
+            return string.Format("{0}__{1}", type.Name, uniqueName.Substring(count - 101));
         }
     }
 }
