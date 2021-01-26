@@ -23,12 +23,12 @@ namespace SAM.Analytical.LadybugTools
             AdjacencyCluster adjacencyCluster = analyticalModel_Temp.AdjacencyCluster;
 
             List<Room> rooms = null;
-            List<HoneybeeSchema.AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>> hvacs = null;
+            List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>> hvacs = null;
 
             List<Space> spaces = adjacencyCluster?.GetSpaces();
             if (spaces != null)
             {
-                hvacs = new List<HoneybeeSchema.AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>>();
+                hvacs = new List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>>();
                 rooms = new List<Room>();
 
                 Dictionary<double, List<Panel>> dictionary_elevations = Analytical.Query.MinElevationDictionary(adjacencyCluster.GetPanels(), true);
@@ -65,7 +65,7 @@ namespace SAM.Analytical.LadybugTools
                         }
                     }
 
-                    IdealAirSystemAbridged idealAirSystemAbridged = new IdealAirSystemAbridged(string.Format("{0}_{1}", room.Identifier, "IdealAir"), string.Format("Ideal Air System Abridged {0}", space.Name));
+                    IdealAirSystemAbridged idealAirSystemAbridged = new IdealAirSystemAbridged(string.Format("{0}__{1}", i.ToString(), "IdealAir"), string.Format("Ideal Air System Abridged {0}", space.Name));
                     hvacs.Add(idealAirSystemAbridged);
 
                     if (room.Properties == null)
