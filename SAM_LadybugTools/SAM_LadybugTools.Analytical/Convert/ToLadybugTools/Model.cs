@@ -65,16 +65,28 @@ namespace SAM.Analytical.LadybugTools
                         }
                     }
 
-                    IdealAirSystemAbridged idealAirSystemAbridged = new IdealAirSystemAbridged(string.Format("{0}__{1}", i.ToString(), "IdealAir"), string.Format("Ideal Air System Abridged {0}", space.Name));
-                    hvacs.Add(idealAirSystemAbridged);
+                    InternalCondition internalCondition = space.InternalCondition;
+                    if(internalCondition != null)
+                    {
+                        //Michal Idea of filtering Uncondition Spaces
+                        string name_InternalCondition = internalCondition.Name;
 
-                    if (room.Properties == null)
-                        room.Properties = new RoomPropertiesAbridged();
+                        if(name_InternalCondition == null || (name_InternalCondition != null && !name_InternalCondition.ToLower().Contains("unconditioned") && !name_InternalCondition.ToLower().Contains("external")))
+                        {
 
-                    if (room.Properties.Energy == null)
-                        room.Properties.Energy = new RoomEnergyPropertiesAbridged();
+                            IdealAirSystemAbridged idealAirSystemAbridged = new IdealAirSystemAbridged(string.Format("{0}__{1}", i.ToString(), "IdealAir"), string.Format("Ideal Air System Abridged {0}", space.Name));
+                            hvacs.Add(idealAirSystemAbridged);
 
-                    room.Properties.Energy.Hvac = idealAirSystemAbridged.Identifier;
+                            if (room.Properties == null)
+                                room.Properties = new RoomPropertiesAbridged();
+
+                            if (room.Properties.Energy == null)
+                                room.Properties.Energy = new RoomEnergyPropertiesAbridged();
+
+                            room.Properties.Energy.Hvac = idealAirSystemAbridged.Identifier;
+                        }
+
+                    }
 
                     rooms.Add(room);
                 }    
