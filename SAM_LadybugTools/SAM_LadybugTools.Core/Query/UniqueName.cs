@@ -29,7 +29,7 @@ namespace SAM.Core.LadybugTools
 
             string result = string.Join("__", values);
             if (result.Length > 92)
-                result = result.Substring(0, 80);
+                result = result.Substring(0, 70);  //Number of characters
 
             result = string.Format("{0}__{1}", result, sAMObject.Guid.ToString("N").Substring(0, 8));
 
