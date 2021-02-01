@@ -71,6 +71,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\SAMAnalyticalProfileToHourlyContinousCollection.cs" />
     <Compile Include="Component\SAMAnalyticalHBModel.cs" />
     <Compile Include="Component\SAMAnalyticalHBFace.cs" />
     <Compile Include="Component\SAMAnalyticalHoneybeeCheck.cs" />
