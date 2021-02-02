@@ -71,7 +71,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Component\SAMAnalyticalProfileToHourlyContinousCollection.cs" />
+    <Compile Include="Component\SAMAnalyticalProfileToLBJson.cs" />
     <Compile Include="Component\SAMAnalyticalHBModel.cs" />
     <Compile Include="Component\SAMAnalyticalHBFace.cs" />
     <Compile Include="Component\SAMAnalyticalHoneybeeCheck.cs" />
@@ -109,7 +109,7 @@
   <ItemGroup>
     <PackageReference Include="Grasshopper">
       <Version>6.32.20340.21001</Version>
-	  <ExcludeAssets>runtime</ExcludeAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="HoneybeeSchema">
       <Version>1.40.0.1</Version>

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace SAM.Analytical.Grasshopper.LadybugTools
 {
-    public class SAMAnalyticalProfileToHourlyContinousCollection : GH_SAMVariableOutputParameterComponent
+    public class SAMAnalyticalProfileToLBJson : GH_SAMVariableOutputParameterComponent
     {
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
@@ -28,9 +28,9 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// <summary>
         /// Initializes a new instance of the SAMGeometryByGHGeometry class.
         /// </summary>
-        public SAMAnalyticalProfileToHourlyContinousCollection()
-          : base("SAMAnalytical.ProfileToHourlyContinousCollection", "SAMAnalytical.ProfileToHourlyContinousCollection",
-              "SAM Analytical Profile to HourlyContinousCollection",
+        public SAMAnalyticalProfileToLBJson()
+          : base("SAMAnalytical.ProfileToLBJson", "SAMAnalytical.ProfileToLBJson",
+              "SAM Analytical Profile to LBJson",
               "SAM", "LadybugTools")
         {
         }
