@@ -56,7 +56,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
             get
             {
                 List<GH_SAMParam> result = new List<GH_SAMParam>();
-                result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_String() { Name = "HourlyContinousCollection", NickName = "HourlyContinousCollection", Description = "HourlyContinousCollection", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_String() { Name = "LBJson", NickName = "LBJson", Description = "LBJson", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
                 return result.ToArray();
             }
         }
@@ -78,7 +78,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
                 return;
             }
 
-            index = Params.IndexOfOutputParam("HourlyContinousCollection");
+            index = Params.IndexOfOutputParam("LBJson");
             if(index != -1)
             {
                 string hourlyContinousCollection = Analytical.LadybugTools.Convert.ToLadybugTools_HourlyContinousCollection(profile);
