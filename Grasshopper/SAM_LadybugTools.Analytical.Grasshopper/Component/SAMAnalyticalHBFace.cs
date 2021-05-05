@@ -69,7 +69,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
             
             if(offsetAperturesOnEdge)
             {
-                panel = new Panel(panel);
+                panel = Create.Panel(panel);
                 panel.OffsetAperturesOnEdge(0.1);
             }
 
