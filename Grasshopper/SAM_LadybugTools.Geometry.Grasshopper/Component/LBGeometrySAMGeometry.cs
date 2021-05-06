@@ -173,6 +173,8 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
             }
         }
 
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
+
         public static IEnumerable<string> GetPropertyNames(dynamic dynamicObject)
         {
             JObject jObject = (JObject)JToken.FromObject(dynamicObject);

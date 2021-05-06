@@ -111,5 +111,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
                 return Resources.SAM_Honeybee;
             }
         }
+        
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
     }
 }
