@@ -18,7 +18,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
             foreach (var vertex in polygon2D._vertices)
                 points.Add(Convert.ToSAM_Point3D(vertex));
 
-            return new SAM.Geometry.Spatial.Polygon3D(points);
+            return new Spatial.Polygon3D(points);
         }
     }
 }

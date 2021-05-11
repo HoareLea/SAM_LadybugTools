@@ -1,6 +1,8 @@
-﻿using Grasshopper.Kernel;
+﻿extern alias SAM_Newtonsoft;
+
+using SAM_Newtonsoft::Newtonsoft.Json.Linq;
+using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
-using Newtonsoft.Json.Linq;
 using SAM.Core.Grasshopper;
 using SAM.Geometry.Grasshopper.LadybugTools.Properties;
 using System;

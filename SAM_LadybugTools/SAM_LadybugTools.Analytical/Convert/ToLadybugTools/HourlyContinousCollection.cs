@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿extern alias SAM_Newtonsoft;
+
+using SAM_Newtonsoft::Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
