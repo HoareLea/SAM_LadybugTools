@@ -21,12 +21,12 @@ namespace SAM.Core.LadybugTools
             ModelEnergyProperties modelEnergyProperties = model.Properties.Energy;
             if(modelEnergyProperties != null)
             {
-                modelEnergyProperties.Constructions?.ForEach(x => Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>)));
+                modelEnergyProperties.Constructions?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>)));
                 modelEnergyProperties.ConstructionSets?.ForEach(x => Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>)));
-                modelEnergyProperties.Materials?.ForEach(x => Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>)));
-                modelEnergyProperties.Hvacs?.ForEach(x => Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>)));
+                modelEnergyProperties.Materials?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>)));
+                modelEnergyProperties.Hvacs?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>)));
                 modelEnergyProperties.ProgramTypes?.ForEach(x => Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ProgramTypeAbridged, ProgramType>)));
-                modelEnergyProperties.Schedules?.ForEach(x => Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>)));
+                modelEnergyProperties.Schedules?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>)));
                 modelEnergyProperties.ScheduleTypeLimits?.ForEach(x => Modify.AddRange(result, Log(x as ScheduleTypeLimit)));
             }
 
@@ -97,7 +97,7 @@ namespace SAM.Core.LadybugTools
             return result;
         }
 
-        public static Log Log(this HoneybeeSchema.AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction> construction)
+        public static Log Log(this AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction> construction)
         {
             if (construction == null)
                 return null;
@@ -125,7 +125,7 @@ namespace SAM.Core.LadybugTools
             return null;
         }
 
-        public static Log Log(this HoneybeeSchema.AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade> material)
+        public static Log Log(this AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade> material)
         {
             if (material == null)
                 return null;
@@ -151,7 +151,7 @@ namespace SAM.Core.LadybugTools
             return result;
         }
 
-        public static Log Log(this HoneybeeSchema.AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater> hvac)
+        public static Log Log(this AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater> hvac)
         {
             if (hvac == null)
                 return null;
@@ -173,7 +173,7 @@ namespace SAM.Core.LadybugTools
             return null;
         }
 
-        public static Log Log(this HoneybeeSchema.AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval> schedule)
+        public static Log Log(this AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval> schedule)
         {
             if (schedule == null)
                 return null;
