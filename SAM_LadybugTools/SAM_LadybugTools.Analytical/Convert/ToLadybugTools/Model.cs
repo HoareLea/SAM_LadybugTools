@@ -22,14 +22,14 @@ namespace SAM.Analytical.LadybugTools
 
             AdjacencyCluster adjacencyCluster = analyticalModel_Temp.AdjacencyCluster;
 
-            List<Room> rooms = null;
+            List<HoneybeeSchema.Room> rooms = null;
             List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>> hvacs = null;
 
             List<Space> spaces = adjacencyCluster?.GetSpaces();
             if (spaces != null)
             {
                 hvacs = new List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>>();
-                rooms = new List<Room>();
+                rooms = new List<HoneybeeSchema.Room>();
 
                 Dictionary<double, List<Panel>> dictionary_elevations = Analytical.Query.MinElevationDictionary(adjacencyCluster.GetPanels(), true);
                 List<Level> levels = dictionary_elevations?.Keys.ToList().ConvertAll(x => Architectural.Create.Level(x));
@@ -40,7 +40,7 @@ namespace SAM.Analytical.LadybugTools
                     if (space == null)
                         continue;
 
-                    Room room = space.ToLadybugTools(analyticalModel_Temp, silverSpacing, tolerance);
+                    HoneybeeSchema.Room room = space.ToLadybugTools(analyticalModel_Temp, silverSpacing, tolerance);
                     if (room == null)
                         continue;
 
