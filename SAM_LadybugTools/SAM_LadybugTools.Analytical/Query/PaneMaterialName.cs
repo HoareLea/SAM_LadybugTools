@@ -1,6 +1,4 @@
-﻿using SAM.Core;
-
-namespace SAM.Analytical.LadybugTools
+﻿namespace SAM.Analytical.LadybugTools
 {
     public static partial class Query
     {
