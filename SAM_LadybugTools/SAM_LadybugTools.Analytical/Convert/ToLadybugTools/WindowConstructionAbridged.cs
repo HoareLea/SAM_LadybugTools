@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static WindowConstructionAbridged ToLadybugTools_WindowConstructionAbridged(this ApertureConstruction apertureConstruction)
+        public static WindowConstructionAbridged ToLadybugTools_WindowConstructionAbridged(this ApertureConstruction apertureConstruction, bool reverse = true)
         {
             if (apertureConstruction == null)
                 return null;
@@ -14,9 +14,12 @@ namespace SAM.Analytical.LadybugTools
             if (constructionLayers == null)
                 return null;
 
-            constructionLayers.Reverse();
+            if(reverse)
+            {
+                constructionLayers.Reverse();
+            }
 
-            WindowConstructionAbridged result = new WindowConstructionAbridged(Core.LadybugTools.Query.UniqueName(apertureConstruction), constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
+            WindowConstructionAbridged result = new WindowConstructionAbridged(Query.UniqueName(apertureConstruction, reverse), constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
 
             return result;
         }

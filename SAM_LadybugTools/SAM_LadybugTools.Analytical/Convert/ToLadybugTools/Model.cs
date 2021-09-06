@@ -194,9 +194,15 @@ namespace SAM.Analytical.LadybugTools
                         if(materialType != MaterialType.Undefined && materialType != MaterialType.Gas)
                         {
                             if(materialType == MaterialType.Opaque)
+                            {
                                 constructions.Add(apertureConstruction.ToLadybugTools());
+                                constructions.Add(apertureConstruction.ToLadybugTools(true));
+                            }
                             else
+                            {
                                 constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
+                                constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged(true));
+                            }
 
                             foreach (ConstructionLayer constructionLayer in constructionLayers)
                             {

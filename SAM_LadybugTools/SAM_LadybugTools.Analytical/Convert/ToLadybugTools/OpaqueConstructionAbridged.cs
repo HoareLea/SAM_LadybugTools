@@ -24,7 +24,7 @@ namespace SAM.Analytical.LadybugTools
             return result;
         }
 
-        public static OpaqueConstructionAbridged ToLadybugTools(this ApertureConstruction apertureConstruction)
+        public static OpaqueConstructionAbridged ToLadybugTools(this ApertureConstruction apertureConstruction, bool reverse = true)
         {
             if (apertureConstruction == null)
                 return null;
@@ -33,9 +33,13 @@ namespace SAM.Analytical.LadybugTools
             if (constructionLayers == null || constructionLayers.Count == 0)
                 return null;
 
-            constructionLayers.Reverse();
+            if(reverse)
+            {
+                constructionLayers.Reverse();
+            }
+            
 
-            OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(Core.LadybugTools.Query.UniqueName(apertureConstruction), constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
+            OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(Query.UniqueName(apertureConstruction, reverse), constructionLayers.ConvertAll(x => x.Name), apertureConstruction.Name);
             return result;
         }
     }

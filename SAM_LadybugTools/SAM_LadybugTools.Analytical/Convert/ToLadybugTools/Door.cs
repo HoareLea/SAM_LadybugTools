@@ -41,7 +41,7 @@ namespace SAM.Analytical.LadybugTools
                 anyOf = new Surface(uniqueNames);
             }
 
-            DoorEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new DoorEnergyPropertiesAbridged(Core.LadybugTools.Query.UniqueName(apertureConstruction));
+            DoorEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new DoorEnergyPropertiesAbridged(Query.UniqueName(apertureConstruction, index_Adjacent != -1 && index <= index_Adjacent));
             
             Door door = new Door(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new DoorPropertiesAbridged(apertureEnergyPropertiesAbridged), aperture.Name);
             door.IsGlass = materialType == MaterialType.Transparent;
