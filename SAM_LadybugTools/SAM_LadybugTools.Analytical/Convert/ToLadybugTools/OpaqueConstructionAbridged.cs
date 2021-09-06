@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static OpaqueConstructionAbridged ToLadybugTools(this Construction construction)
+        public static OpaqueConstructionAbridged ToLadybugTools(this Construction construction, bool reverse = true)
         {
             if (construction == null)
                 return null;
@@ -14,9 +14,13 @@ namespace SAM.Analytical.LadybugTools
             if (constructionLayers == null || constructionLayers.Count == 0)
                 return null;
 
-            constructionLayers.Reverse();
+            if (reverse)
+            {
+                constructionLayers.Reverse();
+            }
 
-            OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(Core.LadybugTools.Query.UniqueName(construction), constructionLayers.ConvertAll(x => x.Name), construction.Name);
+
+            OpaqueConstructionAbridged result = new OpaqueConstructionAbridged(Query.UniqueName(construction, reverse), constructionLayers.ConvertAll(x => x.Name), construction.Name);
             return result;
         }
 

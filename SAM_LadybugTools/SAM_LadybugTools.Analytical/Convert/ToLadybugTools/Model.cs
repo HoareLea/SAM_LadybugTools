@@ -149,6 +149,7 @@ namespace SAM.Analytical.LadybugTools
                         continue;
 
                     constructions.Add(construction.ToLadybugTools());
+                    constructions.Add(construction.ToLadybugTools(false));
 
                     foreach (ConstructionLayer constructionLayer in constructionLayers)
                     {

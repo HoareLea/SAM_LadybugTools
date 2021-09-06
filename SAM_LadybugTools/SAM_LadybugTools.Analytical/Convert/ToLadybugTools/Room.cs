@@ -30,8 +30,16 @@ namespace SAM.Analytical.LadybugTools
                 {
                     if (panel == null)
                         continue;
+
+                    bool reverse = true;
+
+                    List<Space> spaces = adjacencyCluster?.GetSpaces(panel);
+                    if (spaces != null && spaces.Count > 1)
+                    {
+                        reverse = adjacencyCluster.GetIndex(spaces[0]) != index;
+                    }
                     
-                    Face face = panel.ToLadybugTools_Face(analyticalModel, index);
+                    Face face = panel.ToLadybugTools_Face(analyticalModel, index, reverse);
                     if (face == null)
                         continue;
 

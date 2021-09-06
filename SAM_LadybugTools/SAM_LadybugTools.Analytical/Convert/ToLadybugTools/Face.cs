@@ -6,7 +6,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Face ToLadybugTools_Face(this Panel panel, AnalyticalModel analyticalModel = null, int index = -1)
+        public static Face ToLadybugTools_Face(this Panel panel, AnalyticalModel analyticalModel = null, int index = -1, bool reverse = true)
         {
             if (panel == null || panel.PanelType == PanelType.Shade)
                 return null;
@@ -59,7 +59,7 @@ namespace SAM.Analytical.LadybugTools
 
             FaceEnergyPropertiesAbridged faceEnergyPropertiesAbridged = new FaceEnergyPropertiesAbridged();
             if (faceType != FaceType.AirBoundary)
-                faceEnergyPropertiesAbridged.Construction = Core.LadybugTools.Query.UniqueName(panel.Construction);
+                faceEnergyPropertiesAbridged.Construction = Query.UniqueName(panel.Construction, reverse);
 
             Face face = new Face(Core.LadybugTools.Query.UniqueName(panel, index), face3D, faceType, boundaryCondition, new FacePropertiesAbridged(faceEnergyPropertiesAbridged), panel.Name);
 

@@ -8,22 +8,28 @@ namespace SAM.Core.LadybugTools
     {
         public static string UniqueName(this SAMObject sAMObject, int index = -1)
         {
-            if (sAMObject == null)
+            if(sAMObject == null)
+            {
                 return null;
+            }
 
+            return UniqueName(sAMObject.Guid, sAMObject.Name, index);
+        }
+
+        public static string UniqueName(Guid guid, string name, int index = -1)
+        {
             List<string> values = new List<string>();
             if (index != -1)
                 values.Add(index.ToString());
 
-            string name = sAMObject.Name;
-            if(!string.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
                 name = name.Replace("\n", "_");
                 name = name.Replace("\t", "_");
                 name = name.Replace(" ", "_");
 
                 name = Regex.Replace(name, "[^A-Za-z0-9_-]", string.Empty);
-                
+
                 values.Add(name);
             }
 
@@ -31,7 +37,7 @@ namespace SAM.Core.LadybugTools
             if (result.Length > 92)
                 result = result.Substring(0, 70);  //Number of characters
 
-            result = string.Format("{0}__{1}", result, sAMObject.Guid.ToString("N").Substring(0, 8));
+            result = string.Format("{0}__{1}", result, guid.ToString("N").Substring(0, 8));
 
             return result;
         }
