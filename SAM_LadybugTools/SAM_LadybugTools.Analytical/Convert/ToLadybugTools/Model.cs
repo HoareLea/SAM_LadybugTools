@@ -196,12 +196,12 @@ namespace SAM.Analytical.LadybugTools
                             if(materialType == MaterialType.Opaque)
                             {
                                 constructions.Add(apertureConstruction.ToLadybugTools());
-                                constructions.Add(apertureConstruction.ToLadybugTools(true));
+                                constructions.Add(apertureConstruction.ToLadybugTools(false));
                             }
                             else
                             {
                                 constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged());
-                                constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged(true));
+                                constructions.Add(apertureConstruction.ToLadybugTools_WindowConstructionAbridged(false));
                             }
 
                             foreach (ConstructionLayer constructionLayer in constructionLayers)
