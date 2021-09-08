@@ -12,26 +12,7 @@ namespace SAM.Analytical.LadybugTools
             if (profile == null)
                 return null;
 
-            string unit = null;
             string name = profile.Name;
-            string dataType = "GenericType";
-            switch(profile.ProfileGroup)
-            {
-                case ProfileGroup.Gain:
-                    unit = "W";
-                    break;
-                
-                case ProfileGroup.Humidistat:
-                    unit = "-";
-                    break;
-                
-                case ProfileGroup.Thermostat:
-                    unit = "C";
-                    break;
-
-                default:
-                    return null;
-            }
 
             double[] values = null;
 
@@ -57,11 +38,11 @@ namespace SAM.Analytical.LadybugTools
             if (values == null)
                 return null;
 
-            return ToLadybugTools_HourlyContinousCollection(values, unit, name, dataType, 0, 1, 1, endHour, endDay, endMonth, 1, false, metadata);
+            return ToLadybugTools_HourlyContinousCollection(values, profile.ProfileGroup, name, 0, 1, 1, endHour, endDay, endMonth, 1, false, metadata);
 
         }
 
-        public static string ToLadybugTools_HourlyContinousCollection(double[] values, string unit, string name, string dataType, int startHour, int startDay,int startMonth, int endHour, int endDay, int endMonth, int timestep, bool leapYear, Dictionary<string, object> metadata = null)
+        public static string ToLadybugTools_HourlyContinousCollection(double[] values, ProfileGroup profileGroup, string name, int startHour, int startDay,int startMonth, int endHour, int endDay, int endMonth, int timestep, bool leapYear, Dictionary<string, object> metadata = null)
         {
             if (values == null)
                 return null;
@@ -93,14 +74,42 @@ namespace SAM.Analytical.LadybugTools
 
             jObject_Header.Add("analysis_period", jObject_AnalysisPeriod);
 
+            string unit = null;
+            string dataType = null;
+            switch (profileGroup)
+            {
+                case ProfileGroup.Gain:
+                    unit = "W";
+                    dataType = "Power";
+                    break;
+
+                case ProfileGroup.Humidistat:
+                    unit = "unknown";
+                    dataType = "GenericType";
+                    break;
+
+                case ProfileGroup.Thermostat:
+                    unit = "C";
+                    dataType = "Temperature"; 
+                    break;
+
+                default:
+                    return null;
+            }
+
             jObject_Header.Add("unit", unit);
             jObject_Header.Add("type", "Header");
 
             JObject jObject_DataType = new JObject();
-            jObject_DataType.Add("base_unit", "C");
+            jObject_DataType.Add("base_unit", unit);
             jObject_DataType.Add("name", name);
             jObject_DataType.Add("type", "DataTypeBase");
             jObject_DataType.Add("data_type", dataType);
+            if(profileGroup == ProfileGroup.Humidistat)
+            {
+                jObject_DataType.Add("min", "-Infinity");
+                jObject_DataType.Add("max", "Infinity");
+            }
 
             jObject_Header.Add("data_type", jObject_DataType);
 
