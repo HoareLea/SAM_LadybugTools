@@ -20,6 +20,11 @@ namespace SAM.Analytical.LadybugTools
                 panels = adjacencyCluster.UpdateNormals(space, false, silverSpacing, tolerance);
             }
 
+            if(panels == null || panels.Count == 0)
+            {
+                return null;
+            }
+
             string uniqueName = Core.LadybugTools.Query.UniqueName(space, index);
 
             List<Face> faces = null;
