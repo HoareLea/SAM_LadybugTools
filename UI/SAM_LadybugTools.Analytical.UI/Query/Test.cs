@@ -10,9 +10,11 @@ namespace SAM.Analytical.LadybugTools.UI
             List<ScheduleRulesetAbridged> scheduleRulesetAbridgeds = new List<ScheduleRulesetAbridged>();
             List<ScheduleTypeLimit> scheduleTypeLimits = new List<ScheduleTypeLimit>();
 
-            Honeybee.UI.Dialog_ScheduleRulesetManager dialog_ScheduleRulesetManager = new Honeybee.UI.Dialog_ScheduleRulesetManager(scheduleRulesetAbridgeds, scheduleTypeLimits);
+            //Honeybee.UI.Dialog_ScheduleRulesetManager dialog_ScheduleRulesetManager = new Honeybee.UI.Dialog_ScheduleRulesetManager(scheduleRulesetAbridgeds, scheduleTypeLimits);
 
-            return dialog_ScheduleRulesetManager;
+            //return dialog_ScheduleRulesetManager;
+
+            throw new System.NotImplementedException();
         }
     }
 }
