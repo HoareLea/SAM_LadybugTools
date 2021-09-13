@@ -70,10 +70,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Honeybee.UI">
-      <Version>1.32.3</Version>
+      <Version>1.33.1</Version>
     </PackageReference>
     <PackageReference Include="HoneybeeSchema">
-      <Version>1.44.2.10</Version>
+      <Version>1.45.0.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>

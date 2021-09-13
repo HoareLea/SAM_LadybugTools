@@ -21,7 +21,7 @@ namespace SAM.Core.LadybugTools
             ModelEnergyProperties modelEnergyProperties = model.Properties.Energy;
             if(modelEnergyProperties != null)
             {
-                modelEnergyProperties.Constructions?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, AirBoundaryConstruction, ShadeConstruction>)));
+                modelEnergyProperties.Constructions?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, WindowConstructionDynamicAbridged, WindowConstructionDynamic, AirBoundaryConstruction, ShadeConstruction>)));
                 modelEnergyProperties.ConstructionSets?.ForEach(x => Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>)));
                 modelEnergyProperties.Materials?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>)));
                 modelEnergyProperties.Hvacs?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>)));
@@ -103,6 +103,17 @@ namespace SAM.Core.LadybugTools
                 return null;
 
             if(construction.Obj is IIDdBase)
+                return Log((IIDdBase)construction.Obj);
+
+            return null;
+        }
+
+        public static Log Log(this AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, WindowConstructionDynamicAbridged, WindowConstructionDynamic, AirBoundaryConstruction, ShadeConstruction> construction)
+        {
+            if (construction == null)
+                return null;
+
+            if (construction.Obj is IIDdBase)
                 return Log((IIDdBase)construction.Obj);
 
             return null;
