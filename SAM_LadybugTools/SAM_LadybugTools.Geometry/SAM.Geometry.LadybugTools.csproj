@@ -51,6 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToSAM\Plane.cs" />
+    <Compile Include="Convert\ToSAM\Vector3D.cs" />
+    <Compile Include="Convert\ToSAM\Point3D.cs" />
+    <Compile Include="Convert\ToSAM\Point3Ds.cs" />
+    <Compile Include="Convert\ToSAM\Face3D.cs" />
     <Compile Include="Modify\AppendList.cs" />
     <Compile Include="Convert\ToLadybugTools\List.cs" />
     <Compile Include="Convert\ToLadybugTools\Face3D.cs" />
