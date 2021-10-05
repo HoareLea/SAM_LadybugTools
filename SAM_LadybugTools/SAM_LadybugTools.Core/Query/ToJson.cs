@@ -11,6 +11,21 @@ namespace SAM.Core.LadybugTools
             if (@object == null)
                 return null;
 
+            dynamic @dynamic = null;
+            try
+            {
+                @dynamic = (@object as dynamic).to_dict();
+            }
+            catch(Exception exception)
+            {
+                @dynamic = null;
+            }
+
+            if(@dynamic != null)
+            {
+                //TODO:  Finish Implementation
+            }
+
             MethodInfo methodInfo = @object.GetType().GetMethod("ToJson", new Type[] { });
 
             List<string> names = new List<string>();
@@ -30,10 +45,12 @@ namespace SAM.Core.LadybugTools
                 }
             }
 
-            if (methodInfo == null)
-                return null;
-
-            return methodInfo.Invoke(@object, new object[] { }) as string;
+            if (methodInfo != null)
+            {
+                return methodInfo.Invoke(@object, new object[] { }) as string;
+            }
+            
+            return null;
         }
     }
 }
