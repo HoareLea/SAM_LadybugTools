@@ -5,7 +5,7 @@ namespace SAM.Geometry.LadybugTools
 {
     public static partial class Convert
     {
-        public static HoneybeeSchema.Face3D ToLadybugTools(this Spatial.Face3D face3D)
+        public static HoneybeeSchema.Face3D ToLadybugTools(this Face3D face3D)
         {
             if (face3D == null)
                 return null;

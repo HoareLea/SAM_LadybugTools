@@ -78,6 +78,12 @@
     <Compile Include="Convert\ToLadybugTools\Room.cs" />
     <Compile Include="Convert\ToLadybugTools\OpaqueConstructionAbridged.cs" />
     <Compile Include="Convert\ToLadybugTools\Shade.cs" />
+    <Compile Include="Convert\ToSAM\SAMObject.cs" />
+    <Compile Include="Convert\ToSAM\AnalyticalModel.cs" />
+    <Compile Include="Convert\ToSAM\Space.cs" />
+    <Compile Include="Convert\ToSAM\Aperture.cs" />
+    <Compile Include="Convert\ToSAM\PanelGroup.cs" />
+    <Compile Include="Convert\ToSAM\Panel.cs" />
     <Compile Include="Convert\ToSAM\Profile.cs" />
     <Compile Include="Query\InfiltrationAirFlowPerExteriorArea.cs" />
     <Compile Include="Query\ScheduleUnitTypes.cs" />
