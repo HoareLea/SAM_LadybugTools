@@ -106,6 +106,10 @@
       <Project>{7008cef0-41ad-4c64-bf60-f5eae4728e20}</Project>
       <Name>SAM.Analytical.LadybugTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SAM_LadybugTools\SAM_LadybugTools.Core\SAM.Core.LadybugTools.csproj">
+      <Project>{49f38e39-1bfb-4d06-89f9-11c694e432a7}</Project>
+      <Name>SAM.Core.LadybugTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Grasshopper">

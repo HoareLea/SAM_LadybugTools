@@ -70,7 +70,11 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
                 value = (value as dynamic).Value;
             }
 
-            string json = value.ToString();
+            string json = Core.LadybugTools.Query.ToJson(value);
+            if(string.IsNullOrWhiteSpace(json))
+            {
+                json = value.ToString();
+            }
 
             IDdBaseModel ddBaseModel = null;
             try
