@@ -37,17 +37,20 @@ namespace SAM.Core.LadybugTools
                 {
                     string json = null;
 
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    {
-                        using (Utf8JsonWriter utf8JsonWriter = new Utf8JsonWriter(memoryStream, jsonWriterOptions))
-                        {
-                            ToJson(@dynamic, utf8JsonWriter);
+                    Dictionary<string, object> dictionary = new Dictionary<string, object>();
+                    ToJson(@dynamic, dictionary);
 
-                            utf8JsonWriter.Flush();
-                        }
+                    //using (MemoryStream memoryStream = new MemoryStream())
+                    //{
+                    //    using (Utf8JsonWriter utf8JsonWriter = new Utf8JsonWriter(memoryStream, jsonWriterOptions))
+                    //    {
+                    //        ToJson(@dynamic, utf8JsonWriter);
 
-                        json = Encoding.UTF8.GetString(memoryStream.ToArray());
-                    }
+                    //        utf8JsonWriter.Flush();
+                    //    }
+
+                    //    json = Encoding.UTF8.GetString(memoryStream.ToArray());
+                    //}
                 }
                 catch(Exception exception)
                 {
@@ -114,7 +117,7 @@ namespace SAM.Core.LadybugTools
                 {
                     try
                     {
-                        //ToJson(item, utf8JsonWriter);
+                        ToJson(value, utf8JsonWriter);
                     }
                     catch
                     {
@@ -124,6 +127,60 @@ namespace SAM.Core.LadybugTools
             }
 
             utf8JsonWriter.WriteEndObject();
+        }
+
+        private static void ToJson(dynamic @dynamic, Dictionary<string, object> dictionary)
+        {
+            if (dynamic == null || dictionary == null)
+            {
+                return;
+            }
+
+            foreach (dynamic item in @dynamic.items())
+            {
+                string name = item[0];
+                dynamic value = item[1];
+                if (value == null)
+                {
+                    dictionary[name] = null;
+                }
+
+                if (Core.Query.IsNumeric(value) || value is string)
+                {
+                    dictionary[name] = value;
+                }
+                else
+                {
+                    Dictionary<string, object> dictionary_Temp = new Dictionary<string, object>();
+
+                    Type type = value.GetType();
+                    if(type.Name.EndsWith("List"))
+                    {
+                        ToJson(value[0], dictionary_Temp);
+                    }
+                    else if (type.Name.EndsWith("Dictionary"))
+                    {
+                        ToJson(value, dictionary_Temp);
+                    }
+                    else if (type.Name.EndsWith("Tuple"))
+                    {
+                        Dictionary<string, object> dictionary_Values = new Dictionary<string, object>();
+                        foreach (MethodInfo methodInfo_Temp in value.GetType().DeclaredMethods)
+                        {
+                            ParameterInfo[] parameterInfos = methodInfo_Temp.GetParameters();
+                            if (parameterInfos == null && parameterInfos.Length == 0)
+                            {
+
+                                object @object = methodInfo_Temp.Invoke(value, new object[] { });
+                                dictionary_Values[methodInfo_Temp.Name] = @object;
+                            }
+                        }
+                    }
+
+                    
+                    dictionary[name] = dictionary_Temp;
+                }
+            }
         }
 
 
