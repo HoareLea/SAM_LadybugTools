@@ -63,7 +63,7 @@ namespace SAM.Core.LadybugTools
             MethodInfo methodInfo = @object.GetType().GetMethod("ToJson", new Type[] { });
 
             List<string> names = new List<string>();
-            foreach (MethodInfo methodInfo_Temp in @object.GetType(). GetRuntimeMethods())
+            foreach (MethodInfo methodInfo_Temp in @object.GetType().GetRuntimeMethods())
             {
                 names.Add(methodInfo_Temp.Name);
 
@@ -166,24 +166,62 @@ namespace SAM.Core.LadybugTools
                     Dictionary<string, object> dictionary_Temp = new Dictionary<string, object>();
 
                     Type type = value.GetType();
-                    if(type.Name.EndsWith("List"))
-                    {
-                        ToJson(value[0], dictionary_Temp);
-                    }
-                    else if (type.Name.EndsWith("Dictionary"))
-                    {
-                        ToJson(value, dictionary_Temp);
-                    }
-                    else if (type.Name.EndsWith("Tuple"))
-                    {
-                        if(Modify.TryInvokeMethod(value, "ToArray", out object array, new object[] { }))
-                        {
-                            if(array is object[])
-                            {
 
+                    switch(type.FullName)
+                    {
+                        case "IronPython.Runtime.PythonDictionary":
+                            if (Modify.TryInvokeDeclaredMethod(value, "items", out object ccc, new object[] { }))
+                            {
+                                if (Modify.TryInvokeDeclaredMethod(ccc, "GetObjectArray", out object ddd, new object[] { }))
+                                {
+                                    if (ddd is object[])
+                                    {
+
+                                    }
+                                }
+
+                                if (ccc is object[])
+                                {
+
+                                }
                             }
-                        }
+                            ToJson(value, dictionary_Temp);
+                            break;
+
+                        case "IronPython.Runtime.List":
+                            if (Modify.TryInvokeDeclaredMethod(value, "GetObjectArray", out object bbb, new object[] { }))
+                            {
+                                if (bbb is object[])
+                                {
+
+                                }
+                            }
+                            ToJson(value[0], dictionary_Temp);
+                            break;
+
+                        case "IronPython.Runtime.PythonTuple":
+                            if (Modify.TryInvokeRuntimeMethod(value, "ToArray", out object array, new object[] { }))
+                            {
+                                if (array is object[])
+                                {
+
+                                }
+                            }
+                            break;
                     }
+
+                    //if(type.Name.EndsWith("List"))
+                    //{
+                    //    ToJson(value[0], dictionary_Temp);
+                    //}
+                    //else if (type.Name.EndsWith("Dictionary"))
+                    //{
+                    //    ToJson(value, dictionary_Temp);
+                    //}
+                    //else if (type.Name.EndsWith("Tuple"))
+                    //{
+
+                    //}
 
                     
                     dictionary[name] = dictionary_Temp;
