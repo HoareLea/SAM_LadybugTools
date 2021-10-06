@@ -24,6 +24,10 @@ namespace SAM.Core.LadybugTools
             if(@dynamic != null)
             {
                 //TODO:  Finish Implementation
+
+                string result = System.Text.Json.JsonSerializer.Serialize(@dynamic);
+
+                return result;
             }
 
             MethodInfo methodInfo = @object.GetType().GetMethod("ToJson", new Type[] { });
