@@ -2,6 +2,7 @@
 using Grasshopper.Kernel.Types;
 using HoneybeeSchema;
 using SAM.Analytical.Grasshopper.LadybugTools.Properties;
+using SAM.Core;
 using SAM.Core.Grasshopper;
 using System;
 
@@ -48,6 +49,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         protected override void RegisterOutputParams(GH_OutputParamManager outputParamManager)
         {
             outputParamManager.AddGenericParameter("analytical", "analytical", "SAM Analytical", GH_ParamAccess.item);
+            outputParamManager.AddTextParameter("json", "json", "Honeybee Json", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -77,14 +79,40 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
             }
 
             IDdBaseModel ddBaseModel = null;
+
             try
             {
-                ddBaseModel = IDdBaseModel.FromJson(json);
+                ddBaseModel = Model.FromJson(json);
             }
             catch
             {
                 ddBaseModel = null;
             }
+            
+            if (ddBaseModel == null)
+            {
+                try
+                {
+                    ddBaseModel = Room.FromJson(json);
+                }
+                catch
+                {
+                    ddBaseModel = null;
+                }
+            }
+
+            if (ddBaseModel == null)
+            {
+                try
+                {
+                    ddBaseModel = IDdBaseModel.FromJson(json);
+                }
+                catch
+                {
+                    ddBaseModel = null;
+                }
+            }
+
 
             if(ddBaseModel == null)
             {
@@ -92,7 +120,11 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
                 return;
             }
 
+            SAMObject sAMObject = null;
 
+            dataAccess.SetData(0, null);
+
+            dataAccess.SetData(1, ddBaseModel.ToJson());
         }
     }
 }
