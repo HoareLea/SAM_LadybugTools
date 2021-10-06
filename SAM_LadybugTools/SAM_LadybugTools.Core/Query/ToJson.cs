@@ -25,9 +25,17 @@ namespace SAM.Core.LadybugTools
             {
                 //TODO:  Finish Implementation
 
-                string result = System.Text.Json.JsonSerializer.Serialize(@dynamic);
+                foreach (dynamic item in @dynamic.items())
+                {
+                    string name = item[0];
+                    object value = item[1];
+                    if(value is string)
+                    {
 
-                return result;
+                    }
+                    Type type = item.GetType();
+
+                }
             }
 
             MethodInfo methodInfo = @object.GetType().GetMethod("ToJson", new Type[] { });
