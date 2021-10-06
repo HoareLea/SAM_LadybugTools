@@ -63,7 +63,7 @@ namespace SAM.Core.LadybugTools
             MethodInfo methodInfo = @object.GetType().GetMethod("ToJson", new Type[] { });
 
             List<string> names = new List<string>();
-            foreach (MethodInfo methodInfo_Temp in @object.GetType().GetRuntimeMethods())
+            foreach (MethodInfo methodInfo_Temp in @object.GetType(). GetRuntimeMethods())
             {
                 names.Add(methodInfo_Temp.Name);
 
@@ -111,10 +111,23 @@ namespace SAM.Core.LadybugTools
                 }
                 else if(value is string)
                 {
-                    utf8JsonWriter.WriteString(name, value as dynamic);
+                    utf8JsonWriter.WriteString(name, (string)value);
+                }
+                else if (value is Guid)
+                {
+                    utf8JsonWriter.WriteString(name, (Guid)value);
+                }
+                else if (value is DateTime)
+                {
+                    utf8JsonWriter.WriteString(name, (DateTime)value);
+                }
+                else if (value is bool)
+                {
+                    utf8JsonWriter.WriteBoolean(name, (bool)value);
                 }
                 else
                 {
+                    utf8JsonWriter.WritePropertyName(name);
                     try
                     {
                         ToJson(value, utf8JsonWriter);
@@ -144,7 +157,6 @@ namespace SAM.Core.LadybugTools
                 {
                     dictionary[name] = null;
                 }
-
                 if (Core.Query.IsNumeric(value) || value is string)
                 {
                     dictionary[name] = value;
@@ -164,15 +176,11 @@ namespace SAM.Core.LadybugTools
                     }
                     else if (type.Name.EndsWith("Tuple"))
                     {
-                        Dictionary<string, object> dictionary_Values = new Dictionary<string, object>();
-                        foreach (MethodInfo methodInfo_Temp in value.GetType().DeclaredMethods)
+                        if(Modify.TryInvokeMethod(value, "ToArray", out object array, new object[] { }))
                         {
-                            ParameterInfo[] parameterInfos = methodInfo_Temp.GetParameters();
-                            if (parameterInfos == null && parameterInfos.Length == 0)
+                            if(array is object[])
                             {
 
-                                object @object = methodInfo_Temp.Invoke(value, new object[] { });
-                                dictionary_Values[methodInfo_Temp.Name] = @object;
                             }
                         }
                     }
