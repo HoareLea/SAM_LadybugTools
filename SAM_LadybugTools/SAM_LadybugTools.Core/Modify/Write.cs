@@ -23,7 +23,10 @@ namespace SAM.Core.LadybugTools
             switch (type.FullName)
             {
                 case "IronPython.Runtime.PythonDictionary":
-                    Core.Query.TryInvokeDeclaredMethod(@dynamic, "items", out @object, new object[] { });
+                    if(Core.Query.TryInvokeDeclaredMethod(@dynamic, "items", out @object, new object[] { }))
+                    {
+                        utf8JsonWriter.Write(@object);
+                    }
                     break;
 
                 case "IronPython.Runtime.List":
@@ -43,6 +46,14 @@ namespace SAM.Core.LadybugTools
                     {
                         return;
                     }
+
+                    if(@object == null)
+                    {
+                        return;
+                    }
+
+                    utf8JsonWriter.Write(@object);
+
                     break;
             }
 
@@ -90,9 +101,9 @@ namespace SAM.Core.LadybugTools
                         utf8JsonWriter.WritePropertyName(name);
                         try
                         {
-                            Write(utf8JsonWriter, value);
+                            utf8JsonWriter.Write(value);
                         }
-                        catch
+                        catch(Exception exception)
                         {
 
                         }

@@ -1,4 +1,7 @@
-﻿namespace SAM.Core.LadybugTools
+﻿using System.Collections.Generic;
+using System.Reflection;
+
+namespace SAM.Core.LadybugTools
 {
     public static partial class Query
     {
@@ -14,7 +17,7 @@
                 return null;
             }
 
-            if (!Core.Query.TryGetFieldValue(@class, "Name", out string result))
+            if (!Core.Query.TryInvokeMethod(@class, "Get__name__", out string result, new object[] { @class }))
             {
                 return null;
             }
