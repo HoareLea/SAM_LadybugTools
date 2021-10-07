@@ -72,59 +72,24 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
                 value = (value as dynamic).Value;
             }
 
-            string json = Core.LadybugTools.Convert.ToString(value);
-            if(string.IsNullOrWhiteSpace(json))
-            {
-                json = value.ToString();
-            }
-
-            IDdBaseModel ddBaseModel = null;
-
-            try
-            {
-                ddBaseModel = Model.FromJson(json);
-            }
-            catch
-            {
-                ddBaseModel = null;
-            }
-            
-            if (ddBaseModel == null)
-            {
-                try
-                {
-                    ddBaseModel = Room.FromJson(json);
-                }
-                catch
-                {
-                    ddBaseModel = null;
-                }
-            }
-
-            if (ddBaseModel == null)
-            {
-                try
-                {
-                    ddBaseModel = IDdBaseModel.FromJson(json);
-                }
-                catch
-                {
-                    ddBaseModel = null;
-                }
-            }
-
-
-            if(ddBaseModel == null)
+            if(value == null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;
             }
 
-            SAMObject sAMObject = null;
+            SAMObject result = null;
 
-            dataAccess.SetData(0, null);
+            IDdBaseModel ddBaseModel = Core.LadybugTools.Convert.ToHoneybee(value);
+            
+            if (ddBaseModel != null)
+            {
+                result = Analytical.LadybugTools.Convert.ToSAM(ddBaseModel);
+            }
 
-            dataAccess.SetData(1, ddBaseModel.ToJson());
+            dataAccess.SetData(0, result);
+
+            dataAccess.SetData(1, ddBaseModel?.ToJson());
         }
     }
 }

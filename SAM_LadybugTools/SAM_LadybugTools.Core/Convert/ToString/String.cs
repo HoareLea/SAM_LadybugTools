@@ -64,31 +64,27 @@ namespace SAM.Core.LadybugTools
             switch (type.FullName)
             {
                 case "IronPython.Runtime.PythonDictionary":
-                    Modify.TryInvokeDeclaredMethod(@dynamic, "items", out @object, new object[] { });
+                    Core.Query.TryInvokeDeclaredMethod(@dynamic, "items", out @object, new object[] { });
                     break;
 
                 case "IronPython.Runtime.List":
-                    Modify.TryInvokeDeclaredMethod(@dynamic, "GetObjectArray", out @object, new object[] { });
+                    Core.Query.TryInvokeDeclaredMethod(@dynamic, "GetObjectArray", out @object, new object[] { });
                     break;
 
                 case "IronPython.Runtime.PythonTuple":
-                    Modify.TryInvokeRuntimeMethod(@dynamic, "ToArray", out @object, new object[] { });
+                    Core.Query.TryInvokeRuntimeMethod(@dynamic, "ToArray", out @object, new object[] { });
                     break;
 
                 default:
                     try
                     {
-                        object obj = @dynamic.to_dict();
+                        @object = @dynamic.to_dict();
                     }
                     catch
                     {
-
+                        return;
                     }
-                    
-                    Modify.TryInvokeDeclaredMethod(dynamic, "get_Dict", out @object, new object[] { });
-                    Modify.TryInvokeRuntimeMethod(@dynamic, "get_Dict", out @object, new object[] { });
                     break;
-
             }
 
             if (@object == null)
