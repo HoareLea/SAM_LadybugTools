@@ -72,7 +72,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
                 value = (value as dynamic).Value;
             }
 
-            string json = Core.LadybugTools.Query.ToJson(value);
+            string json = Core.LadybugTools.Convert.ToString(value);
             if(string.IsNullOrWhiteSpace(json))
             {
                 json = value.ToString();
