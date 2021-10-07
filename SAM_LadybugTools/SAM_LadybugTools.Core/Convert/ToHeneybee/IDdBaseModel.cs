@@ -20,11 +20,6 @@ namespace SAM.Core.LadybugTools
             string json = ToString(@object);
             if (string.IsNullOrWhiteSpace(json))
             {
-                json = @object.ToString();
-            }
-
-            if (string.IsNullOrWhiteSpace(json))
-            {
                 return null;
             }
 

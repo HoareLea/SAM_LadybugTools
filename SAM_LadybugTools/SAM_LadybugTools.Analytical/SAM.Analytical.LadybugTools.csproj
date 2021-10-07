@@ -114,7 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HoneybeeSchema">
-      <Version>1.45.0.1</Version>
+      <Version>1.45.0.2</Version>
     </PackageReference>
     <PackageReference Remove="Newtonsoft.Json" />
     <PackageReference Include="Newtonsoft.Json">
