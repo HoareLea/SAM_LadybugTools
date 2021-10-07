@@ -21,23 +21,16 @@ namespace SAM.Core.LadybugTools
 
             string result = null;
 
-            try
+            using (MemoryStream memoryStream = new MemoryStream())
             {
-                using (MemoryStream memoryStream = new MemoryStream())
+                using (Utf8JsonWriter utf8JsonWriter = new Utf8JsonWriter(memoryStream, jsonWriterOptions))
                 {
-                    using (Utf8JsonWriter utf8JsonWriter = new Utf8JsonWriter(memoryStream, jsonWriterOptions))
-                    {
-                        Modify.Write(utf8JsonWriter, @object);
+                    Modify.Write(utf8JsonWriter, @object);
 
-                        utf8JsonWriter.Flush();
-                    }
-
-                    result = Encoding.UTF8.GetString(memoryStream.ToArray());
+                    utf8JsonWriter.Flush();
                 }
-            }
-            catch (Exception exception)
-            {
 
+                result = Encoding.UTF8.GetString(memoryStream.ToArray());
             }
 
             return result;

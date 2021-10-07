@@ -20,79 +20,100 @@ namespace SAM.Core.LadybugTools
                 return;
             }
 
-            List<Tuple<string, object>> tuples = new List<Tuple<string, object>>();
-            List<object> objects = new List<object>();
+            List<Tuple<string, object>> tuples = null;
+            List<object> objects = null;
 
-            if (@dynamic is IEnumerable)
+            switch (type.FullName)
             {
-                objects.AddRange(@dynamic);
-            }
-            else
-            {
-                switch (type.FullName)
-                {
-                    case "IronPython.Runtime.PythonDictionary":
-                        if (Core.Query.TryInvokeDeclaredMethod(@dynamic, "items", out object pythonDictionary, new object[] { }))
+                case "IronPython.Runtime.PythonDictionary":
+                    if (Core.Query.TryInvokeDeclaredMethod(@dynamic, "items", out object pythonDictionary, new object[] { }))
+                    {
+                        if (Core.Query.TryInvokeDeclaredMethod(pythonDictionary, "GetObjectArray", out object pythonDictionaryArray, new object[] { }))
                         {
-                            if (Core.Query.TryInvokeDeclaredMethod(pythonDictionary, "GetObjectArray", out object pythonDictionaryArray, new object[] { }))
+                            object[] objectArray = pythonDictionaryArray as object[];
+                            if (objectArray != null)
                             {
-                                object[] objectArray = pythonDictionaryArray as object[];
-                                if (objectArray != null)
+                                tuples = new List<Tuple<string, object>>();
+                                foreach (dynamic item in objectArray)
                                 {
-                                    foreach (dynamic item in objectArray)
-                                    {
-                                        tuples.Add(new Tuple<string, object>(item[0], item[1]));
-                                    }
+                                    tuples.Add(new Tuple<string, object>(item[0], item[1]));
                                 }
                             }
                         }
-                        break;
+                    }
+                    break;
 
-                    case "IronPython.Runtime.List":
-                        if (Core.Query.TryInvokeDeclaredMethod(@dynamic, "GetObjectArray", out object list, new object[] { }))
+                case "IronPython.Runtime.List":
+                    if (Core.Query.TryInvokeDeclaredMethod(@dynamic, "GetObjectArray", out object list, new object[] { }))
+                    {
+                        object[] objectArray = list as object[];
+                        if (objectArray != null)
                         {
-                            object[] objectArray = list as object[];
-                            if (objectArray != null)
+                            if(objects == null)
                             {
-                                objects.AddRange(objectArray);
+                                objects = new List<object>();
                             }
-                        }
-                        break;
 
-                    case "IronPython.Runtime.PythonTuple":
-                        if (Core.Query.TryInvokeRuntimeMethod(@dynamic, "ToArray", out object tuple, new object[] { }))
+                            objects.AddRange(objectArray);
+                        }
+                    }
+                    break;
+
+                case "IronPython.Runtime.PythonTuple":
+                    if (Core.Query.TryInvokeRuntimeMethod(@dynamic, "ToArray", out object tuple, new object[] { }))
+                    {
+                        object[] objectArray = tuple as object[];
+                        if (objectArray != null)
                         {
-                            object[] objectArray = tuple as object[];
-                            if (objectArray != null)
+                            if (objects == null)
                             {
-                                objects.AddRange(objectArray);
+                                objects = new List<object>();
                             }
-                        }
-                        break;
 
-                    default:
-                        object @object = null;
-                        try
+                            objects.AddRange(objectArray);
+                        }
+                    }
+                    break;
+
+                default:
+
+                    if (@dynamic is IEnumerable)
+                    {
+                        if (objects == null)
                         {
-                            @object = @dynamic.to_dict();
+                            objects = new List<object>();
                         }
-                        catch
+
+                        objects.AddRange(@dynamic);
+                    }
+                    else
+                    {
+                        string className = Query.ClassName(@dynamic);
+                        if(!string.IsNullOrWhiteSpace(className))
                         {
-                            return;
+                            object @object = null;
+                            try
+                            {
+                                @object = @dynamic.to_dict();
+                            }
+                            catch
+                            {
+                                return;
+                            }
+
+                            if (@object == null)
+                            {
+                                return;
+                            }
+
+                            utf8JsonWriter.Write(@object);
                         }
+                    }
 
-                        if (@object == null)
-                        {
-                            return;
-                        }
-
-                        utf8JsonWriter.Write(@object);
-
-                        break;
-                }
+                    break;
             }
 
-            if(tuples != null && tuples.Count != 0)
+            if(tuples != null)
             {
                 utf8JsonWriter.WriteStartObject();
 
@@ -134,7 +155,7 @@ namespace SAM.Core.LadybugTools
                 utf8JsonWriter.WriteEndObject();
             }
 
-            if(objects != null && objects.Count == 0)
+            if(objects != null)
             {
                 utf8JsonWriter.WriteStartArray();
 
