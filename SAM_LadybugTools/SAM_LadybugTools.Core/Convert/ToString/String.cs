@@ -76,7 +76,17 @@ namespace SAM.Core.LadybugTools
                     break;
 
                 default:
-                    Modify.TryInvokeDeclaredMethod(dynamic, "to_dict", out @object, new object[] { });
+                    try
+                    {
+                        object obj = @dynamic.to_dict();
+                    }
+                    catch
+                    {
+
+                    }
+                    
+                    Modify.TryInvokeDeclaredMethod(dynamic, "get_Dict", out @object, new object[] { });
+                    Modify.TryInvokeRuntimeMethod(@dynamic, "get_Dict", out @object, new object[] { });
                     break;
 
             }
