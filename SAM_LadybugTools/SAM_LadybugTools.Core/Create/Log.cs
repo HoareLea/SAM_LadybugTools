@@ -10,24 +10,24 @@ namespace SAM.Core.LadybugTools
                 return null;
 
             Log result = new Log();
-            Modify.AddRange(result, ((IDdBaseModel)model).Log());
+            Core.Modify.AddRange(result, ((IDdBaseModel)model).Log());
 
-            model.OrphanedApertures?.ForEach(x => Modify.AddRange(result, Log(x as Aperture)));
-            model.OrphanedDoors?.ForEach(x => Modify.AddRange(result, Log(x as Door)));
-            model.OrphanedFaces?.ForEach(x => Modify.AddRange(result, Log(x as Face)));
-            model.OrphanedShades?.ForEach(x => Modify.AddRange(result, Log(x as Shade)));
-            model.Rooms?.ForEach(x => Modify.AddRange(result, Log(x as Room)));
+            model.OrphanedApertures?.ForEach(x => Core.Modify.AddRange(result, Log(x as Aperture)));
+            model.OrphanedDoors?.ForEach(x => Core.Modify.AddRange(result, Log(x as Door)));
+            model.OrphanedFaces?.ForEach(x => Core.Modify.AddRange(result, Log(x as Face)));
+            model.OrphanedShades?.ForEach(x => Core.Modify.AddRange(result, Log(x as Shade)));
+            model.Rooms?.ForEach(x => Core.Modify.AddRange(result, Log(x as Room)));
 
             ModelEnergyProperties modelEnergyProperties = model.Properties.Energy;
             if(modelEnergyProperties != null)
             {
-                modelEnergyProperties.Constructions?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, WindowConstructionDynamicAbridged, WindowConstructionDynamic, AirBoundaryConstruction, ShadeConstruction>)));
-                modelEnergyProperties.ConstructionSets?.ForEach(x => Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>)));
-                modelEnergyProperties.Materials?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>)));
-                modelEnergyProperties.Hvacs?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>)));
-                modelEnergyProperties.ProgramTypes?.ForEach(x => Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ProgramTypeAbridged, ProgramType>)));
-                modelEnergyProperties.Schedules?.ForEach(x => Modify.AddRange(result, Log(x as AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>)));
-                modelEnergyProperties.ScheduleTypeLimits?.ForEach(x => Modify.AddRange(result, Log(x as ScheduleTypeLimit)));
+                modelEnergyProperties.Constructions?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, WindowConstructionDynamicAbridged, WindowConstructionDynamic, AirBoundaryConstruction, ShadeConstruction>)));
+                modelEnergyProperties.ConstructionSets?.ForEach(x => Core.Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>)));
+                modelEnergyProperties.Materials?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>)));
+                modelEnergyProperties.Hvacs?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>)));
+                modelEnergyProperties.ProgramTypes?.ForEach(x => Core.Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ProgramTypeAbridged, ProgramType>)));
+                modelEnergyProperties.Schedules?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>)));
+                modelEnergyProperties.ScheduleTypeLimits?.ForEach(x => Core.Modify.AddRange(result, Log(x as ScheduleTypeLimit)));
             }
 
             return result;
@@ -144,7 +144,7 @@ namespace SAM.Core.LadybugTools
             Log result = new Log();
 
             if (material.Obj is IIDdBase)
-                Modify.AddRange(result, Log((IIDdBase)material.Obj));
+                Core.Modify.AddRange(result, Log((IIDdBase)material.Obj));
 
             if(material.Obj is EnergyMaterial)
             {
