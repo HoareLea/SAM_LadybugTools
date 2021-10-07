@@ -9,14 +9,17 @@
                 return null;
             }
 
-            if(!Core.Query.TryGetFieldValue(@object, ".class", out object result))
+            if(!Core.Query.TryGetFieldValue(@object, ".class", out object @class))
             {
                 return null;
             }
 
-            return null;
+            if (!Core.Query.TryGetFieldValue(@class, "Name", out string result))
+            {
+                return null;
+            }
 
-            //return result;
+            return result;
         }
     }
 }
