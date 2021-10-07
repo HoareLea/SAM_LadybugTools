@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text.Json;
 
 namespace SAM.Core.LadybugTools
@@ -18,65 +20,91 @@ namespace SAM.Core.LadybugTools
                 return;
             }
 
-            object @object = null;
+            List<Tuple<string, object>> tuples = new List<Tuple<string, object>>();
+            List<object> objects = new List<object>();
 
-            switch (type.FullName)
+            if (@dynamic is IEnumerable)
             {
-                case "IronPython.Runtime.PythonDictionary":
-                    if(Core.Query.TryInvokeDeclaredMethod(@dynamic, "items", out @object, new object[] { }))
-                    {
+                objects.AddRange(@dynamic);
+            }
+            else
+            {
+                switch (type.FullName)
+                {
+                    case "IronPython.Runtime.PythonDictionary":
+                        if (Core.Query.TryInvokeDeclaredMethod(@dynamic, "items", out object pythonDictionary, new object[] { }))
+                        {
+                            if (Core.Query.TryInvokeDeclaredMethod(pythonDictionary, "GetObjectArray", out object pythonDictionaryArray, new object[] { }))
+                            {
+                                object[] objectArray = pythonDictionaryArray as object[];
+                                if (objectArray != null)
+                                {
+                                    foreach (dynamic item in objectArray)
+                                    {
+                                        tuples.Add(new Tuple<string, object>(item[0], item[1]));
+                                    }
+                                }
+                            }
+                        }
+                        break;
+
+                    case "IronPython.Runtime.List":
+                        if (Core.Query.TryInvokeDeclaredMethod(@dynamic, "GetObjectArray", out object list, new object[] { }))
+                        {
+                            object[] objectArray = list as object[];
+                            if (objectArray != null)
+                            {
+                                objects.AddRange(objectArray);
+                            }
+                        }
+                        break;
+
+                    case "IronPython.Runtime.PythonTuple":
+                        if (Core.Query.TryInvokeRuntimeMethod(@dynamic, "ToArray", out object tuple, new object[] { }))
+                        {
+                            object[] objectArray = tuple as object[];
+                            if (objectArray != null)
+                            {
+                                objects.AddRange(objectArray);
+                            }
+                        }
+                        break;
+
+                    default:
+                        object @object = null;
+                        try
+                        {
+                            @object = @dynamic.to_dict();
+                        }
+                        catch
+                        {
+                            return;
+                        }
+
+                        if (@object == null)
+                        {
+                            return;
+                        }
+
                         utf8JsonWriter.Write(@object);
-                    }
-                    break;
 
-                case "IronPython.Runtime.List":
-                    Core.Query.TryInvokeDeclaredMethod(@dynamic, "GetObjectArray", out @object, new object[] { });
-                    break;
-
-                case "IronPython.Runtime.PythonTuple":
-                    Core.Query.TryInvokeRuntimeMethod(@dynamic, "ToArray", out @object, new object[] { });
-                    break;
-
-                default:
-                    try
-                    {
-                        @object = @dynamic.to_dict();
-                    }
-                    catch
-                    {
-                        return;
-                    }
-
-                    if(@object == null)
-                    {
-                        return;
-                    }
-
-                    utf8JsonWriter.Write(@object);
-
-                    break;
+                        break;
+                }
             }
 
-            if (@object == null)
-            {
-                return;
-            }
-
-            object[] array = @object as object[];
-            if (array != null)
+            if(tuples != null && tuples.Count != 0)
             {
                 utf8JsonWriter.WriteStartObject();
 
-                foreach (dynamic item in array)
+                foreach (Tuple<string, object> tuple in tuples)
                 {
-                    string name = item[0];
-                    object value = item[1];
+                    string name = tuple.Item1;
+                    object value = tuple.Item2;
                     if (value == null)
                     {
                         utf8JsonWriter.WriteNull(name);
                     }
-
-                    if (Core.Query.IsNumeric(value))
+                    else if (Core.Query.IsNumeric(value))
                     {
                         utf8JsonWriter.WriteNumber(name, value as dynamic);
                     }
@@ -99,22 +127,50 @@ namespace SAM.Core.LadybugTools
                     else
                     {
                         utf8JsonWriter.WritePropertyName(name);
-                        try
-                        {
-                            utf8JsonWriter.Write(value);
-                        }
-                        catch(Exception exception)
-                        {
-
-                        }
+                        utf8JsonWriter.Write(value);
                     }
                 }
 
                 utf8JsonWriter.WriteEndObject();
             }
-            else
-            {
 
+            if(objects != null && objects.Count == 0)
+            {
+                utf8JsonWriter.WriteStartArray();
+
+                foreach (object @object in objects)
+                {
+                    if (@object == null)
+                    {
+                        utf8JsonWriter.WriteNullValue();
+                    }
+                    else if (Core.Query.IsNumeric(@object))
+                    {
+                        utf8JsonWriter.WriteNumberValue(@object as dynamic);
+                    }
+                    else if (@object is string)
+                    {
+                        utf8JsonWriter.WriteStringValue((string)@object);
+                    }
+                    else if (@object is Guid)
+                    {
+                        utf8JsonWriter.WriteStringValue((Guid)@object);
+                    }
+                    else if (@object is DateTime)
+                    {
+                        utf8JsonWriter.WriteStringValue((DateTime)@object);
+                    }
+                    else if (@object is bool)
+                    {
+                        utf8JsonWriter.WriteBooleanValue((bool)@object);
+                    }
+                    else
+                    {
+                        utf8JsonWriter.Write(@object);
+                    }
+                }
+
+                utf8JsonWriter.WriteEndArray();
             }
         }
     }
