@@ -12,13 +12,14 @@ namespace SAM.Analytical.LadybugTools
 
             return new EnergyWindowMaterialGlazing(
                 transparentMaterial.Name, 
-                transparentMaterial.DisplayName, 
+                transparentMaterial.DisplayName,
+                null,
                 transparentMaterial.GetValue<double>(MaterialParameter.DefaultThickness), 
                 transparentMaterial.GetValue<double>(TransparentMaterialParameter.SolarTransmittance), 
                 transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalSolarReflectance), 
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.ExternalSolarReflectance), 
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.LightTransmittance), 
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalLightReflectance), 
+                transparentMaterial.GetValue<double>(TransparentMaterialParameter.ExternalSolarReflectance),
+                transparentMaterial.GetValue<double>(TransparentMaterialParameter.LightTransmittance),
+                transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalLightReflectance),
                 transparentMaterial.GetValue<double>(TransparentMaterialParameter.ExternalLightReflectance), 
                 0, 
                 transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalEmissivity), 

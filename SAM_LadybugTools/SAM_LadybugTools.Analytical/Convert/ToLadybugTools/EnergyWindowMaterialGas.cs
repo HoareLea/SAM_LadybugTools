@@ -17,6 +17,7 @@ namespace SAM.Analytical.LadybugTools
             return new EnergyWindowMaterialGas(
                 gasMaterial.Name, 
                 gasMaterial.DisplayName, 
+                null,
                 gasMaterial.GetValue<double>(MaterialParameter.DefaultThickness), 
                 gasType.Value);
         }

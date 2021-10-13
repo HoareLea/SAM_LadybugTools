@@ -266,7 +266,7 @@ namespace SAM.Analytical.LadybugTools
             constructions.RemoveAll(x => x == null);
             materials.RemoveAll(x => x == null);
 
-            ModelEnergyProperties modelEnergyProperties = new ModelEnergyProperties(constructionSets, constructions, materials, hvacs, programTypes, schedules, scheduleTypeLimits);
+            ModelEnergyProperties modelEnergyProperties = new ModelEnergyProperties(constructionSets, constructions, materials, hvacs, null, programTypes, schedules, scheduleTypeLimits);
 
             ModelProperties modelProperties = new ModelProperties(modelEnergyProperties);
 
