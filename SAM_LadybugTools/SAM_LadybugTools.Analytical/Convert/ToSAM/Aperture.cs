@@ -1,12 +1,11 @@
 ﻿using HoneybeeSchema;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Aperture ToSAM(this HoneybeeSchema.Aperture aperture)
+        public static Aperture ToSAM(this HoneybeeSchema.Aperture aperture, IEnumerable<ApertureConstruction> apertureConstructions = null)
         {
             if(aperture == null)
             {
@@ -19,14 +18,40 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            ApertureConstruction apertureConstruction = new ApertureConstruction(aperture.DisplayName, ApertureType.Window);
+            ApertureConstruction apertureConstruction = null;
+            if (apertureConstructions != null && aperture.Properties?.Energy?.Construction != null)
+            {
+                foreach (ApertureConstruction apertureConstruction_Temp in apertureConstructions)
+                {
+                    if (apertureConstruction_Temp == null)
+                    {
+                        continue;
+                    }
+
+                    if (apertureConstruction_Temp.ApertureType != ApertureType.Window)
+                    {
+                        continue;
+                    }
+
+                    if (aperture.Properties.Energy.Construction == apertureConstruction_Temp.Name)
+                    {
+                        apertureConstruction = apertureConstruction_Temp;
+                        break;
+                    }
+                }
+            }
+
+            if (apertureConstruction == null)
+            {
+                apertureConstruction = new ApertureConstruction(aperture.DisplayName, ApertureType.Window);
+            }
 
             Aperture result = new Aperture(apertureConstruction, face3D);
 
             return result;
         }
 
-        public static Aperture ToSAM(this Door door)
+        public static Aperture ToSAM(this Door door, IEnumerable<ApertureConstruction> apertureConstructions = null)
         {
             if (door == null)
             {
@@ -39,8 +64,34 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            ApertureConstruction apertureConstruction = new ApertureConstruction(door.DisplayName, ApertureType.Door);
+            ApertureConstruction apertureConstruction = null;
+            if (apertureConstructions != null && door.Properties?.Energy?.Construction != null)
+            {
+                foreach(ApertureConstruction apertureConstruction_Temp in apertureConstructions)
+                {
+                    if(apertureConstruction_Temp == null)
+                    {
+                        continue;
+                    }
 
+                    if (apertureConstruction_Temp.ApertureType != ApertureType.Door)
+                    {
+                        continue;
+                    }
+
+                    if(door.Properties.Energy.Construction == apertureConstruction_Temp.Name)
+                    {
+                        apertureConstruction = apertureConstruction_Temp;
+                        break;
+                    }
+                }
+            }
+
+            if(apertureConstruction == null)
+            {
+                apertureConstruction = new ApertureConstruction(door.DisplayName, ApertureType.Door);
+            }
+            
             Aperture result = new Aperture(apertureConstruction, face3D);
 
             return result;

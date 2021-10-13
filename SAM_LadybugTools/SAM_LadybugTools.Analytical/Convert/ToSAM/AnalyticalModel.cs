@@ -13,6 +13,19 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
+            MaterialLibrary materialLibrary = null;
+            List<Construction> constructions = null;
+            List<ApertureConstruction> apertureConstructions = null;
+
+            ModelEnergyProperties modelEnergyProperties = model.Properties?.Energy;
+            if(modelEnergyProperties != null)
+            {
+                materialLibrary = modelEnergyProperties.ToSAM_MaterialLibrary();
+                constructions = modelEnergyProperties.ToSAM_Constructions();
+                apertureConstructions = modelEnergyProperties.ToSAM_ApertureConstructions();
+                
+            }
+
             AdjacencyCluster adjacencyCluster = new AdjacencyCluster();
             List<Room> rooms = model.Rooms;
             if (rooms != null)
@@ -28,7 +41,7 @@ namespace SAM.Analytical.LadybugTools
                     List<Panel> panels = new List<Panel>();
                     foreach (Face face in faces)
                     {
-                        Panel panel = face.ToSAM();
+                        Panel panel = face.ToSAM(constructions, apertureConstructions);
                         if(panel != null)
                         {
                             panels.Add(panel);
@@ -49,7 +62,7 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            MaterialLibrary materialLibrary = model.Properties?.Energy?.ToSAM_MaterialLibrary();
+
 
             AnalyticalModel result = new AnalyticalModel(model.DisplayName, null, null, null, adjacencyCluster, materialLibrary, null);
 

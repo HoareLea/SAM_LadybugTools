@@ -6,7 +6,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Panel ToSAM(this Face face)
+        public static Panel ToSAM(this Face face, IEnumerable<Construction> constructions = null, IEnumerable<ApertureConstruction> apertureConstructions = null)
         {
             if(face == null)
             {
@@ -23,7 +23,23 @@ namespace SAM.Analytical.LadybugTools
 
             PanelGroup panelGroup = face.FaceType.ToSAM();
 
-            Construction construction = new Construction(face.DisplayName);
+            Construction construction = null;
+            if (constructions != null && face.Properties?.Energy?.Construction != null)
+            {
+                foreach(Construction construction_Temp in constructions )
+                {
+                    if(construction_Temp.Name == face.Properties.Energy.Construction)
+                    {
+                        construction = construction_Temp;
+                        break;
+                    }
+                }
+            }
+
+            if(construction == null)
+            {
+                construction = new Construction(face.Identifier);
+            }
 
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = face.BoundaryCondition;
             if(boundaryCondition.Obj is Ground)
@@ -85,7 +101,7 @@ namespace SAM.Analytical.LadybugTools
             {
                 foreach(HoneybeeSchema.Aperture aperture_HoneybeeSchema in face.Apertures)
                 {
-                    Aperture aperture = aperture_HoneybeeSchema?.ToSAM();
+                    Aperture aperture = aperture_HoneybeeSchema?.ToSAM(apertureConstructions);
                     if(aperture != null)
                     {
                         panel.AddAperture(aperture);
@@ -97,7 +113,7 @@ namespace SAM.Analytical.LadybugTools
             {
                 foreach (Door door in face.Doors)
                 {
-                    Aperture aperture = door?.ToSAM();
+                    Aperture aperture = door?.ToSAM(apertureConstructions);
                     if (aperture != null)
                     {
                         panel.AddAperture(aperture);
