@@ -23,7 +23,7 @@ namespace SAM.Analytical.LadybugTools
 
             PanelGroup panelGroup = face.FaceType.ToSAM();
 
-            Construction construction = null;
+            Construction construction = new Construction(face.DisplayName);
 
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = face.BoundaryCondition;
             if(boundaryCondition.Obj is Ground)

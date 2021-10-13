@@ -19,7 +19,7 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            ApertureConstruction apertureConstruction = null;
+            ApertureConstruction apertureConstruction = new ApertureConstruction(aperture.DisplayName, ApertureType.Window);
 
             Aperture result = new Aperture(apertureConstruction, face3D);
 
@@ -39,7 +39,7 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            ApertureConstruction apertureConstruction = null;
+            ApertureConstruction apertureConstruction = new ApertureConstruction(door.DisplayName, ApertureType.Door);
 
             Aperture result = new Aperture(apertureConstruction, face3D);
 
