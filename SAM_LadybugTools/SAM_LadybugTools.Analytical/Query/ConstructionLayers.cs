@@ -13,7 +13,8 @@ namespace SAM.Analytical.LadybugTools
             List<ConstructionLayer> result = new List<ConstructionLayer>();
             foreach (string name in names)
             {
-                Material material = materialLibrary.GetMaterial(name) as Material;
+                
+                Material material = materialLibrary.GetMaterials()?.Find(x => x.Name == null && x is Material) as Material;
                 if (material == null)
                 {
                     continue;
