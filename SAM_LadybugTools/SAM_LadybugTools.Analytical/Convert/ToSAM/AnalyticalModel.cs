@@ -1,4 +1,5 @@
 ﻿using HoneybeeSchema;
+using SAM.Core;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
@@ -48,7 +49,9 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            AnalyticalModel result = new AnalyticalModel(model.DisplayName, null, null, null, adjacencyCluster, null, null);
+            MaterialLibrary materialLibrary = model.Properties?.Energy?.ToSAM_MaterialLibrary();
+
+            AnalyticalModel result = new AnalyticalModel(model.DisplayName, null, null, null, adjacencyCluster, materialLibrary, null);
 
             return result;
         }

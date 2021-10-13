@@ -78,8 +78,13 @@
     <Compile Include="Convert\ToLadybugTools\Room.cs" />
     <Compile Include="Convert\ToLadybugTools\OpaqueConstructionAbridged.cs" />
     <Compile Include="Convert\ToLadybugTools\Shade.cs" />
+    <Compile Include="Convert\ToSAM\OpaqueMaterial.cs" />
     <Compile Include="Convert\ToSAM\SAMObject.cs" />
     <Compile Include="Convert\ToSAM\AnalyticalModel.cs" />
+    <Compile Include="Convert\ToSAM\MaterialLibrary.cs" />
+    <Compile Include="Convert\ToSAM\Material.cs" />
+    <Compile Include="Convert\ToSAM\GasMaterial.cs" />
+    <Compile Include="Convert\ToSAM\TransparentMaterial.cs" />
     <Compile Include="Convert\ToSAM\Space.cs" />
     <Compile Include="Convert\ToSAM\Aperture.cs" />
     <Compile Include="Convert\ToSAM\PanelGroup.cs" />
