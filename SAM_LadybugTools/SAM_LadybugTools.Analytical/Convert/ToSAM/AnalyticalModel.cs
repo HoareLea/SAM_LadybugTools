@@ -14,16 +14,20 @@ namespace SAM.Analytical.LadybugTools
             }
 
             MaterialLibrary materialLibrary = null;
+            ProfileLibrary profileLibrary = null;
             List<Construction> constructions = null;
             List<ApertureConstruction> apertureConstructions = null;
+            List<InternalCondition> internalConditions = null;
 
             ModelEnergyProperties modelEnergyProperties = model.Properties?.Energy;
+            
             if(modelEnergyProperties != null)
             {
                 materialLibrary = modelEnergyProperties.ToSAM_MaterialLibrary();
                 constructions = modelEnergyProperties.ToSAM_Constructions();
                 apertureConstructions = modelEnergyProperties.ToSAM_ApertureConstructions();
-                
+                internalConditions = modelEnergyProperties.ToSAM_InternalConditions();
+                profileLibrary = modelEnergyProperties.ToSAM_ProfileLibrary();
             }
 
             AdjacencyCluster adjacencyCluster = new AdjacencyCluster();
@@ -48,7 +52,7 @@ namespace SAM.Analytical.LadybugTools
                         }
                     }
 
-                    Space space = room.ToSAM();
+                    Space space = room.ToSAM(internalConditions);
                     adjacencyCluster.AddObject(space);
 
                     if (panels != null)
@@ -62,9 +66,20 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
+            List<Shade> shades = model.OrphanedShades;
+            if(shades != null && shades.Count != 0)
+            {
+                foreach(Shade shade in shades)
+                {
+                    Panel panel = shade?.ToSAM(constructions);
+                    if(panel != null)
+                    {
+                        adjacencyCluster.AddObject(panel);
+                    }
+                }
+            }
 
-
-            AnalyticalModel result = new AnalyticalModel(model.DisplayName, null, null, null, adjacencyCluster, materialLibrary, null);
+            AnalyticalModel result = new AnalyticalModel(model.DisplayName, null, null, null, adjacencyCluster, materialLibrary, profileLibrary);
 
             return result;
         }

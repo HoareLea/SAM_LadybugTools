@@ -6,7 +6,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Panel ToSAM(this Face face, IEnumerable<Construction> constructions = null, IEnumerable<ApertureConstruction> apertureConstructions = null)
+        public static Panel ToSAM(this Face face, IEnumerable<Construction> constructions = null, IEnumerable<ApertureConstruction> apertureConstructions = null) 
         {
             if(face == null)
             {
@@ -122,6 +122,40 @@ namespace SAM.Analytical.LadybugTools
             }
 
             return panel;
+        }
+
+        public static Panel ToSAM(this Shade shade, IEnumerable<Construction> constructions = null)
+        {
+            if(shade == null)
+            {
+                return null;
+            }
+
+            Geometry.Spatial.Face3D face3D = Geometry.LadybugTools.Convert.ToSAM(shade.Geometry);
+            if (face3D == null)
+            {
+                return null;
+            }
+
+            Construction construction = null;
+            if (constructions != null && shade.Properties?.Energy?.Construction != null)
+            {
+                foreach (Construction construction_Temp in constructions)
+                {
+                    if (construction_Temp.Name == shade.Properties.Energy.Construction)
+                    {
+                        construction = construction_Temp;
+                        break;
+                    }
+                }
+            }
+
+            if (construction == null)
+            {
+                construction = new Construction(shade.Identifier);
+            }
+
+            return Create.Panel(construction, PanelType.Shade, face3D);
         }
     }
 }

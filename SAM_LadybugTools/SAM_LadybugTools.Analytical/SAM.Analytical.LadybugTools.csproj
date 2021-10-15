@@ -78,6 +78,10 @@
     <Compile Include="Convert\ToLadybugTools\Room.cs" />
     <Compile Include="Convert\ToLadybugTools\OpaqueConstructionAbridged.cs" />
     <Compile Include="Convert\ToLadybugTools\Shade.cs" />
+    <Compile Include="Convert\ToSAM\Profiles.cs" />
+    <Compile Include="Convert\ToSAM\InternalCondition.cs" />
+    <Compile Include="Convert\ToSAM\ProfileLibrary.cs" />
+    <Compile Include="Convert\ToSAM\InternalConditions.cs" />
     <Compile Include="Convert\ToSAM\ApertureConstructions.cs" />
     <Compile Include="Convert\ToSAM\ApertureConstruction.cs" />
     <Compile Include="Convert\ToSAM\Constructions.cs" />
