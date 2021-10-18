@@ -22,14 +22,14 @@ namespace SAM.Analytical.LadybugTools
 
             AdjacencyCluster adjacencyCluster = analyticalModel_Temp.AdjacencyCluster;
 
-            List<HoneybeeSchema.Room> rooms = null;
+            List<Room> rooms = null;
             List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>> hvacs = null;
 
             List<Space> spaces = adjacencyCluster?.GetSpaces();
             if (spaces != null)
             {
                 hvacs = new List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>>();
-                rooms = new List<HoneybeeSchema.Room>();
+                rooms = new List<Room>();
 
                 Dictionary<double, List<Panel>> dictionary_elevations = Analytical.Query.MinElevationDictionary(adjacencyCluster.GetPanels(), true);
                 List<Level> levels = dictionary_elevations?.Keys.ToList().ConvertAll(x => Architectural.Create.Level(x));
@@ -40,7 +40,7 @@ namespace SAM.Analytical.LadybugTools
                     if (space == null)
                         continue;
 
-                    HoneybeeSchema.Room room = space.ToLadybugTools(analyticalModel_Temp, silverSpacing, tolerance);
+                    Room room = space.ToLadybugTools(analyticalModel_Temp, silverSpacing, tolerance);
                     if (room == null)
                         continue;
 
@@ -134,7 +134,7 @@ namespace SAM.Analytical.LadybugTools
             List<Construction> constructions_AdjacencyCluster = adjacencyCluster.GetConstructions();
             List<ApertureConstruction> apertureConstructions_AdjacencyCluster = adjacencyCluster.GetApertureConstructions();
 
-            ConstructionSetAbridged constructionSetAbridged = Query.StandardConstructionSetAbridged("Default Generic Construction Set", TextComparisonType.Equals, true);
+            ConstructionSetAbridged constructionSetAbridged = Core.LadybugTools.Query.DefaultConstructionSetAbridged();
             List<HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>> constructionSets = new List<HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>>();// { constructionSetAbridged  };
 
             List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, WindowConstructionDynamicAbridged, WindowConstructionDynamic, AirBoundaryConstruction, ShadeConstruction>> constructions = new List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, WindowConstructionDynamicAbridged, WindowConstructionDynamic, AirBoundaryConstruction, ShadeConstruction>>();

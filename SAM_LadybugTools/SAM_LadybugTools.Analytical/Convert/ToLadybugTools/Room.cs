@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static HoneybeeSchema.Room ToLadybugTools(this Space space, AnalyticalModel analyticalModel = null, double silverSpacing = Core.Tolerance.MacroDistance, double tolerance = Core.Tolerance.Distance)
+        public static Room ToLadybugTools(this Space space, AnalyticalModel analyticalModel = null, double silverSpacing = Core.Tolerance.MacroDistance, double tolerance = Core.Tolerance.Distance)
         {
             if (space == null)
                 return null;
@@ -54,7 +54,7 @@ namespace SAM.Analytical.LadybugTools
 
             RoomPropertiesAbridged roomPropertiesAbridged = new RoomPropertiesAbridged();
 
-            HoneybeeSchema.Room result = new HoneybeeSchema.Room(uniqueName, faces, roomPropertiesAbridged, space.Name);
+            Room result = new Room(uniqueName, faces, roomPropertiesAbridged, space.Name);
 
             InternalCondition internalCondition = space.InternalCondition;
             if(internalCondition != null)

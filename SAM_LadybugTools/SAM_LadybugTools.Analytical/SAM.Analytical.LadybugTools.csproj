@@ -103,7 +103,6 @@
     <Compile Include="Query\ScheduleUnitTypes.cs" />
     <Compile Include="Query\PaneMaterialName.cs" />
     <Compile Include="Query\GasType.cs" />
-    <Compile Include="Query\StandardConstructionSet.cs" />
     <Compile Include="Query\FaceTypeEnum.cs" />
     <Compile Include="Convert\ToLadybugTools\BoundaryCondition.cs" />
     <Compile Include="Convert\ToLadybugTools\Aperture.cs" />

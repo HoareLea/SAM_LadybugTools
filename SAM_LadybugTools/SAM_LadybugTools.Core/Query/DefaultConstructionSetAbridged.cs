@@ -1,12 +1,11 @@
 ﻿using HoneybeeSchema;
-using SAM.Core;
 using System.Collections.Generic;
 
-namespace SAM.Analytical.LadybugTools
+namespace SAM.Core.LadybugTools
 {
     public static partial class Query
     {
-        public static ConstructionSetAbridged StandardConstructionSetAbridged(string text, TextComparisonType textComparisonType, bool caseSensitive = true)
+        public static ConstructionSetAbridged DefaultConstructionSetAbridged(string text, TextComparisonType textComparisonType, bool caseSensitive = true)
         {
            IEnumerable<ConstructionSetAbridged> constructionSetsAbridged = HoneybeeSchema.Helper.EnergyLibrary.DefaultConstructionSets;
             if (constructionSetsAbridged == null)
@@ -19,6 +18,11 @@ namespace SAM.Analytical.LadybugTools
             }
 
             return null;
+        }
+
+        public static ConstructionSetAbridged DefaultConstructionSetAbridged()
+        {
+            return DefaultConstructionSetAbridged("Default Generic Construction Set", TextComparisonType.Equals, true);
         }
     }
 }
