@@ -36,11 +36,6 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            if(construction == null)
-            {
-                construction = new Construction(face.Identifier);
-            }
-
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = face.BoundaryCondition;
             if(boundaryCondition.Obj is Ground)
             {
@@ -93,6 +88,21 @@ namespace SAM.Analytical.LadybugTools
                 Surface surface = ((Surface)boundaryCondition.Obj);
 
                 construction = new Construction(surface.BoundaryConditionObjects?.FirstOrDefault());
+            }
+
+            if(construction == null)
+            {
+
+                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultConstruction(panelType);
+                if(construction_Honeybee != null)
+                {
+                    construction = construction_Honeybee.ToSAM_Construction();
+                }
+            }
+
+            if (construction == null)
+            {
+                construction = new Construction(face.Identifier);
             }
 
             Panel panel = Create.Panel(construction, panelType, face3D);

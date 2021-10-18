@@ -99,6 +99,8 @@
     <Compile Include="Convert\ToSAM\Panel.cs" />
     <Compile Include="Convert\ToSAM\Profile.cs" />
     <Compile Include="Query\ConstructionLayers.cs" />
+    <Compile Include="Query\DefaultConstruction.cs" />
+    <Compile Include="Query\DefaultConstructionName.cs" />
     <Compile Include="Query\InfiltrationAirFlowPerExteriorArea.cs" />
     <Compile Include="Query\ScheduleUnitTypes.cs" />
     <Compile Include="Query\PaneMaterialName.cs" />
