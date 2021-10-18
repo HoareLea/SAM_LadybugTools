@@ -51,7 +51,7 @@ namespace SAM.Analytical.LadybugTools
             return result;
         }
 
-        public static Aperture ToSAM(this Door door, IEnumerable<ApertureConstruction> apertureConstructions = null)
+        public static Aperture ToSAM(this HoneybeeSchema.Door door, IEnumerable<ApertureConstruction> apertureConstructions = null)
         {
             if (door == null)
             {

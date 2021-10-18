@@ -31,10 +31,10 @@ namespace SAM.Analytical.LadybugTools
             }
 
             AdjacencyCluster adjacencyCluster = new AdjacencyCluster();
-            List<Room> rooms = model.Rooms;
+            List<HoneybeeSchema.Room> rooms = model.Rooms;
             if (rooms != null)
             {
-                foreach (Room room in rooms)
+                foreach (HoneybeeSchema.Room room in rooms)
                 {
                     List<Face> faces = room.Faces;
                     if (faces == null)

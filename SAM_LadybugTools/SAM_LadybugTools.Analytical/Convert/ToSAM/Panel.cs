@@ -111,7 +111,7 @@ namespace SAM.Analytical.LadybugTools
 
             if (face.Doors != null)
             {
-                foreach (Door door in face.Doors)
+                foreach (HoneybeeSchema.Door door in face.Doors)
                 {
                     Aperture aperture = door?.ToSAM(apertureConstructions);
                     if (aperture != null)

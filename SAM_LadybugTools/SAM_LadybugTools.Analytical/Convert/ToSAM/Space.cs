@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Space ToSAM(this Room room, IEnumerable<InternalCondition> internalConditions = null)
+        public static Space ToSAM(this HoneybeeSchema.Room room, IEnumerable<InternalCondition> internalConditions = null)
         {
             if(room == null)
             {

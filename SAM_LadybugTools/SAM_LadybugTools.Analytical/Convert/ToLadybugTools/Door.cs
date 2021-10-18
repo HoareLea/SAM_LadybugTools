@@ -6,7 +6,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Door ToLadybugTools_Door(this Aperture aperture, MaterialLibrary materialLibrary = null, int index = -1, int index_Adjacent = -1, string adjacentPanelUniqueName = null, string adjacentSpaceUniqueName = null)
+        public static HoneybeeSchema.Door ToLadybugTools_Door(this Aperture aperture, MaterialLibrary materialLibrary = null, int index = -1, int index_Adjacent = -1, string adjacentPanelUniqueName = null, string adjacentSpaceUniqueName = null)
         {
             if (aperture == null)
                 return null;
@@ -42,8 +42,8 @@ namespace SAM.Analytical.LadybugTools
             }
 
             DoorEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new DoorEnergyPropertiesAbridged(Query.UniqueName(apertureConstruction, !(index_Adjacent != -1 && index <= index_Adjacent)));
-            
-            Door door = new Door(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new DoorPropertiesAbridged(apertureEnergyPropertiesAbridged), aperture.Name);
+
+            HoneybeeSchema.Door door = new HoneybeeSchema.Door(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new DoorPropertiesAbridged(apertureEnergyPropertiesAbridged), aperture.Name);
             door.IsGlass = materialType == MaterialType.Transparent;
             return door;
         }
