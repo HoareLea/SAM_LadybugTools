@@ -28,5 +28,15 @@ namespace SAM.Analytical.LadybugTools
 
             return null;
         }
+
+        public static Core.IMaterial ToSAM(AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGlazing, EnergyWindowMaterialGas> material)
+        {
+            if(material.Obj is HoneybeeSchema.Energy.IMaterial)
+            {
+                return ToSAM((HoneybeeSchema.Energy.IMaterial)material.Obj);
+            }
+
+            return null;
+        }
     }
 }

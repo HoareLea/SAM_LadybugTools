@@ -30,6 +30,16 @@ namespace SAM.Analytical.LadybugTools
                 profileLibrary = modelEnergyProperties.ToSAM_ProfileLibrary();
             }
 
+            if (materialLibrary == null)
+            {
+                materialLibrary = new MaterialLibrary(string.Empty);
+            }
+
+            if (constructions == null)
+            {
+                constructions = new List<Construction>();
+            }
+
             AdjacencyCluster adjacencyCluster = new AdjacencyCluster();
             List<Room> rooms = model.Rooms;
             if (rooms != null)
@@ -48,6 +58,17 @@ namespace SAM.Analytical.LadybugTools
                         Panel panel = face.ToSAM(constructions, apertureConstructions);
                         if(panel != null)
                         {
+                            Construction construction = panel.Construction;
+                            if(construction != null)
+                            {
+                                if (constructions.Find(x => x.Name.Equals(construction.Name)) == null)
+                                {
+                                    constructions.Add(construction);
+                                }
+
+                                materialLibrary.AddDefaultMaterials(construction);
+                            }
+
                             panels.Add(panel);
                         }
                     }
@@ -74,6 +95,17 @@ namespace SAM.Analytical.LadybugTools
                     Panel panel = shade?.ToSAM(constructions);
                     if(panel != null)
                     {
+                        Construction construction = panel.Construction;
+                        if (construction != null)
+                        {
+                            if (constructions.Find(x => x.Name.Equals(construction.Name)) == null)
+                            {
+                                constructions.Add(construction);
+                            }
+
+                            materialLibrary.AddDefaultMaterials(construction);
+                        }
+
                         adjacencyCluster.AddObject(panel);
                     }
                 }

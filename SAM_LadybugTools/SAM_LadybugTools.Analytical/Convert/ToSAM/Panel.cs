@@ -162,6 +162,16 @@ namespace SAM.Analytical.LadybugTools
 
             if (construction == null)
             {
+
+                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultConstruction(PanelType.Shade);
+                if (construction_Honeybee != null)
+                {
+                    construction = construction_Honeybee.ToSAM_Construction();
+                }
+            }
+
+            if (construction == null)
+            {
                 construction = new Construction(shade.Identifier);
             }
 
