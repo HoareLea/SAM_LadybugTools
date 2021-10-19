@@ -43,7 +43,13 @@ namespace SAM.Analytical.LadybugTools
 
             DoorEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new DoorEnergyPropertiesAbridged(Query.UniqueName(apertureConstruction, !(index_Adjacent != -1 && index <= index_Adjacent)));
 
-            HoneybeeSchema.Door door = new HoneybeeSchema.Door(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new DoorPropertiesAbridged(apertureEnergyPropertiesAbridged), aperture.Name);
+            HoneybeeSchema.Door door = new HoneybeeSchema.Door(
+                identifier: Core.LadybugTools.Query.UniqueName(aperture, index),
+                geometry: face3D,
+                boundaryCondition: anyOf,
+                properties: new DoorPropertiesAbridged(apertureEnergyPropertiesAbridged),
+                displayName: aperture.Name);
+
             door.IsGlass = materialType == MaterialType.Transparent;
             return door;
         }
