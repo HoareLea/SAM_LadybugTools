@@ -12,28 +12,55 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            List<IMaterial> result = new List<IMaterial>();
+            return AddDefaultMaterials(materialLibrary, construction.ConstructionLayers);
+        }
 
-            List<ConstructionLayer> constructionLayers = construction.ConstructionLayers;
-            if (constructionLayers != null && constructionLayers.Count != 0)
+        public static List<IMaterial> AddDefaultMaterials(this MaterialLibrary materialLibrary, ApertureConstruction apertureConstruction)
+        {
+            if (materialLibrary == null || apertureConstruction == null)
             {
-                foreach (ConstructionLayer constructionLayer in constructionLayers)
+                return null;
+            }
+
+            List<ConstructionLayer> constructionLayers = apertureConstruction.PaneConstructionLayers;
+            if(apertureConstruction.FrameConstructionLayers != null)
+            {
+                if(constructionLayers == null)
                 {
-                    if (materialLibrary.GetMaterial(constructionLayer.Name) != null)
-                    {
-                        continue;
-                    }
+                    constructionLayers = new List<ConstructionLayer>();
+                }
 
-                    IMaterial material = Convert.ToSAM(Core.LadybugTools.Query.DefaultMaterial(constructionLayer.Name));
-                    if (material == null)
-                    {
-                        continue;
-                    }
+                constructionLayers.AddRange(apertureConstruction.FrameConstructionLayers);
+            }
 
-                    if(materialLibrary.Add(material))
-                    {
-                        result.Add(material);
-                    }
+
+            return AddDefaultMaterials(materialLibrary, constructionLayers);
+        }
+
+        public static List<IMaterial> AddDefaultMaterials(this MaterialLibrary materialLibrary, IEnumerable<ConstructionLayer> constructionLayers)
+        {
+            if (materialLibrary == null || constructionLayers == null)
+            {
+                return null;
+            }
+
+            List<IMaterial> result = new List<IMaterial>();
+            foreach (ConstructionLayer constructionLayer in constructionLayers)
+            {
+                if (materialLibrary.GetMaterial(constructionLayer.Name) != null)
+                {
+                    continue;
+                }
+
+                IMaterial material = Convert.ToSAM(Core.LadybugTools.Query.DefaultMaterial(constructionLayer.Name));
+                if (material == null)
+                {
+                    continue;
+                }
+
+                if (materialLibrary.Add(material))
+                {
+                    result.Add(material);
                 }
             }
 

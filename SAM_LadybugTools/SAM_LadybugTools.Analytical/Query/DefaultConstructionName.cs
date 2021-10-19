@@ -48,5 +48,29 @@ namespace SAM.Analytical.LadybugTools
 
             return null;
         }
+
+        public static string DefaultConstructionName(this ApertureType apertureType, bool @internal = false)
+        {
+            if (apertureType == ApertureType.Undefined)
+            {
+                return null;
+            }
+
+            GlobalConstructionSet globalConstructionSet = GlobalConstructionSet.Default;
+            if (globalConstructionSet == null)
+            {
+                return null;
+            }
+
+            switch (apertureType)
+            {
+                case ApertureType.Window:
+                    return @internal ? globalConstructionSet.ApertureSet.InteriorConstruction : globalConstructionSet.ApertureSet.OperableConstruction;
+                case ApertureType.Door:
+                    return @internal ? globalConstructionSet.DoorSet.InteriorConstruction : globalConstructionSet.DoorSet.ExteriorConstruction;
+            }
+
+            return null;
+        }
     }
 }

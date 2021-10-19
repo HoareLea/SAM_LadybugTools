@@ -40,6 +40,11 @@ namespace SAM.Analytical.LadybugTools
                 constructions = new List<Construction>();
             }
 
+            if (apertureConstructions == null)
+            {
+                apertureConstructions = new List<ApertureConstruction>();
+            }
+
             AdjacencyCluster adjacencyCluster = new AdjacencyCluster();
             List<Room> rooms = model.Rooms;
             if (rooms != null)
@@ -67,6 +72,24 @@ namespace SAM.Analytical.LadybugTools
                                 }
 
                                 materialLibrary.AddDefaultMaterials(construction);
+                            }
+
+                            List<Aperture> apertures = panel.Apertures;
+                            if(apertures != null)
+                            {
+                                foreach(Aperture aperture in apertures)
+                                {
+                                    ApertureConstruction apertureConstruction = aperture.ApertureConstruction;
+                                    if (apertureConstruction != null)
+                                    {
+                                        if (apertureConstructions.Find(x => x.Name.Equals(apertureConstruction.Name)) == null)
+                                        {
+                                            apertureConstructions.Add(apertureConstruction);
+                                        }
+
+                                        materialLibrary.AddDefaultMaterials(apertureConstruction);
+                                    }
+                                }
                             }
 
                             panels.Add(panel);
@@ -104,6 +127,24 @@ namespace SAM.Analytical.LadybugTools
                             }
 
                             materialLibrary.AddDefaultMaterials(construction);
+                        }
+
+                        List<Aperture> apertures = panel.Apertures;
+                        if (apertures != null)
+                        {
+                            foreach (Aperture aperture in apertures)
+                            {
+                                ApertureConstruction apertureConstruction = aperture.ApertureConstruction;
+                                if (apertureConstruction != null)
+                                {
+                                    if (apertureConstructions.Find(x => x.Name.Equals(apertureConstruction.Name)) == null)
+                                    {
+                                        apertureConstructions.Add(apertureConstruction);
+                                    }
+
+                                    materialLibrary.AddDefaultMaterials(apertureConstruction);
+                                }
+                            }
                         }
 
                         adjacencyCluster.AddObject(panel);
