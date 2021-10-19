@@ -23,7 +23,15 @@ namespace SAM.Analytical.LadybugTools
 
             if (material is EnergyMaterial)
             {
-                return ((EnergyMaterial)material).ToSAM();
+                EnergyMaterial energyMaterial = material as EnergyMaterial;
+                if(energyMaterial.Density < 5)
+                {
+                    return ((EnergyMaterial)material).ToSAM_GasMaterial();
+                }
+                else
+                {
+                    return ((EnergyMaterial)material).ToSAM();
+                }
             }
 
             return null;

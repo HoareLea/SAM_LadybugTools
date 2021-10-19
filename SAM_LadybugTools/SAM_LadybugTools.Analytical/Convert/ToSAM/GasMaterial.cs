@@ -23,5 +23,25 @@ namespace SAM.Analytical.LadybugTools
 
             return result;
         }
+
+        public static Core.GasMaterial ToSAM_GasMaterial(this EnergyMaterial energyMaterial)
+        {
+            if (energyMaterial == null)
+            {
+                return null;
+            }
+
+            Core.GasMaterial result = Create.GasMaterial(
+                energyMaterial.Identifier,
+                energyMaterial.GetType().Name,
+                energyMaterial.DisplayName,
+                null,
+                energyMaterial.Thickness,
+                double.NaN,
+                double.NaN
+                );
+
+            return result;
+        }
     }
 }
