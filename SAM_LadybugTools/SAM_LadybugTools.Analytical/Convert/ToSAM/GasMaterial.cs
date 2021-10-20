@@ -11,6 +11,8 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
+            DefaultGasType defaultGasType = Query.DefaultGasType(energyWindowMaterialGas.GasType);
+
             Core.GasMaterial result = Create.GasMaterial(
                 energyWindowMaterialGas.Identifier,
                 energyWindowMaterialGas.GetType().Name,
@@ -18,7 +20,8 @@ namespace SAM.Analytical.LadybugTools
                 energyWindowMaterialGas.GasType.ToString(),
                 energyWindowMaterialGas.Thickness,
                 double.NaN,
-                energyWindowMaterialGas.UValue
+                energyWindowMaterialGas.UValue,
+                defaultGasType
                 );
 
             return result;
@@ -31,6 +34,8 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
+            DefaultGasType defaultGasType = Analytical.Query.DefaultGasType(energyMaterial.Identifier, energyMaterial.DisplayName);
+
             Core.GasMaterial result = Create.GasMaterial(
                 energyMaterial.Identifier,
                 energyMaterial.GetType().Name,
@@ -38,7 +43,8 @@ namespace SAM.Analytical.LadybugTools
                 null,
                 energyMaterial.Thickness,
                 double.NaN,
-                double.NaN
+                double.NaN,
+                defaultGasType
                 );
 
             return result;
