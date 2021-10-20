@@ -98,7 +98,7 @@ namespace SAM.Analytical.LadybugTools
 
             List<ScheduleDay> scheduleDays = dictionary_ScheduleDay.Values.ToList();
             List<ScheduleRuleAbridged> scheduleRuleAbridgedes = dictionary_ScheduleRuleAbridged.Values.ToList();
-            ScheduleRuleset result = new ScheduleRuleset(uniqueName, scheduleDays, scheduleDays.First().Identifier, profile.Name, scheduleRuleAbridgedes);
+            ScheduleRuleset result = new ScheduleRuleset(uniqueName, scheduleDays, scheduleDays.First().Identifier, profile.Name, null, scheduleRuleAbridgedes);
 
             return result;
         }
