@@ -22,7 +22,7 @@ namespace SAM.Analytical.LadybugTools
             if (double.IsNaN(airspaceThermalResistance))
                 return null;
 
-            return new EnergyMaterialNoMass(gasMaterial.Name, airspaceThermalResistance, gasMaterial.DisplayName);
+            return new EnergyMaterialNoMass(identifier: gasMaterial.Name, rValue: airspaceThermalResistance, displayName: gasMaterial.DisplayName);
         }
     }
 }

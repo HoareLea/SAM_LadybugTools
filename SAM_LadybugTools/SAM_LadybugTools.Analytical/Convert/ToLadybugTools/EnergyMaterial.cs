@@ -11,17 +11,17 @@ namespace SAM.Analytical.LadybugTools
                 return null;
 
             return new EnergyMaterial(
-                opaqueMaterial.Name,
-                opaqueMaterial.GetValue<double>(MaterialParameter.DefaultThickness),
-                opaqueMaterial.ThermalConductivity,
-                opaqueMaterial.Density,
-                opaqueMaterial.SpecificHeatCapacity,
-                opaqueMaterial.DisplayName,
-                null,
-                Roughness.MediumSmooth,
-                opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalEmissivity),
-                1 - opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalSolarReflectance),
-                1 - opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalLightReflectance));
+                identifier: opaqueMaterial.Name,
+                thickness: opaqueMaterial.GetValue<double>(MaterialParameter.DefaultThickness),
+                conductivity: opaqueMaterial.ThermalConductivity,
+                density: opaqueMaterial.Density,
+                specificHeat: opaqueMaterial.SpecificHeatCapacity,
+                displayName: opaqueMaterial.DisplayName,
+                userData: null,
+                roughness: Roughness.MediumSmooth,
+                thermalAbsorptance: opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalEmissivity),
+                solarAbsorptance: 1 - opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalSolarReflectance),
+                visibleAbsorptance: 1 - opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalLightReflectance));
         }
     }
 }

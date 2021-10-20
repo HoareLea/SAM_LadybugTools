@@ -60,6 +60,7 @@
     <Compile Include="Convert\ToLadybugTools\List.cs" />
     <Compile Include="Convert\ToLadybugTools\Face3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\Shell.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

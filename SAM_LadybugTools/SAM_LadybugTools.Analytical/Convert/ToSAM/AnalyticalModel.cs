@@ -30,6 +30,21 @@ namespace SAM.Analytical.LadybugTools
                 profileLibrary = modelEnergyProperties.ToSAM_ProfileLibrary();
             }
 
+            if (materialLibrary == null)
+            {
+                materialLibrary = new MaterialLibrary(string.Empty);
+            }
+
+            if (constructions == null)
+            {
+                constructions = new List<Construction>();
+            }
+
+            if (apertureConstructions == null)
+            {
+                apertureConstructions = new List<ApertureConstruction>();
+            }
+
             AdjacencyCluster adjacencyCluster = new AdjacencyCluster();
             List<Room> rooms = model.Rooms;
             if (rooms != null)
@@ -48,6 +63,35 @@ namespace SAM.Analytical.LadybugTools
                         Panel panel = face.ToSAM(constructions, apertureConstructions);
                         if(panel != null)
                         {
+                            Construction construction = panel.Construction;
+                            if(construction != null)
+                            {
+                                if (constructions.Find(x => x.Name.Equals(construction.Name)) == null)
+                                {
+                                    constructions.Add(construction);
+                                }
+
+                                materialLibrary.AddDefaultMaterials(construction);
+                            }
+
+                            List<Aperture> apertures = panel.Apertures;
+                            if(apertures != null)
+                            {
+                                foreach(Aperture aperture in apertures)
+                                {
+                                    ApertureConstruction apertureConstruction = aperture.ApertureConstruction;
+                                    if (apertureConstruction != null)
+                                    {
+                                        if (apertureConstructions.Find(x => x.Name.Equals(apertureConstruction.Name)) == null)
+                                        {
+                                            apertureConstructions.Add(apertureConstruction);
+                                        }
+
+                                        materialLibrary.AddDefaultMaterials(apertureConstruction);
+                                    }
+                                }
+                            }
+
                             panels.Add(panel);
                         }
                     }
@@ -74,6 +118,35 @@ namespace SAM.Analytical.LadybugTools
                     Panel panel = shade?.ToSAM(constructions);
                     if(panel != null)
                     {
+                        Construction construction = panel.Construction;
+                        if (construction != null)
+                        {
+                            if (constructions.Find(x => x.Name.Equals(construction.Name)) == null)
+                            {
+                                constructions.Add(construction);
+                            }
+
+                            materialLibrary.AddDefaultMaterials(construction);
+                        }
+
+                        List<Aperture> apertures = panel.Apertures;
+                        if (apertures != null)
+                        {
+                            foreach (Aperture aperture in apertures)
+                            {
+                                ApertureConstruction apertureConstruction = aperture.ApertureConstruction;
+                                if (apertureConstruction != null)
+                                {
+                                    if (apertureConstructions.Find(x => x.Name.Equals(apertureConstruction.Name)) == null)
+                                    {
+                                        apertureConstructions.Add(apertureConstruction);
+                                    }
+
+                                    materialLibrary.AddDefaultMaterials(apertureConstruction);
+                                }
+                            }
+                        }
+
                         adjacencyCluster.AddObject(panel);
                     }
                 }

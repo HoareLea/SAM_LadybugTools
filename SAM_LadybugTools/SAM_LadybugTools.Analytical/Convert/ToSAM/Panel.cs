@@ -36,11 +36,6 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            if(construction == null)
-            {
-                construction = new Construction(face.Identifier);
-            }
-
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = face.BoundaryCondition;
             if(boundaryCondition.Obj is Ground)
             {
@@ -95,13 +90,28 @@ namespace SAM.Analytical.LadybugTools
                 construction = new Construction(surface.BoundaryConditionObjects?.FirstOrDefault());
             }
 
+            if(construction == null)
+            {
+
+                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultConstruction(panelType);
+                if(construction_Honeybee != null)
+                {
+                    construction = construction_Honeybee.ToSAM_Construction();
+                }
+            }
+
+            if (construction == null)
+            {
+                construction = new Construction(face.Identifier);
+            }
+
             Panel panel = Create.Panel(construction, panelType, face3D);
             
             if(face.Apertures != null)
             {
                 foreach(HoneybeeSchema.Aperture aperture_HoneybeeSchema in face.Apertures)
                 {
-                    Aperture aperture = aperture_HoneybeeSchema?.ToSAM(apertureConstructions);
+                    Aperture aperture = aperture_HoneybeeSchema?.ToSAM(panelType.Internal(), apertureConstructions);
                     if(aperture != null)
                     {
                         panel.AddAperture(aperture);
@@ -111,9 +121,9 @@ namespace SAM.Analytical.LadybugTools
 
             if (face.Doors != null)
             {
-                foreach (Door door in face.Doors)
+                foreach (HoneybeeSchema.Door door in face.Doors)
                 {
-                    Aperture aperture = door?.ToSAM(apertureConstructions);
+                    Aperture aperture = door?.ToSAM(panelType.Internal(), apertureConstructions);
                     if (aperture != null)
                     {
                         panel.AddAperture(aperture);
@@ -147,6 +157,16 @@ namespace SAM.Analytical.LadybugTools
                         construction = construction_Temp;
                         break;
                     }
+                }
+            }
+
+            if (construction == null)
+            {
+
+                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultConstruction(PanelType.Shade);
+                if (construction_Honeybee != null)
+                {
+                    construction = construction_Honeybee.ToSAM_Construction();
                 }
             }
 

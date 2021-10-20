@@ -41,7 +41,12 @@ namespace SAM.Analytical.LadybugTools
 
             ApertureEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new ApertureEnergyPropertiesAbridged(Query.UniqueName(apertureConstruction, !(index_Adjacent != -1 && index <= index_Adjacent)));
 
-            return new HoneybeeSchema.Aperture(Core.LadybugTools.Query.UniqueName(aperture, index), face3D, anyOf, new AperturePropertiesAbridged(apertureEnergyPropertiesAbridged), aperture.Name);
+            return new HoneybeeSchema.Aperture(
+                identifier: Core.LadybugTools.Query.UniqueName(aperture, index),
+                geometry: face3D,
+                boundaryCondition: anyOf,
+                properties: new AperturePropertiesAbridged(apertureEnergyPropertiesAbridged),
+                displayName: aperture.Name);
         }
     }
 }

@@ -18,15 +18,15 @@ namespace SAM.Analytical.LadybugTools
                 null,
                 energyMaterial.Conductivity,
                 energyMaterial.SpecificHeat,
-                double.NaN,
+                energyMaterial.Density,
                 energyMaterial.Thickness,
                 double.NaN,
                 1 - energyMaterial.SolarAbsorptance,
-                double.NaN,
+                1 - energyMaterial.SolarAbsorptance,
                 1 - energyMaterial.VisibleAbsorptance,
-                double.NaN,
+                1 - energyMaterial.VisibleAbsorptance,
                 energyMaterial.ThermalAbsorptance,
-                double.NaN,
+                energyMaterial.ThermalAbsorptance,
                 false
                 );
 

@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Aperture ToSAM(this HoneybeeSchema.Aperture aperture, IEnumerable<ApertureConstruction> apertureConstructions = null)
+        public static Aperture ToSAM(this HoneybeeSchema.Aperture aperture, bool @internal, IEnumerable<ApertureConstruction> apertureConstructions = null)
         {
             if(aperture == null)
             {
@@ -41,6 +41,15 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
+            if(apertureConstruction == null)
+            {
+                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultApertureConstruction(ApertureType.Window, @internal);
+                if (construction_Honeybee != null)
+                {
+                    apertureConstruction = construction_Honeybee.ToSAM_ApertureConstruction();
+                }
+            }
+
             if (apertureConstruction == null)
             {
                 apertureConstruction = new ApertureConstruction(aperture.DisplayName, ApertureType.Window);
@@ -51,7 +60,7 @@ namespace SAM.Analytical.LadybugTools
             return result;
         }
 
-        public static Aperture ToSAM(this Door door, IEnumerable<ApertureConstruction> apertureConstructions = null)
+        public static Aperture ToSAM(this HoneybeeSchema.Door door, bool @internal, IEnumerable<ApertureConstruction> apertureConstructions = null)
         {
             if (door == null)
             {
@@ -87,7 +96,16 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            if(apertureConstruction == null)
+            if (apertureConstruction == null)
+            {
+                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultApertureConstruction(ApertureType.Door, @internal);
+                if (construction_Honeybee != null)
+                {
+                    apertureConstruction = construction_Honeybee.ToSAM_ApertureConstruction();
+                }
+            }
+
+            if (apertureConstruction == null)
             {
                 apertureConstruction = new ApertureConstruction(door.DisplayName, ApertureType.Door);
             }

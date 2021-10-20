@@ -52,7 +52,9 @@
     <Compile Include="Create\Log.cs" />
     <Compile Include="Modify\Write.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\DefaultMaterial.cs" />
     <Compile Include="Query\ClassName.cs" />
+    <Compile Include="Query\DefaultConstructionSetAbridged.cs" />
     <Compile Include="Query\UniqueName.cs" />
   </ItemGroup>
   <ItemGroup>
