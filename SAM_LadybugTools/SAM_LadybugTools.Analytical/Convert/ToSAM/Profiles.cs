@@ -17,14 +17,14 @@ namespace SAM.Analytical.LadybugTools
             PeopleAbridged peopleAbridged = programTypeAbridged.People;
             if (peopleAbridged != null)
             {
-                Profile profile = new Profile(peopleAbridged.Identifier, ProfileType.Occupancy);
+                Profile profile = new Profile(peopleAbridged.ActivitySchedule, ProfileType.Occupancy);
                 result.Add(profile);
             }
 
             LightingAbridged lightingAbridged = programTypeAbridged.Lighting;
             if (lightingAbridged != null)
             {
-                Profile profile = new Profile(lightingAbridged.Identifier, ProfileType.Lighting);
+                Profile profile = new Profile(lightingAbridged.Schedule, ProfileType.Lighting);
                 result.Add(profile);
             }
 
@@ -38,17 +38,17 @@ namespace SAM.Analytical.LadybugTools
             InfiltrationAbridged infiltrationAbridged = programTypeAbridged.Infiltration;
             if (infiltrationAbridged != null)
             {
-                Profile profile = new Profile(infiltrationAbridged.Identifier, ProfileType.Infiltration);
+                Profile profile = new Profile(infiltrationAbridged.Schedule, ProfileType.Infiltration);
                 result.Add(profile);
             }
 
             SetpointAbridged setPointAbridged = programTypeAbridged.Setpoint;
             if (setPointAbridged != null)
             {
-                Profile profile_Cooling = new Profile(setPointAbridged.Identifier + "_Cooling", ProfileType.Cooling);
+                Profile profile_Cooling = new Profile(setPointAbridged.CoolingSchedule, ProfileType.Cooling);
                 result.Add(profile_Cooling);
 
-                Profile profile_Heating = new Profile(setPointAbridged.Identifier + "_Heating", ProfileType.Heating);
+                Profile profile_Heating = new Profile(setPointAbridged.HeatingSchedule, ProfileType.Heating);
                 result.Add(profile_Heating);
             }
 
