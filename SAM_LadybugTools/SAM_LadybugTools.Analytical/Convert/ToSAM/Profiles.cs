@@ -12,7 +12,47 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            return null;
+            List<Profile> result = new List<Profile>();
+
+            PeopleAbridged peopleAbridged = programTypeAbridged.People;
+            if (peopleAbridged != null)
+            {
+                Profile profile = new Profile(peopleAbridged.Identifier, ProfileType.Occupancy);
+                result.Add(profile);
+            }
+
+            LightingAbridged lightingAbridged = programTypeAbridged.Lighting;
+            if (lightingAbridged != null)
+            {
+                Profile profile = new Profile(lightingAbridged.Identifier, ProfileType.Lighting);
+                result.Add(profile);
+            }
+
+            ElectricEquipmentAbridged electricEquipmentAbridged = programTypeAbridged.ElectricEquipment;
+            if (electricEquipmentAbridged != null)
+            {
+                Profile profile = new Profile(electricEquipmentAbridged.Identifier, ProfileType.EquipmentSensible);
+                result.Add(profile);
+            }
+
+            InfiltrationAbridged infiltrationAbridged = programTypeAbridged.Infiltration;
+            if (infiltrationAbridged != null)
+            {
+                Profile profile = new Profile(infiltrationAbridged.Identifier, ProfileType.Infiltration);
+                result.Add(profile);
+            }
+
+            SetpointAbridged setPointAbridged = programTypeAbridged.Setpoint;
+            if (setPointAbridged != null)
+            {
+                Profile profile_Cooling = new Profile(setPointAbridged.Identifier + "_Cooling", ProfileType.Cooling);
+                result.Add(profile_Cooling);
+
+                Profile profile_Heating = new Profile(setPointAbridged.Identifier + "_Heating", ProfileType.Heating);
+                result.Add(profile_Heating);
+            }
+
+            return result;
         }
 
         public static List<Profile> ToSAM_Profiles(this ProgramType programType)

@@ -11,38 +11,42 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            InternalCondition result = new InternalCondition(programTypeAbridged.DisplayName);
+            InternalCondition result = new InternalCondition(programTypeAbridged.Identifier);
 
             PeopleAbridged peopleAbridged = programTypeAbridged.People;
             if(peopleAbridged != null)
             {
-                result.SetValue(InternalConditionParameter.OccupancyProfileName, peopleAbridged.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.OccupancyProfileName, peopleAbridged.Identifier);
+                
             }
 
             LightingAbridged lightingAbridged = programTypeAbridged.Lighting;
             if(lightingAbridged != null)
             {
-                result.SetValue(InternalConditionParameter.LightingProfileName, lightingAbridged.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.LightingProfileName, lightingAbridged.Identifier);
+                result.SetValue(Analytical.InternalConditionParameter.LightingGainPerArea, lightingAbridged.WattsPerArea);
             }
 
             ElectricEquipmentAbridged electricEquipmentAbridged = programTypeAbridged.ElectricEquipment;
             if (electricEquipmentAbridged != null)
             {
-                result.SetValue(InternalConditionParameter.EquipmentSensibleProfileName, electricEquipmentAbridged.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.EquipmentSensibleProfileName, electricEquipmentAbridged.Identifier);
+                result.SetValue(Analytical.InternalConditionParameter.EquipmentSensibleGainPerArea, electricEquipmentAbridged.WattsPerArea);
             }
 
             InfiltrationAbridged infiltrationAbridged= programTypeAbridged.Infiltration;
             if (infiltrationAbridged != null)
             {
-                result.SetValue(InternalConditionParameter.InfiltrationProfileName, infiltrationAbridged.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.InfiltrationProfileName, infiltrationAbridged.Identifier);
+                result.SetValue(InternalConditionParameter.FlowPerExteriorArea, infiltrationAbridged.FlowPerExteriorArea); //TODO: Recalculate value per space
             }
 
             SetpointAbridged setPoint = programTypeAbridged.Setpoint;
             if(setPoint != null)
             {
-                result.SetValue(InternalConditionParameter.CoolingProfileName, setPoint.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.CoolingProfileName, setPoint.Identifier);
 
-                result.SetValue(InternalConditionParameter.HeatingProfileName, setPoint.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.HeatingProfileName, setPoint.Identifier);
             }
 
             return result;
@@ -60,33 +64,33 @@ namespace SAM.Analytical.LadybugTools
             People people = programType.People;
             if (people != null)
             {
-                result.SetValue(InternalConditionParameter.OccupancyProfileName, people.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.OccupancyProfileName, people.DisplayName);
             }
 
             Lighting lighting = programType.Lighting;
             if (lighting != null)
             {
-                result.SetValue(InternalConditionParameter.LightingProfileName, lighting.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.LightingProfileName, lighting.DisplayName);
             }
 
             ElectricEquipment electricEquipment = programType.ElectricEquipment;
             if (electricEquipment != null)
             {
-                result.SetValue(InternalConditionParameter.EquipmentSensibleProfileName, electricEquipment.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.EquipmentSensibleProfileName, electricEquipment.DisplayName);
             }
 
             Infiltration infiltration = programType.Infiltration;
             if (infiltration != null)
             {
-                result.SetValue(InternalConditionParameter.InfiltrationProfileName, infiltration.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.InfiltrationProfileName, infiltration.DisplayName);
             }
 
             Setpoint setPoint = programType.Setpoint;
             if (setPoint != null)
             {
-                result.SetValue(InternalConditionParameter.CoolingProfileName, setPoint.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.CoolingProfileName, setPoint.DisplayName);
 
-                result.SetValue(InternalConditionParameter.HeatingProfileName, setPoint.DisplayName);
+                result.SetValue(Analytical.InternalConditionParameter.HeatingProfileName, setPoint.DisplayName);
             }
 
             return result;

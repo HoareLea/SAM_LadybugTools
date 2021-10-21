@@ -16,7 +16,7 @@ namespace SAM.Analytical.LadybugTools
             double area = double.NaN;
             double volume = double.NaN;
 
-            Geometry.Spatial.Shell shell = SAM.Geometry.LadybugTools.Query.Shell(room);
+            Geometry.Spatial.Shell shell = Geometry.LadybugTools.Query.Shell(room);
             if(shell != null)
             {
                 location = shell.InternalPoint3D();
@@ -54,6 +54,19 @@ namespace SAM.Analytical.LadybugTools
                 if(internalCondition == null)
                 {
                     internalCondition = new InternalCondition(programType);
+                }
+
+                if(internalCondition != null && !double.IsNaN(volume))
+                {
+                    if(internalCondition.TryGetValue(InternalConditionParameter.FlowPerExteriorArea, out double flowPerExteriorArea))
+                    {
+                        internalCondition = new InternalCondition(System.Guid.NewGuid(), internalCondition);
+                        double exteriorArea = Geometry.LadybugTools.Query.ExteriorArea(room);
+
+                        double flow = flowPerExteriorArea * exteriorArea;
+
+                        internalCondition.SetValue(Analytical.InternalConditionParameter.InfiltrationAirChangesPerHour, flow / volume * 3600);
+                    }
                 }
 
                 result.InternalCondition = internalCondition;
