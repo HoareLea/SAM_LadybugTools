@@ -43,7 +43,7 @@ namespace SAM.Analytical.LadybugTools
                 null,
                 energyMaterial.Thickness,
                 double.NaN,
-                double.NaN,
+                energyMaterial.Thickness / energyMaterial.Conductivity,
                 defaultGasType
                 );
 

@@ -13,12 +13,12 @@ namespace SAM.Core.LadybugTools
 
             if(anyOf.Obj is ScheduleRuleset)
             {
-                return ((ScheduleRuleset)anyOf.Value).Identifier;
+                return ((ScheduleRuleset)anyOf.Obj).Identifier;
             }
 
             if (anyOf.Obj is ScheduleFixedInterval)
             {
-                return ((ScheduleFixedInterval)anyOf.Value).Identifier;
+                return ((ScheduleFixedInterval)anyOf.Obj).Identifier;
             }
 
             return null;
