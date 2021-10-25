@@ -46,5 +46,10 @@ namespace SAM.Geometry.LadybugTools
 
             return new HoneybeeSchema.Face3D(boundary, holes);
         }
+
+        public static HoneybeeSchema.Face3D ToLadybugTools(this IFace3DObject face3DObject)
+        {
+            return ToLadybugTools(face3DObject?.Face3D);
+        }
     }
 }

@@ -62,6 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToLadybugTools\New\Door.cs" />
+    <Compile Include="Convert\ToLadybugTools\New\BoundaryCondition.cs" />
     <Compile Include="Convert\ToLadybugTools\EnergyMaterialNoMass.cs" />
     <Compile Include="Convert\ToLadybugTools\GasType.cs" />
     <Compile Include="Convert\ToLadybugTools\Door.cs" />
@@ -69,6 +71,11 @@
     <Compile Include="Convert\ToLadybugTools\EnergyWindowMaterialGlazing.cs" />
     <Compile Include="Convert\ToLadybugTools\EnergyMaterial.cs" />
     <Compile Include="Convert\ToLadybugTools\HourlyContinousCollection.cs" />
+    <Compile Include="Convert\ToLadybugTools\New\Aperture.cs" />
+    <Compile Include="Convert\ToLadybugTools\New\Face.cs" />
+    <Compile Include="Convert\ToLadybugTools\New\OpaqueConstructionAbridged.cs" />
+    <Compile Include="Convert\ToLadybugTools\New\Shade.cs" />
+    <Compile Include="Convert\ToLadybugTools\New\WindowConstructionAbridged.cs" />
     <Compile Include="Convert\ToLadybugTools\ScheduleDay.cs" />
     <Compile Include="Convert\ToLadybugTools\ScheduleRuleset.cs" />
     <Compile Include="Convert\ToLadybugTools\ScheduleFixedInterval.cs" />
@@ -105,6 +112,8 @@
     <Compile Include="Query\DefaultConstruction.cs" />
     <Compile Include="Query\DefaultConstructionName.cs" />
     <Compile Include="Query\InfiltrationAirFlowPerExteriorArea.cs" />
+    <Compile Include="Query\New\FaceType.cs" />
+    <Compile Include="Query\New\UniqueName.cs" />
     <Compile Include="Query\ScheduleUnitTypes.cs" />
     <Compile Include="Query\PaneMaterialName.cs" />
     <Compile Include="Query\GasType.cs" />
