@@ -72,6 +72,7 @@
     <Compile Include="Convert\ToLadybugTools\EnergyMaterial.cs" />
     <Compile Include="Convert\ToLadybugTools\HourlyContinousCollection.cs" />
     <Compile Include="Convert\ToLadybugTools\New\Aperture.cs" />
+    <Compile Include="Convert\ToLadybugTools\New\EnergyMaterialNoMass.cs" />
     <Compile Include="Convert\ToLadybugTools\New\Face.cs" />
     <Compile Include="Convert\ToLadybugTools\New\OpaqueConstructionAbridged.cs" />
     <Compile Include="Convert\ToLadybugTools\New\Shade.cs" />
