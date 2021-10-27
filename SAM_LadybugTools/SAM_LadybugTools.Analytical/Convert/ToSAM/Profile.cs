@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Profile ToSAM(this ScheduleRulesetAbridged scheduleRulesetAbridged)
+        public static Profile ToSAM(this ScheduleRulesetAbridged scheduleRulesetAbridged, ProfileType? profileType)
         {
             if (scheduleRulesetAbridged == null)
                 return null;
@@ -25,7 +25,15 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            Profile result = new Profile(scheduleRulesetAbridged.Identifier, scheduleRulesetAbridged.Type);
+            Profile result = null;
+            if(profileType != null && profileType.HasValue)
+            {
+                result = new Profile(scheduleRulesetAbridged.Identifier, profileType.Value);
+            }
+            else
+            {
+                result = new Profile(scheduleRulesetAbridged.Identifier, scheduleRulesetAbridged.Type);
+            }
 
             List<ScheduleRuleAbridged> scheduleRuleAbridges = scheduleRulesetAbridged.ScheduleRules;
             if(scheduleRuleAbridges != null)

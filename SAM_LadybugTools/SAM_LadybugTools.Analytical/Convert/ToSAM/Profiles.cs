@@ -1,5 +1,6 @@
 ﻿using HoneybeeSchema;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAM.Analytical.LadybugTools
 {
@@ -12,44 +13,74 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
+            List<ScheduleRulesetAbridged> scheduleRulesetAbridgeds = HoneybeeSchema.Helper.EnergyLibrary.DefaultScheduleRuleset?.ToList();
+
             List<Profile> result = new List<Profile>();
 
             PeopleAbridged peopleAbridged = programTypeAbridged.People;
             if (peopleAbridged != null)
             {
-                Profile profile = new Profile(peopleAbridged.ActivitySchedule, ProfileType.Occupancy);
-                result.Add(profile);
+                ScheduleRulesetAbridged scheduleRulesetAbridged = scheduleRulesetAbridgeds.Find(x => x.Identifier == peopleAbridged.ActivitySchedule);
+                if(scheduleRulesetAbridged != null)
+                {
+                    Profile profile = scheduleRulesetAbridged.ToSAM(ProfileType.Occupancy);
+                    result.Add(profile);
+                }
             }
 
             LightingAbridged lightingAbridged = programTypeAbridged.Lighting;
             if (lightingAbridged != null)
             {
-                Profile profile = new Profile(lightingAbridged.Schedule, ProfileType.Lighting);
-                result.Add(profile);
+                ScheduleRulesetAbridged scheduleRulesetAbridged = scheduleRulesetAbridgeds.Find(x => x.Identifier == lightingAbridged.Schedule);
+                if (scheduleRulesetAbridged != null)
+                {
+                    Profile profile = scheduleRulesetAbridged.ToSAM(ProfileType.Lighting);
+                    result.Add(profile);
+                }
+
             }
 
             ElectricEquipmentAbridged electricEquipmentAbridged = programTypeAbridged.ElectricEquipment;
             if (electricEquipmentAbridged != null)
             {
-                Profile profile = new Profile(electricEquipmentAbridged.Identifier, ProfileType.EquipmentSensible);
-                result.Add(profile);
+                ScheduleRulesetAbridged scheduleRulesetAbridged = scheduleRulesetAbridgeds.Find(x => x.Identifier == electricEquipmentAbridged.Schedule);
+                if (scheduleRulesetAbridged != null)
+                {
+                    Profile profile = scheduleRulesetAbridged.ToSAM(ProfileType.EquipmentSensible);
+                    result.Add(profile);
+                }
+
             }
 
             InfiltrationAbridged infiltrationAbridged = programTypeAbridged.Infiltration;
             if (infiltrationAbridged != null)
             {
-                Profile profile = new Profile(infiltrationAbridged.Schedule, ProfileType.Infiltration);
-                result.Add(profile);
+                ScheduleRulesetAbridged scheduleRulesetAbridged = scheduleRulesetAbridgeds.Find(x => x.Identifier == infiltrationAbridged.Schedule);
+                if (scheduleRulesetAbridged != null)
+                {
+                    Profile profile = scheduleRulesetAbridged.ToSAM(ProfileType.Infiltration);//= new Profile(infiltrationAbridged.Schedule, ProfileType.EquipmentSensible);
+                    result.Add(profile);
+                }
             }
 
             SetpointAbridged setPointAbridged = programTypeAbridged.Setpoint;
             if (setPointAbridged != null)
             {
-                Profile profile_Cooling = new Profile(setPointAbridged.CoolingSchedule, ProfileType.Cooling);
-                result.Add(profile_Cooling);
+                ScheduleRulesetAbridged scheduleRulesetAbridged;
 
-                Profile profile_Heating = new Profile(setPointAbridged.HeatingSchedule, ProfileType.Heating);
-                result.Add(profile_Heating);
+                scheduleRulesetAbridged = scheduleRulesetAbridgeds.Find(x => x.Identifier == setPointAbridged.CoolingSchedule);
+                if (scheduleRulesetAbridged != null)
+                {
+                    Profile profile_Cooling = scheduleRulesetAbridged.ToSAM(ProfileType.Cooling);//= new Profile(setPointAbridged.CoolingSchedule, ProfileType.Cooling);
+                    result.Add(profile_Cooling);
+                }
+
+                scheduleRulesetAbridged = scheduleRulesetAbridgeds.Find(x => x.Identifier == setPointAbridged.HeatingSchedule);
+                if (scheduleRulesetAbridged != null)
+                {
+                    Profile profile_Heating = scheduleRulesetAbridged.ToSAM(ProfileType.Heating);//= new Profile(setPointAbridged.HeatingSchedule, ProfileType.Heating);
+                    result.Add(profile_Heating);
+                }
             }
 
             return result;
