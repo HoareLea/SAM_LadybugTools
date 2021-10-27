@@ -6,15 +6,15 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Face ToLadybugTools_Face(this IHostPartition hostPartition, ArchitecturalModel architecturalModel, Space space)
+        public static Face ToLadybugTools_Face(this IPartition partition, ArchitecturalModel architecturalModel, Space space)
         {
-            Face3D face3D = Geometry.LadybugTools.Convert.ToLadybugTools(hostPartition?.Face3D);
+            Face3D face3D = Geometry.LadybugTools.Convert.ToLadybugTools(partition?.Face3D);
             if (face3D == null)
             {
                 return null;
             }
 
-            FaceType? faceType = hostPartition.FaceType();
+            FaceType? faceType = partition.FaceType();
             if(faceType == null || !faceType.HasValue)
             {
                 return null;
@@ -23,7 +23,7 @@ namespace SAM.Analytical.LadybugTools
             int index = -1;
             int index_Adjacent = -1;
             bool reverse = true;
-            List<Space> spaces = architecturalModel.GetSpaces(hostPartition);
+            List<Space> spaces = architecturalModel.GetSpaces(partition);
             if (spaces != null && spaces.Count != 0)
             {
                 index = spaces.FindIndex(x => x.Guid == space.Guid);
@@ -35,43 +35,61 @@ namespace SAM.Analytical.LadybugTools
                 reverse = architecturalModel.UniqueIndex(spaces[0]) != index;
             }
 
-            AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = hostPartition.ToLadybugTools_BoundaryCondition(architecturalModel, space);
+            AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = partition.ToLadybugTools_BoundaryCondition(architecturalModel, space);
 
             FaceEnergyPropertiesAbridged faceEnergyPropertiesAbridged = new FaceEnergyPropertiesAbridged();
-            if (faceType != FaceType.AirBoundary)
+            if (partition is IHostPartition)
             {
-                faceEnergyPropertiesAbridged.Construction = Query.UniqueName(hostPartition.Type(), reverse);
+                faceEnergyPropertiesAbridged.Construction = Query.UniqueName(((IHostPartition)partition).Type(), reverse);
             }
-                
-
-            Face face = new Face(Core.LadybugTools.Query.UniqueName(hostPartition as SAMObject, index), face3D, faceType.Value, boundaryCondition, new FacePropertiesAbridged(faceEnergyPropertiesAbridged), hostPartition.Name);
-
-            List<IOpening> openings = hostPartition.GetOpenings();
-            if(openings != null && openings.Count != 0)
+            
+            Face face = new Face(Core.LadybugTools.Query.UniqueName(partition as SAMObject, index), face3D, faceType.Value, boundaryCondition, new FacePropertiesAbridged(faceEnergyPropertiesAbridged), partition.Name);
+            if (partition is IHostPartition)
             {
-                List<HoneybeeSchema.Aperture> apertures = new List<HoneybeeSchema.Aperture>();
-                List<HoneybeeSchema.Door> doors = new List<HoneybeeSchema.Door>();
-
-                foreach (IOpening opening in openings)
+                List<IOpening> openings = ((IHostPartition)partition).GetOpenings();
+                if (openings != null && openings.Count != 0)
                 {
-                    if(opening is Door)
+                    List<HoneybeeSchema.Aperture> apertures = new List<HoneybeeSchema.Aperture>();
+                    List<HoneybeeSchema.Door> doors = new List<HoneybeeSchema.Door>();
+
+                    foreach (IOpening opening in openings)
                     {
+                        MaterialType materialType = MaterialType.Opaque;
 
+                        OpeningType openingType = opening.Type();
+                        if(openingType != null)
+                        {
+                            materialType = architecturalModel.GetMaterialType(openingType.PaneMaterialLayers);
+                        }
+
+                        
+                        if (opening is Window && materialType != MaterialType.Opaque)
+                        {
+                            HoneybeeSchema.Aperture aperture = ((Window)opening).ToLadybugTools(architecturalModel, space);
+                            if(aperture != null)
+                            {
+                                apertures.Add(aperture);
+                            }
+                        }
+                        else
+                        {
+                            HoneybeeSchema.Door door = opening.ToLadybugTools(architecturalModel, space);
+                            if(door != null)
+                            {
+                                doors.Add(door);
+                            }
+                        }
                     }
-                    else
+
+                    if (apertures != null && apertures.Count != 0)
                     {
-
+                        face.Apertures = apertures;
                     }
-                }
 
-                if(apertures!= null && apertures.Count != 0)
-                {
-                    face.Apertures = apertures;
-                }
-
-                if(doors != null && doors.Count != 0)
-                {
-                    face.Doors = doors;
+                    if (doors != null && doors.Count != 0)
+                    {
+                        face.Doors = doors;
+                    }
                 }
             }
 
