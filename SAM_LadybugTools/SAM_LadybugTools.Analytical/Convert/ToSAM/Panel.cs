@@ -42,7 +42,7 @@ namespace SAM.Analytical.LadybugTools
                 switch(panelGroup)
                 {
                     case PanelGroup.Floor:
-                        panelType = PanelType.Floor;
+                        panelType = PanelType.SlabOnGrade;
                         break;
 
                     case PanelGroup.Other:
@@ -50,7 +50,7 @@ namespace SAM.Analytical.LadybugTools
                         break;
 
                     case PanelGroup.Roof:
-                        panelType = PanelType.UndergroundSlab;
+                        panelType = PanelType.UndergroundCeiling;
                         break;
 
                     case PanelGroup.Wall:
@@ -85,9 +85,19 @@ namespace SAM.Analytical.LadybugTools
             }
             else if(boundaryCondition.Obj is Surface)
             {
-                Surface surface = ((Surface)boundaryCondition.Obj);
+                Surface surface = (Surface)boundaryCondition.Obj;
 
-                construction = new Construction(surface.BoundaryConditionObjects?.FirstOrDefault());
+                switch(panelGroup)
+                {
+                    case PanelGroup.Floor:
+                        panelType = PanelType.FloorInternal;
+                        break;
+
+                    case PanelGroup.Wall:
+                        panelType = PanelType.WallInternal;
+                        break;
+
+                }
             }
 
             if(construction == null)

@@ -1,5 +1,6 @@
 ﻿using HoneybeeSchema;
 using SAM.Core;
+using System;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
@@ -45,6 +46,8 @@ namespace SAM.Analytical.LadybugTools
                 apertureConstructions = new List<ApertureConstruction>();
             }
 
+            List<Tuple<Panel, Geometry.Spatial.BoundingBox3D>> tuples = new List<Tuple<Panel, Geometry.Spatial.BoundingBox3D>>();
+
             AdjacencyCluster adjacencyCluster = new AdjacencyCluster();
             List<Room> rooms = model.Rooms;
             if (rooms != null)
@@ -61,10 +64,28 @@ namespace SAM.Analytical.LadybugTools
                     foreach (Face face in faces)
                     {
                         Panel panel = face.ToSAM(constructions, apertureConstructions);
-                        if(panel != null)
+                        if (panel == null)
                         {
+                            continue;
+                        }
+
+                        Geometry.Spatial.Point3D point3D = panel.GetFace3D().GetInternalPoint3D();
+                        if (point3D == null)
+                        {
+                            continue;
+                        }
+
+                        Panel panel_Existing = tuples.FindAll(x => x.Item2.Inside(point3D))?.Find(x => x.Item1.GetFace3D().On(point3D))?.Item1;
+                        if (panel_Existing != null)
+                        {
+                            panel = panel_Existing;
+                        }
+                        else
+                        {
+                            tuples.Add(new Tuple<Panel, Geometry.Spatial.BoundingBox3D>(panel, panel.GetFace3D().GetBoundingBox()));
+                            
                             Construction construction = panel.Construction;
-                            if(construction != null)
+                            if (construction != null)
                             {
                                 if (constructions.Find(x => x.Name.Equals(construction.Name)) == null)
                                 {
@@ -75,9 +96,9 @@ namespace SAM.Analytical.LadybugTools
                             }
 
                             List<Aperture> apertures = panel.Apertures;
-                            if(apertures != null)
+                            if (apertures != null)
                             {
-                                foreach(Aperture aperture in apertures)
+                                foreach (Aperture aperture in apertures)
                                 {
                                     ApertureConstruction apertureConstruction = aperture.ApertureConstruction;
                                     if (apertureConstruction != null)
@@ -91,9 +112,10 @@ namespace SAM.Analytical.LadybugTools
                                     }
                                 }
                             }
-
-                            panels.Add(panel);
                         }
+
+                        panels.Add(panel);
+
                     }
 
                     Space space = room.ToSAM(internalConditions);

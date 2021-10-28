@@ -44,6 +44,8 @@ namespace SAM.Analytical.LadybugTools
                     return globalConstructionSet.RoofCeilingSet.InteriorConstruction;
                 case PanelType.WallInternal:
                     return globalConstructionSet.WallSet.InteriorConstruction;
+                case PanelType.SlabOnGrade:
+                    return globalConstructionSet.FloorSet.GroundConstruction;
             }
 
             return null;
