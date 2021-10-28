@@ -17,6 +17,7 @@ namespace SAM.Analytical.LadybugTools
             if(peopleAbridged != null)
             {
                 result.SetValue(Analytical.InternalConditionParameter.OccupancyProfileName, peopleAbridged.ActivitySchedule);
+                result.SetValue(Analytical.InternalConditionParameter.AreaPerPerson, peopleAbridged.PeoplePerArea);
                 
             }
 
