@@ -60,7 +60,10 @@ namespace SAM.Analytical.LadybugTools
             }
             else if (boundaryCondition.Obj is Adiabatic)
             {
-                panelType = PanelType.Undefined;
+                if(panelGroup == PanelGroup.Roof)
+                {
+                    panelType = PanelType.Roof;
+                }
             }
             else if (boundaryCondition.Obj is Outdoors)
             {

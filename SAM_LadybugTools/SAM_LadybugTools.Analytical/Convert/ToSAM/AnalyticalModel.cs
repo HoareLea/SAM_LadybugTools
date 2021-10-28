@@ -78,7 +78,7 @@ namespace SAM.Analytical.LadybugTools
                             continue;
                         }
 
-                        Panel panel_Existing = tuples.FindAll(x => x.Item2.Inside(point3D))?.Find(x => x.Item1.GetFace3D().On(point3D))?.Item1;
+                        Panel panel_Existing = tuples.FindAll(x => x.Item2.Inside(point3D, true))?.Find(x => x.Item1.GetFace3D().On(point3D))?.Item1;
                         if (panel_Existing != null)
                         {
                             panel = panel_Existing;
@@ -132,7 +132,6 @@ namespace SAM.Analytical.LadybugTools
                         }
 
                         panels.Add(panel);
-
                     }
 
                     Space space = room.ToSAM(internalConditions);
