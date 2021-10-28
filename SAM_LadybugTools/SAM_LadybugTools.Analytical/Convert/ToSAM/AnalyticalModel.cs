@@ -54,6 +54,9 @@ namespace SAM.Analytical.LadybugTools
             {
                 foreach (Room room in rooms)
                 {
+                    room.IndoorShades?.ConvertAll(x => x.ToSAM(constructions))?.ForEach(x => adjacencyCluster.AddObject(x));
+                    room.OutdoorShades?.ConvertAll(x => x.ToSAM(constructions))?.ForEach(x => adjacencyCluster.AddObject(x));
+
                     List<Face> faces = room.Faces;
                     if (faces == null)
                     {
@@ -83,7 +86,10 @@ namespace SAM.Analytical.LadybugTools
                         else
                         {
                             tuples.Add(new Tuple<Panel, Geometry.Spatial.BoundingBox3D>(panel, panel.GetFace3D().GetBoundingBox()));
-                            
+
+                            face.IndoorShades?.ConvertAll(x => x.ToSAM(constructions))?.ForEach(x => adjacencyCluster.AddObject(x));
+                            face.OutdoorShades?.ConvertAll(x => x.ToSAM(constructions))?.ForEach(x => adjacencyCluster.AddObject(x));
+
                             Construction construction = panel.Construction;
                             if (construction != null)
                             {
@@ -112,6 +118,17 @@ namespace SAM.Analytical.LadybugTools
                                     }
                                 }
                             }
+
+                            List<HoneybeeSchema.Aperture> apertures_HoneybeeSchema = face.Apertures;
+                            if(apertures_HoneybeeSchema != null)
+                            {
+                                foreach (HoneybeeSchema.Aperture aperture_HoneybeeSchema in apertures_HoneybeeSchema)
+                                {
+                                    aperture_HoneybeeSchema.IndoorShades?.ConvertAll(x => x.ToSAM(constructions))?.ForEach(x => adjacencyCluster.AddObject(x));
+                                    aperture_HoneybeeSchema.OutdoorShades?.ConvertAll(x => x.ToSAM(constructions))?.ForEach(x => adjacencyCluster.AddObject(x));
+                                }
+                            }
+
                         }
 
                         panels.Add(panel);
