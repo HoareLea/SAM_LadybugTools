@@ -129,6 +129,16 @@ namespace SAM.Analytical.LadybugTools
                                 }
                             }
 
+                            List<HoneybeeSchema.Door> doors_HoneybeeSchema = face.Doors;
+                            if (doors_HoneybeeSchema != null)
+                            {
+                                foreach (HoneybeeSchema.Door door_HoneybeeSchema in doors_HoneybeeSchema)
+                                {
+                                    door_HoneybeeSchema.IndoorShades?.ConvertAll(x => x.ToSAM(constructions))?.ForEach(x => adjacencyCluster.AddObject(x));
+                                    door_HoneybeeSchema.OutdoorShades?.ConvertAll(x => x.ToSAM(constructions))?.ForEach(x => adjacencyCluster.AddObject(x));
+                                }
+                            }
+
                         }
 
                         panels.Add(panel);
