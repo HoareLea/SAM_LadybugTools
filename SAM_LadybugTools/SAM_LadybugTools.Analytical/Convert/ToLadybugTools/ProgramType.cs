@@ -66,7 +66,14 @@ namespace SAM.Analytical.LadybugTools
                                 if (double.IsNaN(latentFraction))
                                     latentFraction = 0;
 
-                                people = new People(string.Format("{0}_People", uniqueName), peoplePerArea, scheduleRuleset, profile.Name, scheduleRuleset_ActivityLevel, latentFraction: latentFraction);
+                                people = new People(
+                                    identifier: string.Format("{0}_People", uniqueName), 
+                                    peoplePerArea: peoplePerArea, 
+                                    occupancySchedule: scheduleRuleset, 
+                                    displayName: profile.Name, 
+                                    userData: null, 
+                                    activitySchedule: scheduleRuleset_ActivityLevel, 
+                                    latentFraction: latentFraction);
                             }
                         }
                     }
