@@ -5,6 +5,16 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
+        public static Profile ToSAM(this HoneybeeSchema.Energy.ISchedule schedule, ProfileType? profileType)
+        {
+            if(schedule is ScheduleRulesetAbridged)
+            {
+                return ToSAM((ScheduleRulesetAbridged)schedule, profileType);
+            }
+
+            return null;
+        }
+        
         public static Profile ToSAM(this ScheduleRulesetAbridged scheduleRulesetAbridged, ProfileType? profileType)
         {
             if (scheduleRulesetAbridged == null)

@@ -26,7 +26,7 @@ namespace SAM.Analytical.LadybugTools
 
                 if(programType is ProgramTypeAbridged)
                 {
-                    internalCondition = ((ProgramTypeAbridged)programType).ToSAM_InternalCondition();
+                    internalCondition = ((ProgramTypeAbridged)programType).ToSAM_InternalCondition(modelEnergyProperties);
                 } 
                 else if(programType is ProgramType)
                 {

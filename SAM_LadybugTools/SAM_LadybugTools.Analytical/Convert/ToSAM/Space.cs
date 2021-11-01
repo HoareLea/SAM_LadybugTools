@@ -69,6 +69,27 @@ namespace SAM.Analytical.LadybugTools
                     }
                 }
 
+                if(!double.IsNaN(area) && internalCondition.TryGetValue(InternalConditionParameter.TotalMetabolicRate, out double totalMetabolicRate) && internalCondition.TryGetValue(Analytical.InternalConditionParameter.AreaPerPerson, out double areaPerPerson))
+                {
+                    double people = area / areaPerPerson;
+
+                    double occupancyLatentGainPerPerson = 0;
+                    double occupancySensibleGainPerPerson = 0;
+
+                    if (internalCondition.TryGetValue(InternalConditionParameter.LatentFraction, out double latentFraction))
+                    {
+                        occupancyLatentGainPerPerson = totalMetabolicRate * latentFraction / people;
+                        occupancySensibleGainPerPerson = totalMetabolicRate * (1 - latentFraction) / people;
+                    }
+                    else
+                    {
+                        throw new System.NotImplementedException();
+                    }
+
+                    internalCondition.SetValue(Analytical.InternalConditionParameter.OccupancyLatentGainPerPerson, occupancyLatentGainPerPerson);
+                    internalCondition.SetValue(Analytical.InternalConditionParameter.OccupancySensibleGainPerPerson, occupancySensibleGainPerPerson);
+                }
+
                 result.InternalCondition = internalCondition;
             }
 

@@ -19,7 +19,10 @@ namespace SAM.Analytical.LadybugTools
                 materialLayers.Reverse();
             }
 
-            WindowConstructionAbridged result = new WindowConstructionAbridged(Query.UniqueName(windowType, reverse), materialLayers.ConvertAll(x => x.Name), windowType.Name);
+            WindowConstructionAbridged result = new WindowConstructionAbridged(
+                identifier: Query.UniqueName(windowType, reverse), 
+                materials: materialLayers.ConvertAll(x => x.Name), 
+                displayName: windowType.Name);
 
             return result;
         }

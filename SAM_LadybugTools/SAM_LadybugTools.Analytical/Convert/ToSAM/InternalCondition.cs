@@ -1,10 +1,11 @@
 ﻿using HoneybeeSchema;
+using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static InternalCondition ToSAM_InternalCondition(this ProgramTypeAbridged programTypeAbridged)
+        public static InternalCondition ToSAM_InternalCondition(this ProgramTypeAbridged programTypeAbridged, ModelEnergyProperties modelEnergyProperties)
         {
             if(programTypeAbridged == null)
             {
@@ -16,8 +17,34 @@ namespace SAM.Analytical.LadybugTools
             PeopleAbridged peopleAbridged = programTypeAbridged.People;
             if(peopleAbridged != null)
             {
-                result.SetValue(Analytical.InternalConditionParameter.OccupancyProfileName, peopleAbridged.ActivitySchedule);
-                result.SetValue(Analytical.InternalConditionParameter.AreaPerPerson, peopleAbridged.PeoplePerArea);
+                result.SetValue(Analytical.InternalConditionParameter.OccupancyProfileName, peopleAbridged.OccupancySchedule);
+                result.SetValue(Analytical.InternalConditionParameter.AreaPerPerson, 1 / peopleAbridged.PeoplePerArea);
+
+                if(modelEnergyProperties != null)
+                {
+                    IEnumerable<HoneybeeSchema.Energy.ISchedule> schedules = modelEnergyProperties.ScheduleList;
+                    if(schedules != null)
+                    {
+                        foreach(HoneybeeSchema.Energy.ISchedule schedule in schedules)
+                        {
+                            if(schedule.Identifier == peopleAbridged.ActivitySchedule)
+                            {
+                                
+                                Profile profile = schedule.ToSAM(ProfileType.Other);
+                                if(profile != null)
+                                {
+                                    result.SetValue(InternalConditionParameter.TotalMetabolicRate, profile.MaxValue);
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                if (peopleAbridged.LatentFraction != null && peopleAbridged.LatentFraction.Obj is double)
+                {
+                    result.SetValue(InternalConditionParameter.LatentFraction, (double)peopleAbridged.LatentFraction.Obj); //TODO: Recalculate value per space
+                }
                 
             }
 

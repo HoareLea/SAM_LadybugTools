@@ -7,5 +7,7 @@ namespace SAM.Analytical.LadybugTools
     public enum InternalConditionParameter
     {
         [ParameterProperties("Flow Per Exterior Area", "Flow Per Exterior Area"), ParameterValue(Core.ParameterType.Double)] FlowPerExteriorArea,
+        [ParameterProperties("Latent Fraction", "Latent Fraction"), DoubleParameterValue(0, 1)] LatentFraction,
+        [ParameterProperties("Total Metabolic Rate", "Total Metabolic Rate [W/p]"), ParameterValue(Core.ParameterType.Double)] TotalMetabolicRate,
     }
 }
