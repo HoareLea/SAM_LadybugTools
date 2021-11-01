@@ -97,8 +97,12 @@ namespace SAM.Analytical.LadybugTools
 
                             if (!double.IsNaN(area) && area != 0)
                                 gainPerArea = gainPerArea / area;
-                            
-                            lighting = new Lighting(string.Format("{0}_Lighting", uniqueName), gainPerArea, scheduleRuleset, profile.Name);
+
+                            lighting = new Lighting(
+                                identifier: string.Format("{0}_Lighting", uniqueName),
+                                wattsPerArea: gainPerArea,
+                                schedule: scheduleRuleset,
+                                displayName: profile.Name);
                         }
                     }
                 }
@@ -122,7 +126,11 @@ namespace SAM.Analytical.LadybugTools
                             if (!double.IsNaN(area) && area != 0)
                                 gainPerArea = gainPerArea / area;
 
-                            electricEquipment = new ElectricEquipment(string.Format("{0}_ElectricEquipment", uniqueName), gainPerArea, scheduleRuleset, profile.Name);
+                            electricEquipment = new ElectricEquipment(
+                                identifier: string.Format("{0}_ElectricEquipment", uniqueName),
+                                wattsPerArea: gainPerArea,
+                                schedule: scheduleRuleset,
+                                displayName: profile.Name);
                         }
                     }
                 }
@@ -136,8 +144,12 @@ namespace SAM.Analytical.LadybugTools
                         if (scheduleRuleset != null)
                         {
                             double airFlowPerExteriorArea = Query.InfiltrationAirFlowPerExteriorArea(adjacencyCluster, space);
-                            
-                            infiltration = new Infiltration(string.Format("{0}_Infiltration", uniqueName), airFlowPerExteriorArea, scheduleRuleset, profile.Name);
+
+                            infiltration = new Infiltration(
+                                identifier: string.Format("{0}_Infiltration", uniqueName),
+                                flowPerExteriorArea: airFlowPerExteriorArea,
+                                schedule: scheduleRuleset,
+                                displayName: profile.Name);
                         }
                     }
                 }
@@ -176,7 +188,16 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            ProgramType result = new ProgramType(uniqueName, internalCondition.Name, null, people, lighting, electricEquipment, infiltration: infiltration, setpoint: setpoint);
+            ProgramType result = new ProgramType(
+                identifier: uniqueName, 
+                displayName: internalCondition.Name, 
+                userData: null, 
+                people: people, 
+                lighting: lighting, 
+                electricEquipment: electricEquipment, 
+                infiltration: infiltration, 
+                setpoint: setpoint);
+
             return result;
         }
     }
