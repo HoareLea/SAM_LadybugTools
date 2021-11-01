@@ -15,11 +15,11 @@ namespace SAM.Analytical.LadybugTools
                 return null;
 
             return new EnergyWindowMaterialGas(
-                gasMaterial.Name, 
-                gasMaterial.DisplayName, 
-                null,
-                gasMaterial.GetValue<double>(MaterialParameter.DefaultThickness), 
-                gasType.Value);
+                identifier: gasMaterial.Name,
+                displayName: gasMaterial.DisplayName,
+                userData: null,
+                thickness: gasMaterial.GetValue<double>(MaterialParameter.DefaultThickness),
+                gasType: gasType.Value);
         }
     }
 }

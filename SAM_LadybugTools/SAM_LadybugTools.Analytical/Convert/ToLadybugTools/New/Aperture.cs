@@ -58,7 +58,7 @@ namespace SAM.Analytical.LadybugTools
 
             Face3D face3D = Geometry.LadybugTools.Convert.ToLadybugTools(window);
 
-            ApertureEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new ApertureEnergyPropertiesAbridged(Query.UniqueName(window.Type, !(index_Adjacent != -1 && index <= index_Adjacent)));
+            ApertureEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new ApertureEnergyPropertiesAbridged(construction: Query.UniqueName(window.Type, !(index_Adjacent != -1 && index <= index_Adjacent)));
 
             return new HoneybeeSchema.Aperture(
                 identifier: Core.LadybugTools.Query.UniqueName(window, index),

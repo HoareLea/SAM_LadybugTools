@@ -58,7 +58,7 @@ namespace SAM.Analytical.LadybugTools
 
             Face3D face3D = Geometry.LadybugTools.Convert.ToLadybugTools(opening);
 
-            DoorEnergyPropertiesAbridged doorEnergyPropertiesAbridged = new DoorEnergyPropertiesAbridged(Query.UniqueName(opening.Type(), !(index_Adjacent != -1 && index <= index_Adjacent)));
+            DoorEnergyPropertiesAbridged doorEnergyPropertiesAbridged = new DoorEnergyPropertiesAbridged(construction: Query.UniqueName(opening.Type(), !(index_Adjacent != -1 && index <= index_Adjacent)));
 
             return new HoneybeeSchema.Door(
                 identifier: Core.LadybugTools.Query.UniqueName(opening as SAMObject, index),

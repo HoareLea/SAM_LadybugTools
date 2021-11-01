@@ -98,7 +98,13 @@ namespace SAM.Analytical.LadybugTools
 
             List<ScheduleDay> scheduleDays = dictionary_ScheduleDay.Values.ToList();
             List<ScheduleRuleAbridged> scheduleRuleAbridgedes = dictionary_ScheduleRuleAbridged.Values.ToList();
-            ScheduleRuleset result = new ScheduleRuleset(uniqueName, scheduleDays, scheduleDays.First().Identifier, profile.Name, null, scheduleRuleAbridgedes);
+            ScheduleRuleset result = new ScheduleRuleset(
+                identifier: uniqueName, 
+                daySchedules: scheduleDays, 
+                defaultDaySchedule: scheduleDays.First().Identifier, 
+                displayName: profile.Name, 
+                userData: null, 
+                scheduleRules: scheduleRuleAbridgedes);
 
             return result;
         }
@@ -114,11 +120,29 @@ namespace SAM.Analytical.LadybugTools
 
             uniqueName = Core.LadybugTools.Query.UniqueName(typeof(ActivityLevel), uniqueName);
 
-            ScheduleDay scheduleDay = new ScheduleDay(uniqueName, new List<double>() { value }, profile.Name, new List<List<int>>() { new List<int>() { 0, 0 } });
+            ScheduleDay scheduleDay = new ScheduleDay(
+                identifier: uniqueName, 
+                values: new List<double>() { value }, 
+                displayName: profile.Name, 
+                times: new List<List<int>>() { new List<int>() { 0, 0 } });
 
-            ScheduleRuleAbridged scheduleRuleAbridged = new ScheduleRuleAbridged(scheduleDay.Identifier, true, true, true, true, true, true, true);
+            ScheduleRuleAbridged scheduleRuleAbridged = new ScheduleRuleAbridged(
+                scheduleDay: scheduleDay.Identifier, 
+                applySunday: true, 
+                applyMonday: true, 
+                applyTuesday: true, 
+                applyWednesday: true, 
+                applyThursday: true, 
+                applyFriday: true, 
+                applySaturday: true);
 
-            ScheduleRuleset scheduleRulset = new ScheduleRuleset(uniqueName, new List<ScheduleDay>() { scheduleDay }, scheduleDay.Identifier, profile.Name, new List<ScheduleRuleAbridged>() { scheduleRuleAbridged});
+            ScheduleRuleset scheduleRulset = new ScheduleRuleset(
+                identifier: uniqueName, 
+                daySchedules: new List<ScheduleDay>() { scheduleDay }, 
+                defaultDaySchedule: scheduleDay.Identifier, 
+                displayName: profile.Name, 
+                userData: null,
+                scheduleRules: new List<ScheduleRuleAbridged>() { scheduleRuleAbridged});
 
             return scheduleRulset;
         }

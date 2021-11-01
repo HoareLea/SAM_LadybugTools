@@ -11,22 +11,22 @@ namespace SAM.Analytical.LadybugTools
                 return null;
 
             return new EnergyWindowMaterialGlazing(
-                transparentMaterial.Name, 
-                transparentMaterial.DisplayName,
-                null,
-                transparentMaterial.GetValue<double>(MaterialParameter.DefaultThickness), 
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.SolarTransmittance), 
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalSolarReflectance), 
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.ExternalSolarReflectance),
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.LightTransmittance),
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalLightReflectance),
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.ExternalLightReflectance), 
-                0, 
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalEmissivity), 
-                transparentMaterial.GetValue<double>(TransparentMaterialParameter.ExternalEmissivity), 
-                transparentMaterial.ThermalConductivity, 
-                1, 
-                false);
+                identifier: transparentMaterial.Name,
+                displayName: transparentMaterial.DisplayName,
+                userData: null,
+                thickness: transparentMaterial.GetValue<double>(MaterialParameter.DefaultThickness),
+                solarTransmittance: transparentMaterial.GetValue<double>(TransparentMaterialParameter.SolarTransmittance),
+                solarReflectance: transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalSolarReflectance),
+                solarReflectanceBack: transparentMaterial.GetValue<double>(TransparentMaterialParameter.ExternalSolarReflectance),
+                visibleTransmittance: transparentMaterial.GetValue<double>(TransparentMaterialParameter.LightTransmittance),
+                visibleReflectance: transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalLightReflectance),
+                visibleReflectanceBack: transparentMaterial.GetValue<double>(TransparentMaterialParameter.ExternalLightReflectance),
+                infraredTransmittance: 0,
+                emissivity: transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalEmissivity),
+                emissivityBack: transparentMaterial.GetValue<double>(TransparentMaterialParameter.ExternalEmissivity),
+                conductivity: transparentMaterial.ThermalConductivity,
+                dirtCorrection: 1,
+                solarDiffusing: false);
         }
     }
 }
