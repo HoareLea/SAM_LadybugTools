@@ -31,7 +31,7 @@ namespace SAM.Analytical.LadybugTools
                 hvacs = new List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>>();
                 rooms = new List<Room>();
 
-                Dictionary<double, List<IPartition>> dictionary_elevations = Geometry.Query.MinElevationDictionary(architecturalModel.GetPartitions());
+                Dictionary<double, List<IPartition>> dictionary_elevations = Geometry.Spatial.Query.ElevationDictionary(architecturalModel.GetPartitions());
                 List<Level> levels = dictionary_elevations?.Keys.ToList().ConvertAll(x => Architectural.Create.Level(x));
 
                 for (int i = 0; i < spaces.Count; i++)
