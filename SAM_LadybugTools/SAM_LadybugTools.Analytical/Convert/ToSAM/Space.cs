@@ -83,7 +83,8 @@ namespace SAM.Analytical.LadybugTools
                     }
                     else
                     {
-                        throw new System.NotImplementedException();
+                        //2021-XI-16 if latent is missin or autocalcutlate zero will be used in Tas! custom specific settings
+                        occupancySensibleGainPerPerson = totalMetabolicRate * (1 - latentFraction) / people;
                     }
 
                     internalCondition.SetValue(Analytical.InternalConditionParameter.OccupancyLatentGainPerPerson, occupancyLatentGainPerPerson);
