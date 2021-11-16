@@ -69,7 +69,7 @@ namespace SAM.Analytical.LadybugTools
                     }
                 }
 
-                if(!double.IsNaN(area) && internalCondition.TryGetValue(InternalConditionParameter.TotalMetabolicRate, out double totalMetabolicRate) && internalCondition.TryGetValue(Analytical.InternalConditionParameter.AreaPerPerson, out double areaPerPerson))
+                if(!double.IsNaN(area) && internalCondition.TryGetValue(InternalConditionParameter.TotalMetabolicRatePerPerson, out double totalMetabolicRate) && internalCondition.TryGetValue(Analytical.InternalConditionParameter.AreaPerPerson, out double areaPerPerson))
                 {
                     double people = area / areaPerPerson;
 
@@ -78,13 +78,13 @@ namespace SAM.Analytical.LadybugTools
 
                     if (internalCondition.TryGetValue(InternalConditionParameter.LatentFraction, out double latentFraction))
                     {
-                        occupancyLatentGainPerPerson = totalMetabolicRate * latentFraction / people;
-                        occupancySensibleGainPerPerson = totalMetabolicRate * (1 - latentFraction) / people;
+                        occupancyLatentGainPerPerson = totalMetabolicRate * latentFraction;
+                        occupancySensibleGainPerPerson = totalMetabolicRate * (1 - latentFraction);
                     }
                     else
                     {
                         //2021-XI-16 if latent is missin or autocalcutlate zero will be used in Tas! custom specific settings
-                        occupancySensibleGainPerPerson = totalMetabolicRate * (1 - latentFraction) / people;
+                        occupancySensibleGainPerPerson = totalMetabolicRate;
                     }
 
                     internalCondition.SetValue(Analytical.InternalConditionParameter.OccupancyLatentGainPerPerson, occupancyLatentGainPerPerson);

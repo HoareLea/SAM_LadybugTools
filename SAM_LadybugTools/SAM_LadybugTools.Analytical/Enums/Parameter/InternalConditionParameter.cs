@@ -8,6 +8,6 @@ namespace SAM.Analytical.LadybugTools
     {
         [ParameterProperties("Flow Per Exterior Area", "Flow Per Exterior Area"), ParameterValue(Core.ParameterType.Double)] FlowPerExteriorArea,
         [ParameterProperties("Latent Fraction", "Latent Fraction"), DoubleParameterValue(0, 1)] LatentFraction,
-        [ParameterProperties("Total Metabolic Rate", "Total Metabolic Rate [W/p]"), ParameterValue(Core.ParameterType.Double)] TotalMetabolicRate,
+        [ParameterProperties("Total Metabolic Rate Per Person", "Total Metabolic Rate Per Person [W/p]"), ParameterValue(Core.ParameterType.Double)] TotalMetabolicRatePerPerson,
     }
 }

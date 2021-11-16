@@ -33,7 +33,7 @@ namespace SAM.Analytical.LadybugTools
                                 Profile profile = schedule.ToSAM(ProfileType.Other);
                                 if(profile != null)
                                 {
-                                    result.SetValue(InternalConditionParameter.TotalMetabolicRate, profile.MaxValue);
+                                    result.SetValue(InternalConditionParameter.TotalMetabolicRatePerPerson, profile.MaxValue);
                                 }
                             }
                         }
@@ -75,6 +75,18 @@ namespace SAM.Analytical.LadybugTools
                 result.SetValue(Analytical.InternalConditionParameter.CoolingProfileName, setPoint.CoolingSchedule);
 
                 result.SetValue(Analytical.InternalConditionParameter.HeatingProfileName, setPoint.HeatingSchedule);
+            }
+
+            VentilationAbridged ventilationAbridged = programTypeAbridged.Ventilation;
+            if (ventilationAbridged != null)
+            {
+                result.SetValue(Analytical.InternalConditionParameter.SupplyAirFlow, ventilationAbridged.FlowPerZone);
+                result.SetValue(Analytical.InternalConditionParameter.SupplyAirFlowPerArea, ventilationAbridged.FlowPerArea);
+                result.SetValue(Analytical.InternalConditionParameter.SupplyAirFlowPerPerson, ventilationAbridged.FlowPerPerson);
+
+                result.SetValue(Analytical.InternalConditionParameter.ExhaustAirFlow, ventilationAbridged.FlowPerZone);
+                result.SetValue(Analytical.InternalConditionParameter.ExhaustAirFlowPerArea, ventilationAbridged.FlowPerArea);
+                result.SetValue(Analytical.InternalConditionParameter.ExhaustAirFlowPerPerson, ventilationAbridged.FlowPerPerson);
             }
 
             return result;

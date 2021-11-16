@@ -46,7 +46,18 @@ namespace SAM.Analytical.LadybugTools
             }
 
             List<ScheduleRuleAbridged> scheduleRuleAbridges = scheduleRulesetAbridged.ScheduleRules;
-            if(scheduleRuleAbridges != null)
+            if(scheduleRuleAbridges == null)
+            {
+                string name = scheduleRulesetAbridged.DefaultDaySchedule;
+                if(!string.IsNullOrWhiteSpace(name))
+                {
+                    if(profiles.TryGetValue(name, out Profile profile))
+                    {
+                        result.Add(profile);
+                    }
+                }
+            }
+            else
             {
                 ScheduleRuleAbridged scheduleRuleAbridged = null;
                 string name = null;
