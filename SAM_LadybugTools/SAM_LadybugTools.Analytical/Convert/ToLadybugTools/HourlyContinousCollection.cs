@@ -38,7 +38,13 @@ namespace SAM.Analytical.LadybugTools
             if (values == null)
                 return null;
 
-            return ToLadybugTools_HourlyContinousCollection(values, profile.ProfileGroup, name, 0, 1, 1, endHour, endDay, endMonth, 1, false, metadata);
+            ProfileGroup profileGroup = profile.ProfileGroup;
+            if(profileGroup == ProfileGroup.Undefined)
+            {
+                profileGroup = profile.ProfileType.ProfileGroup();
+            }
+
+            return ToLadybugTools_HourlyContinousCollection(values, profileGroup, name, 0, 1, 1, endHour, endDay, endMonth, 1, false, metadata);
 
         }
 
@@ -79,13 +85,13 @@ namespace SAM.Analytical.LadybugTools
             switch (profileGroup)
             {
                 case ProfileGroup.Gain:
-                    unit = "W";
-                    dataType = "Power";
+                    unit = "fraction";
+                    dataType = "Fraction";
                     break;
 
                 case ProfileGroup.Humidistat:
-                    unit = "unknown";
-                    dataType = "GenericType";
+                    unit = "%";
+                    dataType = "Fraction";
                     break;
 
                 case ProfileGroup.Thermostat:
@@ -94,7 +100,9 @@ namespace SAM.Analytical.LadybugTools
                     break;
 
                 default:
-                    return null;
+                    unit = "unknown";
+                    dataType = "GenericType";
+                    break;
             }
 
             jObject_Header.Add("unit", unit);
@@ -105,7 +113,7 @@ namespace SAM.Analytical.LadybugTools
             jObject_DataType.Add("name", name);
             jObject_DataType.Add("type", "DataTypeBase");
             jObject_DataType.Add("data_type", dataType);
-            if(profileGroup == ProfileGroup.Humidistat)
+            if(profileGroup == ProfileGroup.Humidistat || profileGroup == ProfileGroup.Undefined)
             {
                 jObject_DataType.Add("min", double.MinValue);
                 jObject_DataType.Add("max", double.MaxValue);

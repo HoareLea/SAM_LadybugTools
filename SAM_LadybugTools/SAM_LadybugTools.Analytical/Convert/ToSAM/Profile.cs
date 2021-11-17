@@ -46,7 +46,7 @@ namespace SAM.Analytical.LadybugTools
             }
 
             List<ScheduleRuleAbridged> scheduleRuleAbridges = scheduleRulesetAbridged.ScheduleRules;
-            if(scheduleRuleAbridges == null)
+            if(scheduleRuleAbridges == null || scheduleRuleAbridges.Count == 0)
             {
                 string name = scheduleRulesetAbridged.DefaultDaySchedule;
                 if(!string.IsNullOrWhiteSpace(name))
@@ -59,11 +59,24 @@ namespace SAM.Analytical.LadybugTools
             }
             else
             {
-                ScheduleRuleAbridged scheduleRuleAbridged = null;
+                ScheduleRuleAbridged scheduleRuleAbridged = scheduleRuleAbridges[0]; //TODO: Not fully implemented assumtion: there is just one scheduleRuleAbrided
                 string name = null;
                 Profile profile = null;
 
+                //Sunday
+                name = null;
+                scheduleRuleAbridged = scheduleRuleAbridges.Find(x => x.ApplySunday);
+                if (scheduleRuleAbridged != null)
+                    name = scheduleRuleAbridged.ScheduleDay;
+
+                if (string.IsNullOrWhiteSpace(name))
+                    name = scheduleRulesetAbridged.DefaultDaySchedule;
+
+                if (!string.IsNullOrWhiteSpace(name) && profiles.TryGetValue(name, out profile) && profile != null)
+                    result.Add(profile);
+
                 //Monday
+                name = null;
                 scheduleRuleAbridged = scheduleRuleAbridges.Find(x => x.ApplyMonday);
                 if (scheduleRuleAbridged != null)
                     name = scheduleRuleAbridged.ScheduleDay;
@@ -75,6 +88,7 @@ namespace SAM.Analytical.LadybugTools
                     result.Add(profile);
 
                 //Tuesday
+                name = null;
                 scheduleRuleAbridged = scheduleRuleAbridges.Find(x => x.ApplyTuesday);
                 if (scheduleRuleAbridged != null)
                     name = scheduleRuleAbridged.ScheduleDay;
@@ -86,6 +100,7 @@ namespace SAM.Analytical.LadybugTools
                     result.Add(profile);
 
                 //Wednesday
+                name = null;
                 scheduleRuleAbridged = scheduleRuleAbridges.Find(x => x.ApplyWednesday);
                 if (scheduleRuleAbridged != null)
                     name = scheduleRuleAbridged.ScheduleDay;
@@ -97,6 +112,7 @@ namespace SAM.Analytical.LadybugTools
                     result.Add(profile);
 
                 //Thursday
+                name = null;
                 scheduleRuleAbridged = scheduleRuleAbridges.Find(x => x.ApplyThursday);
                 if (scheduleRuleAbridged != null)
                     name = scheduleRuleAbridged.ScheduleDay;
@@ -108,6 +124,7 @@ namespace SAM.Analytical.LadybugTools
                     result.Add(profile);
 
                 //Friday
+                name = null;
                 scheduleRuleAbridged = scheduleRuleAbridges.Find(x => x.ApplyFriday);
                 if (scheduleRuleAbridged != null)
                     name = scheduleRuleAbridged.ScheduleDay;
@@ -119,18 +136,8 @@ namespace SAM.Analytical.LadybugTools
                     result.Add(profile);
 
                 //Saturday
+                name = null;
                 scheduleRuleAbridged = scheduleRuleAbridges.Find(x => x.ApplySaturday);
-                if (scheduleRuleAbridged != null)
-                    name = scheduleRuleAbridged.ScheduleDay;
-
-                if (string.IsNullOrWhiteSpace(name))
-                    name = scheduleRulesetAbridged.DefaultDaySchedule;
-
-                if (!string.IsNullOrWhiteSpace(name) && profiles.TryGetValue(name, out profile) && profile != null)
-                    result.Add(profile);
-
-                //Sunday
-                scheduleRuleAbridged = scheduleRuleAbridges.Find(x => x.ApplySunday);
                 if (scheduleRuleAbridged != null)
                     name = scheduleRuleAbridged.ScheduleDay;
 
@@ -169,11 +176,11 @@ namespace SAM.Analytical.LadybugTools
                         int min = times[i - 1][0];
                         int max = times[i][0];
 
-                        result.Add(new Core.Range<int>(min, max), values[i - 1]);
+                        result.Add(new Core.Range<int>(min, max - 1), values[i - 1]);
                     }
 
                     int index = times.Count - 1;
-                    result.Add(new Core.Range<int>(times[index][0], 24), values[index]);
+                    result.Add(new Core.Range<int>(times[index][0], 23), values[index]);
                 }
             }
 

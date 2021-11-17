@@ -25,12 +25,12 @@ namespace SAM.Analytical.LadybugTools
 
                 if(schedules != null)
                 {
-                    schedule = schedules?.First(x => x.Identifier == peopleAbridged.ActivitySchedule);
+                    schedule = schedules?.First(x => x.Identifier == peopleAbridged.OccupancySchedule);
                 }
 
                 if(schedule == null && scheduleRulesetAbridgeds != null)
                 {
-                    schedule = scheduleRulesetAbridgeds.Find(x => x.Identifier == peopleAbridged.ActivitySchedule);
+                    schedule = scheduleRulesetAbridgeds.Find(x => x.Identifier == peopleAbridged.OccupancySchedule);
                 }
                 
                 if(schedule != null)
