@@ -107,9 +107,13 @@ namespace SAM.Analytical.LadybugTools
             jObject_DataType.Add("data_type", dataType);
             if(profileGroup == ProfileGroup.Humidistat)
             {
-                jObject_DataType.Add("min", "-Infinity");
-                jObject_DataType.Add("max", "Infinity");
+                jObject_DataType.Add("min", double.MinValue);
+                jObject_DataType.Add("max", double.MaxValue);
             }
+            jObject_DataType.Add("point_in_time", true);
+            jObject_DataType.Add("cumulative", false);
+            jObject_DataType.Add("abbreviation", "Unknown Data Type");
+            jObject_DataType.Add("unit_descr", null);
 
             jObject_Header.Add("data_type", jObject_DataType);
 

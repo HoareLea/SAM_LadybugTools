@@ -19,6 +19,8 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
+            IEnumerable<ISchedule> schedules = modelEnergyProperties.ScheduleList;
+
             ProfileLibrary result = new ProfileLibrary(string.Empty);
             foreach (IProgramtype programType in programTypes)
             {
@@ -26,7 +28,7 @@ namespace SAM.Analytical.LadybugTools
 
                 if(programType is ProgramTypeAbridged)
                 {
-                    profiles = ((ProgramTypeAbridged)programType).ToSAM_Profiles();
+                    profiles = ((ProgramTypeAbridged)programType).ToSAM_Profiles(schedules);
                 } 
                 else if(programType is ProgramType)
                 {
