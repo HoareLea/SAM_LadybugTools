@@ -40,6 +40,8 @@ namespace SAM.Analytical.LadybugTools
                     }
                 }
 
+                result.SetValue(Analytical.InternalConditionParameter.OccupancyRadiantProportion, peopleAbridged.RadiantFraction);
+                result.SetValue(Analytical.InternalConditionParameter.OccupancyViewCoefficient, 0.227); //TODDO: Implement proper OccupancyViewCoefficient
 
                 if (peopleAbridged.LatentFraction != null && peopleAbridged.LatentFraction.Obj is double)
                 {
@@ -53,6 +55,9 @@ namespace SAM.Analytical.LadybugTools
             {
                 result.SetValue(Analytical.InternalConditionParameter.LightingProfileName, lightingAbridged.Schedule);
                 result.SetValue(Analytical.InternalConditionParameter.LightingGainPerArea, lightingAbridged.WattsPerArea);
+
+                result.SetValue(Analytical.InternalConditionParameter.LightingRadiantProportion, lightingAbridged.RadiantFraction);
+                result.SetValue(Analytical.InternalConditionParameter.LightingViewCoefficient, lightingAbridged.VisibleFraction);
             }
 
             ElectricEquipmentAbridged electricEquipmentAbridged = programTypeAbridged.ElectricEquipment;
@@ -60,6 +65,9 @@ namespace SAM.Analytical.LadybugTools
             {
                 result.SetValue(Analytical.InternalConditionParameter.EquipmentSensibleProfileName, electricEquipmentAbridged.Schedule);
                 result.SetValue(Analytical.InternalConditionParameter.EquipmentSensibleGainPerArea, electricEquipmentAbridged.WattsPerArea);
+
+                result.SetValue(Analytical.InternalConditionParameter.EquipmentRadiantProportion, electricEquipmentAbridged.RadiantFraction);
+                result.SetValue(Analytical.InternalConditionParameter.EquipmentViewCoefficient, 0.372); //TODDO: Implement proper EquipmentViewCoefficient
             }
 
             InfiltrationAbridged infiltrationAbridged= programTypeAbridged.Infiltration;

@@ -35,6 +35,8 @@ namespace SAM.Analytical.LadybugTools
                 result.SetValue(SpaceParameter.Volume, volume);
             }
 
+            result.SetValue(SpaceParameter.LevelName, room.Story)
+
             string programType = room.Properties?.Energy?.ProgramType;
             if(!string.IsNullOrWhiteSpace(programType))
             {
