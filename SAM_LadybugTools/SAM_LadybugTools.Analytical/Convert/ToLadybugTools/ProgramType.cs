@@ -63,8 +63,16 @@ namespace SAM.Analytical.LadybugTools
                                 if(!double.IsNaN(sensibleOccupancyGain) || !double.IsNaN(latentOccupancyGain))
                                     latentFraction = latentOccupancyGain / (latentOccupancyGain + sensibleOccupancyGain);
 
+                                if(!internalCondition.TryGetValue(Analytical.InternalConditionParameter.OccupancyRadiantProportion, out double occuplancyRadiantProportion))
+                                {
+                                    occuplancyRadiantProportion = 0.3;
+                                }
+
                                 if (double.IsNaN(latentFraction))
+                                {
                                     latentFraction = 0;
+                                }
+                                    
 
                                 people = new People(
                                     identifier: string.Format("{0}_People", uniqueName), 
@@ -73,6 +81,7 @@ namespace SAM.Analytical.LadybugTools
                                     displayName: profile.Name, 
                                     userData: null, 
                                     activitySchedule: scheduleRuleset_ActivityLevel, 
+                                    radiantFraction: occuplancyRadiantProportion,
                                     latentFraction: latentFraction);
                             }
                         }
@@ -98,10 +107,22 @@ namespace SAM.Analytical.LadybugTools
                             if (!double.IsNaN(area) && area != 0)
                                 gainPerArea = gainPerArea / area;
 
+                            if (!internalCondition.TryGetValue(Analytical.InternalConditionParameter.LightingRadiantProportion, out double lightingRadiantProportion))
+                            {
+                                lightingRadiantProportion = 0.32;
+                            }
+
+                            if (!internalCondition.TryGetValue(Analytical.InternalConditionParameter.LightingViewCoefficient, out double lightingViewCoefficient))
+                            {
+                                lightingViewCoefficient = 0.25;
+                            }
+
                             lighting = new Lighting(
                                 identifier: string.Format("{0}_Lighting", uniqueName),
                                 wattsPerArea: gainPerArea,
                                 schedule: scheduleRuleset,
+                                visibleFraction: lightingViewCoefficient,
+                                radiantFraction: lightingRadiantProportion,
                                 displayName: profile.Name);
                         }
                     }
@@ -126,10 +147,16 @@ namespace SAM.Analytical.LadybugTools
                             if (!double.IsNaN(area) && area != 0)
                                 gainPerArea = gainPerArea / area;
 
+                            if (!internalCondition.TryGetValue(Analytical.InternalConditionParameter.EquipmentRadiantProportion, out double equipmentRadiantProportion))
+                            {
+                                equipmentRadiantProportion = 0;
+                            }
+
                             electricEquipment = new ElectricEquipment(
                                 identifier: string.Format("{0}_ElectricEquipment", uniqueName),
                                 wattsPerArea: gainPerArea,
                                 schedule: scheduleRuleset,
+                                radiantFraction: equipmentRadiantProportion,
                                 displayName: profile.Name);
                         }
                     }
