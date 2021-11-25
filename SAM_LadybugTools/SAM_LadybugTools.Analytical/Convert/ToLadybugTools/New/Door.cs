@@ -6,9 +6,9 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static HoneybeeSchema.Door ToLadybugTools(this IOpening opening, ArchitecturalModel architecturalModel, Space space)
+        public static HoneybeeSchema.Door ToLadybugTools(this IOpening opening, BuildingModel buildingModel, Space space)
         {
-            if (opening == null || architecturalModel == null)
+            if (opening == null || buildingModel == null)
                 return null;
 
             OpeningType openingType = opening.Type();
@@ -18,26 +18,26 @@ namespace SAM.Analytical.LadybugTools
             }
 
             //Opaque Windows to be replaced by Doors
-            if (opening is Window && architecturalModel.GetMaterialType(openingType.PaneMaterialLayers) != MaterialType.Opaque)
+            if (opening is Window && buildingModel.GetMaterialType(openingType.PaneMaterialLayers) != MaterialType.Opaque)
             {
                 return null;
             }
 
-            IHostPartition hostPartition = architecturalModel.GetHostPartition(opening);
+            IHostPartition hostPartition = buildingModel.GetHostPartition(opening);
             
             int index = -1;
             int index_Adjacent = -1;
             List<Space> spaces = null;
             if (hostPartition != null)
             {
-                spaces = architecturalModel.GetSpaces(hostPartition);
+                spaces = buildingModel.GetSpaces(hostPartition);
                 if (spaces != null && spaces.Count != 0)
                 {
                     index = spaces.FindIndex(x => x.Guid == space.Guid);
-                    index = architecturalModel.UniqueIndex(spaces[index]);
+                    index = buildingModel.UniqueIndex(spaces[index]);
                     
                     index_Adjacent = spaces.FindIndex(x => x.Guid != space.Guid);
-                    index_Adjacent = architecturalModel.UniqueIndex(spaces[index_Adjacent]);
+                    index_Adjacent = buildingModel.UniqueIndex(spaces[index_Adjacent]);
                 }
             }
 

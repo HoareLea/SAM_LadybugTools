@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static ProgramType ToLadybugTools(this Space space, ArchitecturalModel architecturalModel)
+        public static ProgramType ToLadybugTools(this Space space, BuildingModel buildingModel)
         {
             InternalCondition internalCondition = space.InternalCondition;
             
@@ -26,7 +26,7 @@ namespace SAM.Analytical.LadybugTools
             if (!space.TryGetValue(SpaceParameter.Area, out area))
                 area = double.NaN;
 
-            Dictionary<ProfileType, Profile> dictionary = architecturalModel.GetProfileDictionary(space);
+            Dictionary<ProfileType, Profile> dictionary = buildingModel.GetProfileDictionary(space);
             if(dictionary != null)
             {
                 if (dictionary.ContainsKey(ProfileType.Occupancy))
@@ -142,7 +142,7 @@ namespace SAM.Analytical.LadybugTools
                         ScheduleRuleset scheduleRuleset = profile.ToLadybugTools();
                         if (scheduleRuleset != null)
                         {
-                            double airFlowPerExteriorArea = Query.InfiltrationAirFlowPerExteriorArea(architecturalModel, space);
+                            double airFlowPerExteriorArea = Query.InfiltrationAirFlowPerExteriorArea(buildingModel, space);
 
                             infiltration = new Infiltration(
                                 identifier: string.Format("{0}_Infiltration", uniqueName), 

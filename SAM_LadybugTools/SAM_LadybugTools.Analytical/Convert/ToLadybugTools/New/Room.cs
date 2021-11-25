@@ -5,20 +5,20 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Room ToLadybugTools(this Space space, ArchitecturalModel architecturalModel, double silverSpacing = Core.Tolerance.MacroDistance, double tolerance = Core.Tolerance.Distance)
+        public static Room ToLadybugTools(this Space space, BuildingModel buildingModel, double silverSpacing = Core.Tolerance.MacroDistance, double tolerance = Core.Tolerance.Distance)
         {
-            if (space == null || architecturalModel == null)
+            if (space == null || buildingModel == null)
                 return null;
 
             List<Face> faces = null;
 
-            List<IPartition> partitions = architecturalModel.OrientedPartitions(space, false, silverSpacing, tolerance);
+            List<IPartition> partitions = buildingModel.OrientedPartitions(space, false, silverSpacing, tolerance);
             if(partitions != null)
             {
                 faces = new List<Face>();
                 foreach (IPartition partition in partitions)
                 {
-                    Face face = partition?.ToLadybugTools_Face(architecturalModel, space);
+                    Face face = partition?.ToLadybugTools_Face(buildingModel, space);
                     if(face == null)
                     {
                         continue;

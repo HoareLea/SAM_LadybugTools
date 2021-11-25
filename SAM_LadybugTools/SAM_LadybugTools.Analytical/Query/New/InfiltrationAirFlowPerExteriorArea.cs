@@ -4,9 +4,9 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Query
     {
-        public static double InfiltrationAirFlowPerExteriorArea(this ArchitecturalModel architecturalModel, Space space)
+        public static double InfiltrationAirFlowPerExteriorArea(this BuildingModel buildingModel, Space space)
         {
-            if (architecturalModel == null || space == null)
+            if (buildingModel == null || space == null)
                 return double.NaN;
 
             double volume = double.NaN;
@@ -25,11 +25,11 @@ namespace SAM.Analytical.LadybugTools
             if (airFlow == 0)
                 return 0;
 
-            List<IPartition> partitions = architecturalModel.GetPartitions(space);
+            List<IPartition> partitions = buildingModel.GetPartitions(space);
             if (partitions == null || partitions.Count == 0)
                 return double.NaN;
 
-            partitions.RemoveAll(x => !architecturalModel.ExposedToSun(x));
+            partitions.RemoveAll(x => !buildingModel.ExposedToSun(x));
 
             double area = 0;
             foreach(Panel panel in partitions)

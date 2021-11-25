@@ -8,12 +8,12 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Model ToLadybugTools(this ArchitecturalModel architecturalModel, double silverSpacing = Tolerance.MacroDistance, double tolerance = Tolerance.Distance)
+        public static Model ToLadybugTools(this BuildingModel buildingModel, double silverSpacing = Tolerance.MacroDistance, double tolerance = Tolerance.Distance)
         {
-            if (architecturalModel == null)
+            if (buildingModel == null)
                 return null;
 
-            ArchitecturalModel architecturalModel_Temp = new ArchitecturalModel(architecturalModel);
+            BuildingModel architecturalModel_Temp = new BuildingModel(buildingModel);
             
             architecturalModel_Temp.OffsetAperturesOnEdge(0.1, tolerance);
             architecturalModel_Temp.ReplaceTransparentPartitions(0.1);
@@ -31,7 +31,7 @@ namespace SAM.Analytical.LadybugTools
                 hvacs = new List<AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>>();
                 rooms = new List<Room>();
 
-                Dictionary<double, List<IPartition>> dictionary_elevations = Geometry.Spatial.Query.ElevationDictionary(architecturalModel.GetPartitions());
+                Dictionary<double, List<IPartition>> dictionary_elevations = Geometry.Spatial.Query.ElevationDictionary(buildingModel.GetPartitions());
                 List<Level> levels = dictionary_elevations?.Keys.ToList().ConvertAll(x => Architectural.Create.Level(x));
 
                 for (int i = 0; i < spaces.Count; i++)
@@ -46,7 +46,7 @@ namespace SAM.Analytical.LadybugTools
 
                     if (levels != null && levels.Count > 0)
                     {
-                        double elevation_Min = Analytical.Query.MinElevation(architecturalModel, space);
+                        double elevation_Min = Analytical.Query.MinElevation(buildingModel, space);
                         if (!double.IsNaN(elevation_Min))
                         {
                             double difference_Min = double.MaxValue;
@@ -96,7 +96,7 @@ namespace SAM.Analytical.LadybugTools
             List<Shade> shades = null;
             List<Face> faces_Orphaned = null;
 
-            List<IPartition> partitions_Shade = architecturalModel.GetShadePartitions();
+            List<IPartition> partitions_Shade = buildingModel.GetShadePartitions();
             if(partitions_Shade != null)
             {
                 foreach (IPartition partition_Shade in partitions_Shade)
@@ -115,8 +115,8 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            List<HostPartitionType> hostPartitionTypes = architecturalModel.GetHostPartitionTypes();
-            List<OpeningType> openingTypes = architecturalModel.GetOpeningTypes();
+            List<HostPartitionType> hostPartitionTypes = buildingModel.GetHostPartitionTypes();
+            List<OpeningType> openingTypes = buildingModel.GetOpeningTypes();
 
             ConstructionSetAbridged constructionSetAbridged = Core.LadybugTools.Query.DefaultConstructionSetAbridged();
             List<HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>> constructionSets = new List<HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>>();// { constructionSetAbridged  };
@@ -139,7 +139,7 @@ namespace SAM.Analytical.LadybugTools
 
                     foreach (MaterialLayer materialLayer in materialLayers)
                     {
-                        IMaterial material = architecturalModel.GetMaterial(materialLayer);
+                        IMaterial material = buildingModel.GetMaterial(materialLayer);
                         if (material == null)
                         {
                             continue;
@@ -171,7 +171,7 @@ namespace SAM.Analytical.LadybugTools
                         continue;
                     }
 
-                    MaterialType materialType = architecturalModel.GetMaterialType(materialLayers);
+                    MaterialType materialType = buildingModel.GetMaterialType(materialLayers);
 
                     if(openingType is WindowType && materialType != MaterialType.Opaque)
                     {
@@ -188,7 +188,7 @@ namespace SAM.Analytical.LadybugTools
 
                     foreach (MaterialLayer materialLayer in materialLayers)
                     {
-                        IMaterial material = architecturalModel.GetMaterial(materialLayer);
+                        IMaterial material = buildingModel.GetMaterial(materialLayer);
                         if (material == null)
                         {
                             continue;
@@ -222,7 +222,7 @@ namespace SAM.Analytical.LadybugTools
                     if (dictionary_ProgramTypes.ContainsKey(internalCondition.Guid))
                         continue;
 
-                    ProgramType programType = space.ToLadybugTools(architecturalModel);
+                    ProgramType programType = space.ToLadybugTools(buildingModel);
                     if (programType != null)
                         dictionary_ProgramTypes[internalCondition.Guid] = programType;
                 }
@@ -250,7 +250,7 @@ namespace SAM.Analytical.LadybugTools
             
             ModelProperties modelProperties = new ModelProperties(modelEnergyProperties);
 
-            Model model = new Model(uniqueName, modelProperties, architecturalModel.Name, null, rooms, faces_Orphaned, shades);
+            Model model = new Model(uniqueName, modelProperties, buildingModel.Name, null, rooms, faces_Orphaned, shades);
             model.AngleTolerance = Units.Convert.ToDegrees(Tolerance.Angle);// 2;
             model.Tolerance = Tolerance.MacroDistance;
 

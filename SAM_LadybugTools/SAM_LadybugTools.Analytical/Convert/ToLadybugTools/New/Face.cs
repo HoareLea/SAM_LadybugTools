@@ -6,7 +6,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static Face ToLadybugTools_Face(this IPartition partition, ArchitecturalModel architecturalModel, Space space)
+        public static Face ToLadybugTools_Face(this IPartition partition, BuildingModel buildingModel, Space space)
         {
             Face3D face3D = Geometry.LadybugTools.Convert.ToLadybugTools(partition?.Face3D);
             if (face3D == null)
@@ -23,19 +23,19 @@ namespace SAM.Analytical.LadybugTools
             int index = -1;
             int index_Adjacent = -1;
             bool reverse = true;
-            List<Space> spaces = architecturalModel.GetSpaces(partition);
+            List<Space> spaces = buildingModel.GetSpaces(partition);
             if (spaces != null && spaces.Count != 0)
             {
                 index = spaces.FindIndex(x => x.Guid == space.Guid);
-                index = architecturalModel.UniqueIndex(spaces[index]);
+                index = buildingModel.UniqueIndex(spaces[index]);
 
                 index_Adjacent = spaces.FindIndex(x => x.Guid != space.Guid);
-                index_Adjacent = architecturalModel.UniqueIndex(spaces[index_Adjacent]);
+                index_Adjacent = buildingModel.UniqueIndex(spaces[index_Adjacent]);
 
-                reverse = architecturalModel.UniqueIndex(spaces[0]) != index;
+                reverse = buildingModel.UniqueIndex(spaces[0]) != index;
             }
 
-            AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = partition.ToLadybugTools_BoundaryCondition(architecturalModel, space);
+            AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = partition.ToLadybugTools_BoundaryCondition(buildingModel, space);
 
             FaceEnergyPropertiesAbridged faceEnergyPropertiesAbridged = new FaceEnergyPropertiesAbridged();
             if (partition is IHostPartition)
@@ -59,13 +59,13 @@ namespace SAM.Analytical.LadybugTools
                         OpeningType openingType = opening.Type();
                         if(openingType != null)
                         {
-                            materialType = architecturalModel.GetMaterialType(openingType.PaneMaterialLayers);
+                            materialType = buildingModel.GetMaterialType(openingType.PaneMaterialLayers);
                         }
 
                         
                         if (opening is Window && materialType != MaterialType.Opaque)
                         {
-                            HoneybeeSchema.Aperture aperture = ((Window)opening).ToLadybugTools(architecturalModel, space);
+                            HoneybeeSchema.Aperture aperture = ((Window)opening).ToLadybugTools(buildingModel, space);
                             if(aperture != null)
                             {
                                 apertures.Add(aperture);
@@ -73,7 +73,7 @@ namespace SAM.Analytical.LadybugTools
                         }
                         else
                         {
-                            HoneybeeSchema.Door door = opening.ToLadybugTools(architecturalModel, space);
+                            HoneybeeSchema.Door door = opening.ToLadybugTools(buildingModel, space);
                             if(door != null)
                             {
                                 doors.Add(door);

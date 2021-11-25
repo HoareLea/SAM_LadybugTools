@@ -6,9 +6,9 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static HoneybeeSchema.Aperture ToLadybugTools(this Window window, ArchitecturalModel architecturalModel, Space space)
+        public static HoneybeeSchema.Aperture ToLadybugTools(this Window window, BuildingModel buildingModel, Space space)
         {
-            if (window == null || architecturalModel == null)
+            if (window == null || buildingModel == null)
                 return null;
 
             WindowType windowType = window.Type;
@@ -18,26 +18,26 @@ namespace SAM.Analytical.LadybugTools
             }
 
             //Opaque Windows to be replaced by Doors
-            if (architecturalModel.GetMaterialType(windowType.PaneMaterialLayers) == MaterialType.Opaque)
+            if (buildingModel.GetMaterialType(windowType.PaneMaterialLayers) == MaterialType.Opaque)
             {
                 return null;
             }
 
-            IHostPartition hostPartition = architecturalModel.GetHostPartition(window);
+            IHostPartition hostPartition = buildingModel.GetHostPartition(window);
             
             int index = -1;
             int index_Adjacent = -1;
             List<Space> spaces = null;
             if (hostPartition != null)
             {
-                spaces = architecturalModel.GetSpaces(hostPartition);
+                spaces = buildingModel.GetSpaces(hostPartition);
                 if (spaces != null && spaces.Count != 0)
                 {
                     index = spaces.FindIndex(x => x.Guid == space.Guid);
-                    index = architecturalModel.UniqueIndex(spaces[index]);
+                    index = buildingModel.UniqueIndex(spaces[index]);
                     
                     index_Adjacent = spaces.FindIndex(x => x.Guid != space.Guid);
-                    index_Adjacent = architecturalModel.UniqueIndex(spaces[index_Adjacent]);
+                    index_Adjacent = buildingModel.UniqueIndex(spaces[index_Adjacent]);
                 }
             }
 

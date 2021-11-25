@@ -5,9 +5,9 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static AnyOf<Ground, Outdoors, Adiabatic, Surface> ToLadybugTools_BoundaryCondition(this IPartition partition, ArchitecturalModel architecturalModel, Space space)
+        public static AnyOf<Ground, Outdoors, Adiabatic, Surface> ToLadybugTools_BoundaryCondition(this IPartition partition, BuildingModel buildingModel, Space space)
         {
-            if (partition == null || architecturalModel == null)
+            if (partition == null || buildingModel == null)
             {
                 return null;
             }
@@ -20,14 +20,14 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            if (architecturalModel.External(partition))
+            if (buildingModel.External(partition))
             {
                 return new Outdoors();
             }
 
-            if (architecturalModel.Underground(partition))
+            if (buildingModel.Underground(partition))
             {
-                if (!architecturalModel.Internal(partition))
+                if (!buildingModel.Internal(partition))
                 {
                     return new Ground();
                 }
@@ -37,11 +37,11 @@ namespace SAM.Analytical.LadybugTools
             List<Space> spaces = null;
             if (partition != null)
             {
-                spaces = architecturalModel.GetSpaces(partition);
+                spaces = buildingModel.GetSpaces(partition);
                 if (spaces != null && spaces.Count != 0)
                 {
                     index_Adjacent = spaces.FindIndex(x => x.Guid != space.Guid);
-                    index_Adjacent = architecturalModel.UniqueIndex(spaces[index_Adjacent]);
+                    index_Adjacent = buildingModel.UniqueIndex(spaces[index_Adjacent]);
                 }
             }
 
