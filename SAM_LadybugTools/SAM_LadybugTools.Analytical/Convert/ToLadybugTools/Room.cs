@@ -25,7 +25,7 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            string uniqueName = Core.LadybugTools.Query.UniqueName(space, index);
+            string uniqueName = space.Guid.ToString("N");//Core.LadybugTools.Query.UniqueName(space, index);
 
             List<Face> faces = null;
             if(panels != null)
