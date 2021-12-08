@@ -54,8 +54,8 @@ namespace SAM.Analytical.LadybugTools
             //https://www.ladybug.tools/honeybee-schema/model.html#tag/surface_model
 
             List<string> uniqueNames = new List<string>();
-            uniqueNames.Add(Core.LadybugTools.Query.UniqueName(partition as Core.SAMObject, index_Adjacent));
-            uniqueNames.Add(Core.LadybugTools.Query.UniqueName(spaces[index_Adjacent]));
+            uniqueNames.Add(Query.UniqueName(partition, index_Adjacent));
+            uniqueNames.Add(Query.UniqueName(spaces[index_Adjacent]));
             return new Surface(uniqueNames);
         }
     }

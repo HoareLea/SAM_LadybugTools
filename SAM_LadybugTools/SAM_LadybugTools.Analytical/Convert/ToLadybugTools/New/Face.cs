@@ -43,7 +43,7 @@ namespace SAM.Analytical.LadybugTools
                 faceEnergyPropertiesAbridged.Construction = Query.UniqueName(((IHostPartition)partition).Type(), reverse);
             }
             
-            Face face = new Face(Core.LadybugTools.Query.UniqueName(partition as SAMObject, index), face3D, faceType.Value, boundaryCondition, new FacePropertiesAbridged(faceEnergyPropertiesAbridged), partition.Name);
+            Face face = new Face(Query.UniqueName(partition, index), face3D, faceType.Value, boundaryCondition, new FacePropertiesAbridged(faceEnergyPropertiesAbridged), partition.Name);
             if (partition is IHostPartition)
             {
                 List<IOpening> openings = ((IHostPartition)partition).GetOpenings();

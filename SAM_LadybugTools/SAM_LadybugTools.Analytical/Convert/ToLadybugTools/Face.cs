@@ -42,8 +42,8 @@ namespace SAM.Analytical.LadybugTools
 
             if (space_Adjacent != null && index_Adjacent != -1)
             {
-                adjacentPanelUniqueName = Core.LadybugTools.Query.UniqueName(panel, index_Adjacent);
-                adjacentSpaceUniqueName = Core.LadybugTools.Query.UniqueName(space_Adjacent, index_Adjacent);
+                adjacentPanelUniqueName = Query.UniqueName(panel, index_Adjacent);
+                adjacentSpaceUniqueName = Query.UniqueName(space_Adjacent);
             }
 
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = panel.ToLadybugTools_BoundaryCondition(adjacentPanelUniqueName, adjacentSpaceUniqueName);
@@ -61,7 +61,7 @@ namespace SAM.Analytical.LadybugTools
             if (faceType != FaceType.AirBoundary)
                 faceEnergyPropertiesAbridged.Construction = Query.UniqueName(panel.Construction, reverse);
 
-            Face face = new Face(Core.LadybugTools.Query.UniqueName(panel, index), face3D, faceType, boundaryCondition, new FacePropertiesAbridged(faceEnergyPropertiesAbridged), panel.Name);
+            Face face = new Face(Query.UniqueName(panel, index), face3D, faceType, boundaryCondition, new FacePropertiesAbridged(faceEnergyPropertiesAbridged), panel.Name);
 
             List<Aperture> apertures = panel.Apertures;//Analytical.Query.OffsetAperturesOnEdge(panel, 0.1);
             if (apertures != null && apertures.Count > 0)

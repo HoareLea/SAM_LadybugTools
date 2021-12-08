@@ -22,6 +22,32 @@
             return UniqueName((Core.SAMType)apertureConstruction, reverse, index);
         }
 
+        public static string UniqueName(this Panel panel, int index = -1)
+        {
+            if(panel == null)
+            {
+                return null;
+            }
+
+            string result = panel.Guid.ToString("N");
+            if(index != -1)
+            {
+                result = string.Format("{0}__{1}", index, result);
+            }
+
+            return result;
+        }
+
+        public static string UniqueName(this Space space)
+        {
+            if(space == null)
+            {
+                return null;
+            }
+
+            return space.Guid.ToString("N");
+        }
+
         private static string UniqueName(this Core.SAMType sAMType, bool reverse = true, int index = -1)
         {
             if (sAMType == null)

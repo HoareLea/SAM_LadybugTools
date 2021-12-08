@@ -51,7 +51,7 @@ namespace SAM.Analytical.LadybugTools
                 bool reversed = index_Adjacent < index;
                 List<string> uniqueNames = new List<string>();
                 uniqueNames.Add(Core.LadybugTools.Query.UniqueName(window, index_Adjacent));
-                uniqueNames.Add(Core.LadybugTools.Query.UniqueName(hostPartition as SAMObject, index_Adjacent));
+                uniqueNames.Add(Query.UniqueName(hostPartition, index_Adjacent));
                 uniqueNames.Add(Core.LadybugTools.Query.UniqueName(spaces[index_Adjacent]));
                 anyOf = new Surface(uniqueNames);
             }

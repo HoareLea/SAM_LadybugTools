@@ -21,5 +21,21 @@
 
             return UniqueName((Core.SAMType)openingType, reverse);
         }
+
+        public static string UniqueName(this IPartition partition, int index = -1)
+        {
+            if (partition == null)
+            {
+                return null;
+            }
+
+            string result = partition.Guid.ToString("N");
+            if (index != -1)
+            {
+                result = string.Format("{0}__{1}", index, result);
+            }
+
+            return result;
+        }
     }
 }
