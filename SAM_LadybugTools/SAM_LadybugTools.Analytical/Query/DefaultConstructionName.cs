@@ -1,7 +1,4 @@
 ﻿using HoneybeeSchema;
-using SAM.Core;
-using System;
-using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
 {
@@ -9,7 +6,7 @@ namespace SAM.Analytical.LadybugTools
     {
         public static string DefaultConstructionName(this PanelType panelType)
         {
-            if(panelType == PanelType.Undefined)
+            if(panelType == Analytical.PanelType.Undefined)
             {
                 return null;
             }
@@ -22,29 +19,29 @@ namespace SAM.Analytical.LadybugTools
 
             switch(panelType)
             {
-                case PanelType.Floor:
+                case Analytical.PanelType.Floor:
                     return globalConstructionSet.FloorSet?.InteriorConstruction;
-                case PanelType.Air:
+                case Analytical.PanelType.Air:
                     return globalConstructionSet.AirBoundaryConstruction;
-                case PanelType.UndergroundSlab:
+                case Analytical.PanelType.UndergroundSlab:
                     return globalConstructionSet.FloorSet.ExteriorConstruction;
-                case PanelType.UndergroundWall:
+                case Analytical.PanelType.UndergroundWall:
                     return globalConstructionSet.WallSet.ExteriorConstruction;
-                case PanelType.Undefined:
+                case Analytical.PanelType.Undefined:
                     return null;
-                case PanelType.FloorExposed:
+                case Analytical.PanelType.FloorExposed:
                     return globalConstructionSet.FloorSet.ExteriorConstruction;
-                case PanelType.Shade:
+                case Analytical.PanelType.Shade:
                     return globalConstructionSet.WallSet.InteriorConstruction;
-                case PanelType.Roof:
+                case Analytical.PanelType.Roof:
                     return globalConstructionSet.RoofCeilingSet.ExteriorConstruction;
-                case PanelType.WallExternal:
+                case Analytical.PanelType.WallExternal:
                     return globalConstructionSet.WallSet.ExteriorConstruction;
-                case PanelType.Ceiling:
+                case Analytical.PanelType.Ceiling:
                     return globalConstructionSet.RoofCeilingSet.InteriorConstruction;
-                case PanelType.WallInternal:
+                case Analytical.PanelType.WallInternal:
                     return globalConstructionSet.WallSet.InteriorConstruction;
-                case PanelType.SlabOnGrade:
+                case Analytical.PanelType.SlabOnGrade:
                     return globalConstructionSet.FloorSet.GroundConstruction;
             }
 

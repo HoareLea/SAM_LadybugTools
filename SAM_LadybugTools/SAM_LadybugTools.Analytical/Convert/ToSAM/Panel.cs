@@ -100,6 +100,10 @@ namespace SAM.Analytical.LadybugTools
                         panelType = PanelType.WallInternal;
                         break;
 
+                    case PanelGroup.Roof:
+                        panelType = PanelType.FloorInternal;
+                        break;
+
                 }
             }
 
@@ -115,7 +119,32 @@ namespace SAM.Analytical.LadybugTools
 
             if (construction == null)
             {
-                construction = new Construction(face.Identifier);
+               if(constructions != null)
+                {
+                    foreach(Construction construction_Temp in constructions)
+                    {
+                        if(construction_Temp == null)
+                        {
+                            continue;
+                        }
+
+                        if(construction_Temp.TryGetValue(ConstructionParameter.DefaultPanelType, out string panelTypeString) && !string.IsNullOrWhiteSpace(panelTypeString))
+                        {
+                            PanelType panelType_Temp = Core.Query.Enum<PanelType>(panelTypeString);
+                            if(panelType_Temp == panelType)
+                            {
+                                construction = construction_Temp;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
+               if(construction == null)
+                {
+                    construction = new Construction(face.Identifier);
+                }
             }
 
             Panel panel = Create.Panel(construction, panelType, face3D);

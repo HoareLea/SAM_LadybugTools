@@ -14,7 +14,7 @@ namespace SAM.Analytical.LadybugTools
             foreach (string name in names)
             {
                 
-                Material material = materialLibrary.GetMaterials()?.Find(x => x.Name == null && x is Material) as Material;
+                Material material = materialLibrary.GetMaterials()?.Find(x => x is Material && name == x.Name) as Material;
                 if (material == null)
                 {
                     continue;

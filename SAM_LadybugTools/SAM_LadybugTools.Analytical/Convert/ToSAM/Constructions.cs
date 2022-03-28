@@ -14,19 +14,54 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
+            List<Construction> result = new List<Construction>();
+
             IEnumerable<IConstruction> constructions_Honeybee = modelEnergyProperties.ConstructionList;
-            if(constructions_Honeybee == null)
+            if(constructions_Honeybee != null)
             {
-                return null;
+                foreach (IConstruction construction_Honeybee in constructions_Honeybee)
+                {
+                    Construction construction = construction_Honeybee?.ToSAM_Construction(materialLibrary);
+                    if (construction != null)
+                    {
+                        result.Add(construction);
+                    }
+                }
             }
 
-            List<Construction> result = new List<Construction>();
-            foreach(IConstruction construction_Honeybee in constructions_Honeybee)
+            GlobalConstructionSet globalConstructionSet = modelEnergyProperties.GlobalConstructionSet;
+            if (globalConstructionSet != null)
             {
-                Construction construction = construction_Honeybee?.ToSAM_Construction(materialLibrary);
-                if(construction != null)
+                List<AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged>> constructionAbridges_Honeybee = modelEnergyProperties.GlobalConstructionSet.Constructions;
+                if (constructionAbridges_Honeybee != null)
                 {
-                    result.Add(construction);
+                    materialLibrary.AddMaterials(globalConstructionSet.Materials?.ConvertAll(x => x.Obj as HoneybeeSchema.Energy.IMaterial));
+
+                    foreach (AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> @object in constructionAbridges_Honeybee)
+                    {
+                        IConstruction construction_Honeybee = @object.Obj as IConstruction;
+                        if (construction_Honeybee == null)
+                        {
+                            continue;
+                        }
+
+                        if (construction_Honeybee is WindowConstructionAbridged)
+                        {
+                            continue;
+                        }
+
+                        Construction construction = construction_Honeybee?.ToSAM_Construction(materialLibrary);
+                        if (construction != null && result.Find(x => x.Name == construction.Name) == null)
+                        {
+                            PanelType? panelType = Query.PanelType(globalConstructionSet, construction.Name);
+                            if(panelType != null && panelType.HasValue && panelType.Value != PanelType.Undefined)
+                            {
+                                construction.SetValue(ConstructionParameter.DefaultPanelType, panelType);
+                            }
+
+                            result.Add(construction);
+                        }
+                    }
                 }
             }
 

@@ -114,11 +114,13 @@
     <Compile Include="Convert\ToSAM\Panel.cs" />
     <Compile Include="Convert\ToSAM\Profile.cs" />
     <Compile Include="Enums\Parameter\InternalConditionParameter.cs" />
+    <Compile Include="Modify\AddMaterials.cs" />
     <Compile Include="Modify\AddDefaultMaterials.cs" />
     <Compile Include="Query\ConstructionLayers.cs" />
     <Compile Include="Query\DefaultApertureConstruction.cs" />
     <Compile Include="Query\DefaultConstruction.cs" />
     <Compile Include="Query\DefaultConstructionName.cs" />
+    <Compile Include="Query\PanelType.cs" />
     <Compile Include="Query\InfiltrationAirFlowPerExteriorArea.cs" />
     <Compile Include="Query\New\FaceType.cs" />
     <Compile Include="Query\New\InfiltrationAirFlowPerExteriorArea.cs" />

@@ -20,14 +20,7 @@ namespace SAM.Analytical.LadybugTools
             }
 
             MaterialLibrary result = new MaterialLibrary(string.Empty);
-            foreach(HoneybeeSchema.Energy.IMaterial material_Honeybee in materials_Honeybee)
-            {
-                IMaterial material = material_Honeybee.ToSAM();
-                if(material != null)
-                {
-                    result.Add(material);
-                }
-            }
+            result.AddMaterials(materials_Honeybee);
 
             return result;
         }
