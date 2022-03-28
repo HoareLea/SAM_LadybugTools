@@ -26,7 +26,7 @@ namespace SAM.Analytical.LadybugTools
             {
                 materialLibrary = modelEnergyProperties.ToSAM_MaterialLibrary();
                 constructions = modelEnergyProperties.ToSAM_Constructions(materialLibrary);
-                apertureConstructions = modelEnergyProperties.ToSAM_ApertureConstructions();
+                apertureConstructions = modelEnergyProperties.ToSAM_ApertureConstructions(materialLibrary);
                 internalConditions = modelEnergyProperties. ToSAM_InternalConditions();
                 profileLibrary = modelEnergyProperties.ToSAM_ProfileLibrary();
             }

@@ -153,7 +153,7 @@ namespace SAM.Analytical.LadybugTools
             {
                 foreach(HoneybeeSchema.Aperture aperture_HoneybeeSchema in face.Apertures)
                 {
-                    Aperture aperture = aperture_HoneybeeSchema?.ToSAM(panelType.Internal(), apertureConstructions);
+                    Aperture aperture = aperture_HoneybeeSchema?.ToSAM(panelType, apertureConstructions);
                     if(aperture != null)
                     {
                         panel.AddAperture(aperture);
@@ -165,7 +165,7 @@ namespace SAM.Analytical.LadybugTools
             {
                 foreach (HoneybeeSchema.Door door in face.Doors)
                 {
-                    Aperture aperture = door?.ToSAM(panelType.Internal(), apertureConstructions);
+                    Aperture aperture = door?.ToSAM(panelType, apertureConstructions);
                     if (aperture != null)
                     {
                         panel.AddAperture(aperture);

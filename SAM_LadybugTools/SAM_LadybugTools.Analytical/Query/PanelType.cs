@@ -69,6 +69,51 @@ namespace SAM.Analytical.LadybugTools
                 return Analytical.PanelType.WallInternal;
             }
 
+            if(globalConstructionSet.ApertureSet.InteriorConstruction == name)
+            {
+                return Analytical.PanelType.WallInternal;
+            }
+
+            if (globalConstructionSet.ApertureSet.OperableConstruction == name)
+            {
+                return Analytical.PanelType.WallExternal;
+            }
+
+            if (globalConstructionSet.ApertureSet.SkylightConstruction == name)
+            {
+                return Analytical.PanelType.Roof;
+            }
+
+            if (globalConstructionSet.ApertureSet.WindowConstruction == name)
+            {
+                return Analytical.PanelType.WallExternal;
+            }
+
+            if (globalConstructionSet.DoorSet.ExteriorConstruction == name)
+            {
+                return Analytical.PanelType.WallExternal;
+            }
+
+            if (globalConstructionSet.DoorSet.ExteriorGlassConstruction == name)
+            {
+                return Analytical.PanelType.CurtainWall;
+            }
+
+            if (globalConstructionSet.DoorSet.InteriorConstruction == name)
+            {
+                return Analytical.PanelType.WallInternal;
+            }
+
+            if (globalConstructionSet.DoorSet.InteriorGlassConstruction == name)
+            {
+                return Analytical.PanelType.WallInternal;
+            }
+
+            if (globalConstructionSet.DoorSet.OverheadConstruction == name)
+            {
+                return Analytical.PanelType.Roof;
+            }
+
             return null;
         }
     }
