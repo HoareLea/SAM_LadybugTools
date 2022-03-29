@@ -2,6 +2,7 @@
 using HoneybeeSchema.Energy;
 using SAM.Core;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAM.Analytical.LadybugTools
 {
@@ -16,13 +17,28 @@ namespace SAM.Analytical.LadybugTools
 
             List<Construction> result = new List<Construction>();
 
-            IEnumerable<IConstruction> constructions_Honeybee = modelEnergyProperties.ConstructionList;
+            List<IConstruction> constructions_Honeybee = modelEnergyProperties.ConstructionList?.ToList();
+
+            List<HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>> constructionSets = modelEnergyProperties.ConstructionSets;
+            if(constructionSets != null)
+            {
+                foreach(HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet> anyOf in constructionSets)
+                {
+                    List<Construction> constructions_Temp = anyOf.Obj is ConstructionSetAbridged ? Query.Constructions((ConstructionSetAbridged)anyOf.Obj, constructions_Honeybee, materialLibrary) : Query.Constructions(anyOf.Obj as ConstructionSet, materialLibrary);
+                    if(constructions_Temp != null && constructions_Temp.Count != 0)
+                    {
+                        result.AddRange(constructions_Temp);
+                    }
+                }
+            }
+
+
             if(constructions_Honeybee != null)
             {
                 foreach (IConstruction construction_Honeybee in constructions_Honeybee)
                 {
                     Construction construction = construction_Honeybee?.ToSAM_Construction(materialLibrary);
-                    if (construction != null)
+                    if (construction != null && result.Find(x => x.Name == construction.Name) == null)
                     {
                         result.Add(construction);
                     }
@@ -56,6 +72,11 @@ namespace SAM.Analytical.LadybugTools
                             PanelType? panelType = Query.PanelType(globalConstructionSet, construction.Name);
                             if(panelType != null && panelType.HasValue && panelType.Value != PanelType.Undefined)
                             {
+                                if(result.Find(x => x.PanelType() != PanelType.Undefined && x.PanelType() == panelType.Value) != null)
+                                {
+                                    continue;
+                                }
+
                                 construction.SetValue(ConstructionParameter.DefaultPanelType, panelType);
                             }
 
