@@ -2,6 +2,7 @@
 using HoneybeeSchema.Energy;
 using SAM.Core;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAM.Analytical.LadybugTools
 {
@@ -16,13 +17,27 @@ namespace SAM.Analytical.LadybugTools
 
             List<ApertureConstruction> result = new List<ApertureConstruction>();
 
-            IEnumerable<IConstruction> constructions_Honeybee = modelEnergyProperties.ConstructionList;
-            if(constructions_Honeybee != null)
+            List<IConstruction> constructions_Honeybee = modelEnergyProperties.ConstructionList?.ToList();
+
+            List<HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>> constructionSets = modelEnergyProperties.ConstructionSets;
+            if (constructionSets != null)
+            {
+                foreach (HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet> anyOf in constructionSets)
+                {
+                    List<ApertureConstruction> apertureConstructions_Temp = anyOf.Obj is ConstructionSetAbridged ? Query.ApertureConstructions((ConstructionSetAbridged)anyOf.Obj, constructions_Honeybee, materialLibrary) : Query.ApertureConstructions(anyOf.Obj as ConstructionSet, materialLibrary);
+                    if (apertureConstructions_Temp != null && apertureConstructions_Temp.Count != 0)
+                    {
+                        result.AddRange(apertureConstructions_Temp);
+                    }
+                }
+            }
+
+            if (constructions_Honeybee != null)
             {
                 foreach (IConstruction construction_Honeybee in constructions_Honeybee)
                 {
                     ApertureConstruction apertureConstruction = construction_Honeybee?.ToSAM_ApertureConstruction(materialLibrary);
-                    if (apertureConstruction != null)
+                    if (apertureConstruction != null && result.Find(x => x.Name == apertureConstruction.Name) == null)
                     {
                         result.Add(apertureConstruction);
                     }

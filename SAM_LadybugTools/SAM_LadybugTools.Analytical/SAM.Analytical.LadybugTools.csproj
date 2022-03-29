@@ -117,6 +117,7 @@
     <Compile Include="Modify\AddMaterials.cs" />
     <Compile Include="Modify\AddDefaultMaterials.cs" />
     <Compile Include="Query\ConstructionLayers.cs" />
+    <Compile Include="Query\ApertureConstructions.cs" />
     <Compile Include="Query\DefaultApertureConstruction.cs" />
     <Compile Include="Query\DefaultConstruction.cs" />
     <Compile Include="Query\DefaultConstructionName.cs" />
