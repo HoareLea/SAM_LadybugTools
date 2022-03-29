@@ -34,6 +34,12 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
+            if(material is EnergyMaterialNoMass)
+            {
+                EnergyMaterialNoMass energyMaterialNoMass = (EnergyMaterialNoMass)material;
+                return energyMaterialNoMass.ToSAM();
+            }
+
             return null;
         }
 
