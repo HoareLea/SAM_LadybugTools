@@ -72,12 +72,10 @@ namespace SAM.Analytical.LadybugTools
                             PanelType? panelType = Query.PanelType(globalConstructionSet, construction.Name);
                             if(panelType != null && panelType.HasValue && panelType.Value != PanelType.Undefined)
                             {
-                                if(result.Find(x => x.PanelType() != PanelType.Undefined && x.PanelType() == panelType.Value) != null)
+                                if(result.Find(x => x.PanelType() != PanelType.Undefined && x.PanelType() == panelType.Value) == null)
                                 {
-                                    continue;
+                                    construction.SetValue(ConstructionParameter.DefaultPanelType, panelType);
                                 }
-
-                                construction.SetValue(ConstructionParameter.DefaultPanelType, panelType);
                             }
 
                             result.Add(construction);

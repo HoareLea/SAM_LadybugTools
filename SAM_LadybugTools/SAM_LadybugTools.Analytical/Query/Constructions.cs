@@ -239,6 +239,16 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(constructionSetAbridged.WallSet.ExteriorConstruction))
+            {
+                Construction construction = constructions_Temp.Find(x => x.Identifier == constructionSetAbridged.WallSet.ExteriorConstruction)?.ToSAM_Construction(materialLibrary);
+                if (construction != null)
+                {
+                    construction.SetValue(ConstructionParameter.DefaultPanelType, Analytical.PanelType.WallExternal.ToString());
+                    result.Add(construction);
+                }
+            }
+
             return result;
         }
     }

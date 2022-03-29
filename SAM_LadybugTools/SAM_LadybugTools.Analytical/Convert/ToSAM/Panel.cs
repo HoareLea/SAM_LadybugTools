@@ -107,16 +107,6 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            if(construction == null)
-            {
-
-                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultConstruction(panelType);
-                if(construction_Honeybee != null)
-                {
-                    construction = construction_Honeybee.ToSAM_Construction();
-                }
-            }
-
             if (construction == null)
             {
                if(constructions != null)
@@ -139,12 +129,20 @@ namespace SAM.Analytical.LadybugTools
                         }
                     }
                 }
+            }
 
-
-               if(construction == null)
+            if (construction == null)
+            {
+                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultConstruction(panelType);
+                if (construction_Honeybee != null)
                 {
-                    construction = new Construction(face.Identifier);
+                    construction = construction_Honeybee.ToSAM_Construction();
                 }
+            }
+
+            if (construction == null)
+            {
+                construction = new Construction(face.Identifier);
             }
 
             Panel panel = Create.Panel(construction, panelType, face3D);
