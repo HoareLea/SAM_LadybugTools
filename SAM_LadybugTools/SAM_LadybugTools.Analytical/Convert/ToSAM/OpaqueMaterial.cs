@@ -51,7 +51,7 @@ namespace SAM.Analytical.LadybugTools
             if(result == null)
             {
                 result = new Core.OpaqueMaterial(energyMaterialNoMass.Identifier, null, energyMaterialNoMass.DisplayName, null, double.NaN, double.NaN, double.NaN);
-                result.SetValue(MaterialParameter.DefaultThickness, energyMaterialNoMass.RValue * 0.0038);
+                result.SetValue(MaterialParameter.DefaultThickness, energyMaterialNoMass.RValue * 0.038);
             }
 
             return result;
