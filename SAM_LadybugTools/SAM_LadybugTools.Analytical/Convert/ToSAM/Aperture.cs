@@ -102,6 +102,13 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
+            ApertureType apertureType = door.IsGlass ? ApertureType.Window : ApertureType.Door;
+            PanelType panelType_Temp = panelType;
+            if(apertureType == ApertureType.Window && panelType_Temp == PanelType.WallExternal)
+            {
+                panelType_Temp = PanelType.CurtainWall;
+            }
+
             ApertureConstruction apertureConstruction = null;
             if (apertureConstructions != null && door.Properties?.Energy?.Construction != null)
             {
@@ -112,7 +119,7 @@ namespace SAM.Analytical.LadybugTools
                         continue;
                     }
 
-                    if (apertureConstruction_Temp.ApertureType != ApertureType.Door)
+                    if (apertureConstruction_Temp.ApertureType != apertureType)
                     {
                         continue;
                     }
@@ -134,15 +141,15 @@ namespace SAM.Analytical.LadybugTools
                         continue;
                     }
 
-                    if (apertureConstruction_Temp.ApertureType != ApertureType.Door)
+                    if (apertureConstruction_Temp.ApertureType != apertureType)
                     {
                         continue;
                     }
 
                     if (apertureConstruction_Temp.TryGetValue(ApertureConstructionParameter.DefaultPanelType, out string panelTypeString) && !string.IsNullOrWhiteSpace(panelTypeString))
                     {
-                        PanelType panelType_Temp = Core.Query.Enum<PanelType>(panelTypeString);
-                        if (panelType_Temp == panelType)
+                        PanelType panelType_ApertureConstructin = Core.Query.Enum<PanelType>(panelTypeString);
+                        if (panelType_ApertureConstructin == panelType_Temp)
                         {
                             apertureConstruction = apertureConstruction_Temp;
                             break;
@@ -153,7 +160,7 @@ namespace SAM.Analytical.LadybugTools
 
             if (apertureConstruction == null)
             {
-                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultApertureConstruction(ApertureType.Door, panelType);
+                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultApertureConstruction(apertureType, panelType);
                 if (construction_Honeybee != null)
                 {
                     apertureConstruction = construction_Honeybee.ToSAM_ApertureConstruction();
@@ -162,7 +169,7 @@ namespace SAM.Analytical.LadybugTools
 
             if (apertureConstruction == null)
             {
-                apertureConstruction = new ApertureConstruction(door.DisplayName, ApertureType.Door);
+                apertureConstruction = new ApertureConstruction(door.DisplayName, apertureType);
             }
             
             Aperture result = new Aperture(apertureConstruction, face3D, Analytical.Query.OpeningLocation(face3D));
