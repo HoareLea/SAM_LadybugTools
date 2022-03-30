@@ -1,15 +1,14 @@
 ﻿using HoneybeeSchema;
-using SAM.Core;
-using System;
+using HoneybeeSchema.Energy;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
 {
     public static partial class Query
     {
-        public static AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> DefaultApertureConstruction(this ApertureType apertureType, bool @internal)
+        public static AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> DefaultApertureConstruction(this ApertureType apertureType, PanelType panelType)
         {
-            string name = DefaultConstructionName(apertureType, @internal);
+            string name = DefaultApertureConstructionName(apertureType, panelType);
             if (string.IsNullOrEmpty(name))
             {
                 return null;

@@ -41,39 +41,41 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            if(apertureConstruction == null)
+            if (apertureConstruction == null)
             {
-                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultApertureConstruction(ApertureType.Window, panelType.Internal());
-                if (construction_Honeybee != null)
+                if (apertureConstructions != null)
                 {
-                    apertureConstruction = construction_Honeybee.ToSAM_ApertureConstruction();
+                    foreach (ApertureConstruction apertureConstruction_Temp in apertureConstructions)
+                    {
+                        if (apertureConstruction_Temp == null)
+                        {
+                            continue;
+                        }
+
+                        if (apertureConstruction_Temp.ApertureType != ApertureType.Window)
+                        {
+                            continue;
+                        }
+
+                        if (apertureConstruction_Temp.TryGetValue(ApertureConstructionParameter.DefaultPanelType, out string panelTypeString) && !string.IsNullOrWhiteSpace(panelTypeString))
+                        {
+                            PanelType panelType_Temp = Core.Query.Enum<PanelType>(panelTypeString);
+                            if (panelType_Temp == panelType)
+                            {
+                                apertureConstruction = apertureConstruction_Temp;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
-            //New Code Added 2022.03.28
-            if (apertureConstructions != null)
+            if (apertureConstruction == null)
             {
-                foreach (ApertureConstruction apertureConstruction_Temp in apertureConstructions)
+                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultApertureConstruction(ApertureType.Window, panelType);
+                if (construction_Honeybee != null)
                 {
-                    if (apertureConstruction_Temp == null)
-                    {
-                        continue;
-                    }
-
-                    if (apertureConstruction_Temp.ApertureType != ApertureType.Window)
-                    {
-                        continue;
-                    }
-
-                    if (apertureConstruction_Temp.TryGetValue(ApertureConstructionParameter.DefaultPanelType, out string panelTypeString) && !string.IsNullOrWhiteSpace(panelTypeString))
-                    {
-                        PanelType panelType_Temp = Core.Query.Enum<PanelType>(panelTypeString);
-                        if (panelType_Temp == panelType)
-                        {
-                            apertureConstruction = apertureConstruction_Temp;
-                            break;
-                        }
-                    }
+                    apertureConstruction = construction_Honeybee.ToSAM_ApertureConstruction();
                 }
             }
 
@@ -123,16 +125,6 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
-            if (apertureConstruction == null)
-            {
-                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultApertureConstruction(ApertureType.Door, panelType.Internal());
-                if (construction_Honeybee != null)
-                {
-                    apertureConstruction = construction_Honeybee.ToSAM_ApertureConstruction();
-                }
-            }
-
-            //New Code Added 2022.03.28
             if (apertureConstructions != null)
             {
                 foreach (ApertureConstruction apertureConstruction_Temp in apertureConstructions)
@@ -156,6 +148,15 @@ namespace SAM.Analytical.LadybugTools
                             break;
                         }
                     }
+                }
+            }
+
+            if (apertureConstruction == null)
+            {
+                AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction_Honeybee = Query.DefaultApertureConstruction(ApertureType.Door, panelType);
+                if (construction_Honeybee != null)
+                {
+                    apertureConstruction = construction_Honeybee.ToSAM_ApertureConstruction();
                 }
             }
 

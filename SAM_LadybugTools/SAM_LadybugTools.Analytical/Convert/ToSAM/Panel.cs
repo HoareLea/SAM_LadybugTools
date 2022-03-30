@@ -1,6 +1,5 @@
 ﻿using HoneybeeSchema;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SAM.Analytical.LadybugTools
 {
@@ -196,6 +195,30 @@ namespace SAM.Analytical.LadybugTools
                     {
                         construction = construction_Temp;
                         break;
+                    }
+                }
+            }
+
+            if (construction == null)
+            {
+                if (constructions != null)
+                {
+                    foreach (Construction construction_Temp in constructions)
+                    {
+                        if (construction_Temp == null)
+                        {
+                            continue;
+                        }
+
+                        if (construction_Temp.TryGetValue(ConstructionParameter.DefaultPanelType, out string panelTypeString) && !string.IsNullOrWhiteSpace(panelTypeString))
+                        {
+                            PanelType panelType_Temp = Core.Query.Enum<PanelType>(panelTypeString);
+                            if (panelType_Temp == PanelType.Shade)
+                            {
+                                construction = construction_Temp;
+                                break;
+                            }
+                        }
                     }
                 }
             }

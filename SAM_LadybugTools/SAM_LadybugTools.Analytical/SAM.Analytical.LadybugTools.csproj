@@ -120,6 +120,7 @@
     <Compile Include="Query\ApertureConstructions.cs" />
     <Compile Include="Query\DefaultApertureConstruction.cs" />
     <Compile Include="Query\DefaultConstruction.cs" />
+    <Compile Include="Query\DefaultApertureConstructionName.cs" />
     <Compile Include="Query\DefaultConstructionName.cs" />
     <Compile Include="Query\Constructions.cs" />
     <Compile Include="Query\PanelType.cs" />
