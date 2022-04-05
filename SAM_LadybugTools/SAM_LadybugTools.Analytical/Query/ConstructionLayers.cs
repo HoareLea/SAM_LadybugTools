@@ -20,7 +20,7 @@ namespace SAM.Analytical.LadybugTools
                     continue;
                 }
 
-                double thickness = material.GetValue<double>(MaterialParameter.DefaultThickness);
+                double thickness = material.GetValue<double>(Core.MaterialParameter.DefaultThickness);
                 result.Add(new ConstructionLayer(material.Name, thickness));
             }
 

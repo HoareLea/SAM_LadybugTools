@@ -12,7 +12,7 @@ namespace SAM.Analytical.LadybugTools
 
             return new EnergyMaterial(
                 identifier: opaqueMaterial.Name,
-                thickness: opaqueMaterial.GetValue<double>(MaterialParameter.DefaultThickness),
+                thickness: opaqueMaterial.GetValue<double>(Core.MaterialParameter.DefaultThickness),
                 conductivity: opaqueMaterial.ThermalConductivity,
                 density: opaqueMaterial.Density,
                 specificHeat: opaqueMaterial.SpecificHeatCapacity,

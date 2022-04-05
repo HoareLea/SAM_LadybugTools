@@ -14,7 +14,7 @@ namespace SAM.Analytical.LadybugTools
                 identifier: transparentMaterial.Name,
                 displayName: transparentMaterial.DisplayName,
                 userData: null,
-                thickness: transparentMaterial.GetValue<double>(MaterialParameter.DefaultThickness),
+                thickness: transparentMaterial.GetValue<double>(Core.MaterialParameter.DefaultThickness),
                 solarTransmittance: transparentMaterial.GetValue<double>(TransparentMaterialParameter.SolarTransmittance),
                 solarReflectance: transparentMaterial.GetValue<double>(TransparentMaterialParameter.InternalSolarReflectance),
                 solarReflectanceBack: transparentMaterial.GetValue<double>(TransparentMaterialParameter.ExternalSolarReflectance),

@@ -18,7 +18,7 @@ namespace SAM.Analytical.LadybugTools
                 identifier: gasMaterial.Name,
                 displayName: gasMaterial.DisplayName,
                 userData: null,
-                thickness: gasMaterial.GetValue<double>(MaterialParameter.DefaultThickness),
+                thickness: gasMaterial.GetValue<double>(Core.MaterialParameter.DefaultThickness),
                 gasType: gasType.Value);
         }
     }
