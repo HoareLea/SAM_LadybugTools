@@ -31,7 +31,43 @@ namespace SAM.Analytical.LadybugTools
                 return ((WindowConstructionAbridged)construction).ToSAM(materialLibrary);
             }
 
+            if(construction is OpaqueConstruction)
+            {
+                return ((OpaqueConstruction)construction).ToSAM_ApertureConstruction();
+            }
+
+            if (construction is OpaqueConstructionAbridged)
+            {
+                return ((OpaqueConstructionAbridged)construction).ToSAM_ApertureConstruction(materialLibrary);
+            }
+
             return null;
+        }
+
+        public static ApertureConstruction ToSAM_ApertureConstruction(this OpaqueConstruction opaqueConstruction)
+        {
+            if (opaqueConstruction == null)
+            {
+                return null;
+            }
+
+            List<ConstructionLayer> constructionLayers = Query.ConstructionLayers(opaqueConstruction.Materials.ConvertAll(x => (x.Obj as IMaterial).ToSAM()));
+
+            ApertureConstruction result = new ApertureConstruction(System.Guid.NewGuid(), opaqueConstruction.Identifier, ApertureType.Door, constructionLayers);
+            return result;
+        }
+
+        public static ApertureConstruction ToSAM_ApertureConstruction(this OpaqueConstructionAbridged opaqueConstructionAbridged, Core.MaterialLibrary materialLibrary = null)
+        {
+            if (opaqueConstructionAbridged == null)
+            {
+                return null;
+            }
+
+            List<ConstructionLayer> constructionLayers = Query.ConstructionLayers(materialLibrary, opaqueConstructionAbridged.Materials);
+
+            ApertureConstruction result = new ApertureConstruction(System.Guid.NewGuid(), opaqueConstructionAbridged.Identifier, ApertureType.Door, constructionLayers);
+            return result;
         }
 
         public static ApertureConstruction ToSAM_ApertureConstruction(this AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged> construction, Core.MaterialLibrary materialLibrary = null)

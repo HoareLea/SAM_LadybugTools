@@ -35,6 +35,8 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
+            bool adiabatic = false;
+
             AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = face.BoundaryCondition;
             if(boundaryCondition.Obj is Ground)
             {
@@ -59,9 +61,21 @@ namespace SAM.Analytical.LadybugTools
             }
             else if (boundaryCondition.Obj is Adiabatic)
             {
-                if(panelGroup == PanelGroup.Roof)
+                adiabatic = true;
+
+                switch(panelGroup)
                 {
-                    panelType = PanelType.Roof;
+                    case PanelGroup.Floor:
+                        panelType = PanelType.FloorInternal;
+                        break;
+
+                    case PanelGroup.Roof:
+                        panelType = PanelType.Ceiling;
+                        break;
+
+                    case PanelGroup.Wall:
+                        panelType = PanelType.WallInternal;
+                        break;
                 }
             }
             else if (boundaryCondition.Obj is Outdoors)
@@ -145,6 +159,10 @@ namespace SAM.Analytical.LadybugTools
             }
 
             Panel panel = Create.Panel(construction, panelType, face3D);
+            if(adiabatic)
+            {
+                panel.SetValue(PanelParameter.Adiabatic, adiabatic);
+            }
             
             if(face.Apertures != null)
             {

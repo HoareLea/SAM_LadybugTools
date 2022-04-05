@@ -124,7 +124,7 @@ namespace SAM.Analytical.LadybugTools
                 ApertureConstruction apertureConstruction = constructions_Temp.Find(x => x.Identifier == constructionSetAbridged.ApertureSet.InteriorConstruction)?.ToSAM_ApertureConstruction(materialLibrary);
                 if(apertureConstruction != null)
                 {
-                    apertureConstruction.SetValue(ConstructionParameter.DefaultPanelType, Analytical.PanelType.WallInternal.ToString());
+                    apertureConstruction.SetValue(ApertureConstructionParameter.DefaultPanelType, Analytical.PanelType.WallInternal.ToString());
                     result.Add(apertureConstruction);
                 }
             }
@@ -134,7 +134,7 @@ namespace SAM.Analytical.LadybugTools
                 ApertureConstruction apertureConstruction = constructions_Temp.Find(x => x.Identifier == constructionSetAbridged.ApertureSet.OperableConstruction)?.ToSAM_ApertureConstruction(materialLibrary);
                 if (apertureConstruction != null)
                 {
-                    apertureConstruction.SetValue(ConstructionParameter.DefaultPanelType, Analytical.PanelType.WallExternal.ToString());
+                    apertureConstruction.SetValue(ApertureConstructionParameter.DefaultPanelType, Analytical.PanelType.WallExternal.ToString());
                     result.Add(apertureConstruction);
                 }
             }
@@ -144,7 +144,7 @@ namespace SAM.Analytical.LadybugTools
                 ApertureConstruction apertureConstruction = constructions_Temp.Find(x => x.Identifier == constructionSetAbridged.ApertureSet.SkylightConstruction)?.ToSAM_ApertureConstruction(materialLibrary);
                 if (apertureConstruction != null)
                 {
-                    apertureConstruction.SetValue(ConstructionParameter.DefaultPanelType, Analytical.PanelType.Roof.ToString());
+                    apertureConstruction.SetValue(ApertureConstructionParameter.DefaultPanelType, Analytical.PanelType.Roof.ToString());
                     result.Add(apertureConstruction);
                 }
             }
@@ -154,7 +154,7 @@ namespace SAM.Analytical.LadybugTools
                 ApertureConstruction apertureConstruction = constructions_Temp.Find(x => x.Identifier == constructionSetAbridged.ApertureSet.WindowConstruction)?.ToSAM_ApertureConstruction(materialLibrary);
                 if (apertureConstruction != null)
                 {
-                    apertureConstruction.SetValue(ConstructionParameter.DefaultPanelType, Analytical.PanelType.WallExternal.ToString());
+                    apertureConstruction.SetValue(ApertureConstructionParameter.DefaultPanelType, Analytical.PanelType.WallExternal.ToString());
                     result.Add(apertureConstruction);
                 }
             }
@@ -164,7 +164,7 @@ namespace SAM.Analytical.LadybugTools
                 ApertureConstruction apertureConstruction = constructions_Temp.Find(x => x.Identifier == constructionSetAbridged.DoorSet.ExteriorConstruction)?.ToSAM_ApertureConstruction(materialLibrary);
                 if (apertureConstruction != null)
                 {
-                    apertureConstruction.SetValue(ConstructionParameter.DefaultPanelType, Analytical.PanelType.WallExternal.ToString());
+                    apertureConstruction.SetValue(ApertureConstructionParameter.DefaultPanelType, Analytical.PanelType.WallExternal.ToString());
                     result.Add(apertureConstruction);
                 }
             }
@@ -174,7 +174,7 @@ namespace SAM.Analytical.LadybugTools
                 ApertureConstruction apertureConstruction = constructions_Temp.Find(x => x.Identifier == constructionSetAbridged.DoorSet.ExteriorGlassConstruction)?.ToSAM_ApertureConstruction(materialLibrary);
                 if (apertureConstruction != null)
                 {
-                    apertureConstruction.SetValue(ConstructionParameter.DefaultPanelType, Analytical.PanelType.CurtainWall.ToString());
+                    apertureConstruction.SetValue(ApertureConstructionParameter.DefaultPanelType, Analytical.PanelType.CurtainWall.ToString());
                     result.Add(apertureConstruction);
                 }
             }
@@ -184,7 +184,7 @@ namespace SAM.Analytical.LadybugTools
                 ApertureConstruction apertureConstruction = constructions_Temp.Find(x => x.Identifier == constructionSetAbridged.DoorSet.InteriorConstruction)?.ToSAM_ApertureConstruction(materialLibrary);
                 if (apertureConstruction != null)
                 {
-                    apertureConstruction.SetValue(ConstructionParameter.DefaultPanelType, Analytical.PanelType.WallInternal.ToString());
+                    apertureConstruction.SetValue(ApertureConstructionParameter.DefaultPanelType, Analytical.PanelType.WallInternal.ToString());
                     result.Add(apertureConstruction);
                 }
             }
@@ -194,7 +194,7 @@ namespace SAM.Analytical.LadybugTools
                 ApertureConstruction apertureConstruction = constructions_Temp.Find(x => x.Identifier == constructionSetAbridged.DoorSet.InteriorGlassConstruction)?.ToSAM_ApertureConstruction(materialLibrary);
                 if (apertureConstruction != null)
                 {
-                    apertureConstruction.SetValue(ConstructionParameter.DefaultPanelType, Analytical.PanelType.CurtainWall.ToString());
+                    apertureConstruction.SetValue(ApertureConstructionParameter.DefaultPanelType, Analytical.PanelType.CurtainWall.ToString());
                     result.Add(apertureConstruction);
                 }
             }
@@ -204,7 +204,7 @@ namespace SAM.Analytical.LadybugTools
                 ApertureConstruction apertureConstruction = constructions_Temp.Find(x => x.Identifier == constructionSetAbridged.DoorSet.OverheadConstruction)?.ToSAM_ApertureConstruction(materialLibrary);
                 if (apertureConstruction != null)
                 {
-                    apertureConstruction.SetValue(ConstructionParameter.DefaultPanelType, Analytical.PanelType.WallExternal.ToString());
+                    apertureConstruction.SetValue(ApertureConstructionParameter.DefaultPanelType, Analytical.PanelType.WallExternal.ToString());
                     result.Add(apertureConstruction);
                 }
             }
