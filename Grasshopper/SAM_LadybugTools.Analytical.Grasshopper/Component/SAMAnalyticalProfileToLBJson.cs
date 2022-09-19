@@ -81,8 +81,8 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
             index = Params.IndexOfOutputParam("LBJson");
             if(index != -1)
             {
-                string hourlyContinousCollection = Analytical.LadybugTools.Convert.ToLadybugTools_HourlyContinousCollection(profile);
-                dataAccess.SetData(index, hourlyContinousCollection);
+                string hourlyContinous = Analytical.LadybugTools.Convert.ToLadybugTools_HourlyContinous(profile);
+                dataAccess.SetData(index, hourlyContinous);
             }
         }
     }

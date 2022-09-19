@@ -7,7 +7,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static string ToLadybugTools_HourlyContinousCollection(this Profile profile, Dictionary<string, object> metadata = null)
+        public static string ToLadybugTools_HourlyContinous(this Profile profile, Dictionary<string, object> metadata = null)
         {
             if (profile == null)
                 return null;
@@ -44,11 +44,11 @@ namespace SAM.Analytical.LadybugTools
                 profileGroup = profile.ProfileType.ProfileGroup();
             }
 
-            return ToLadybugTools_HourlyContinousCollection(values, profileGroup, name, 0, 1, 1, endHour, endDay, endMonth, 1, false, metadata);
+            return ToLadybugTools_HourlyContinous(values, profileGroup, name, 0, 1, 1, endHour, endDay, endMonth, 1, false, metadata);
 
         }
 
-        public static string ToLadybugTools_HourlyContinousCollection(double[] values, ProfileGroup profileGroup, string name, int startHour, int startDay,int startMonth, int endHour, int endDay, int endMonth, int timestep, bool leapYear, Dictionary<string, object> metadata = null)
+        public static string ToLadybugTools_HourlyContinous(double[] values, ProfileGroup profileGroup, string name, int startHour, int startDay,int startMonth, int endHour, int endDay, int endMonth, int timestep, bool leapYear, Dictionary<string, object> metadata = null)
         {
             if (values == null)
                 return null;
@@ -126,7 +126,7 @@ namespace SAM.Analytical.LadybugTools
             jObject_Header.Add("data_type", jObject_DataType);
 
             result.Add("header", jObject_Header);
-            result.Add("type", "HourlyContinuousCollection");
+            result.Add("type", "HourlyContinuous");
 
             return result.ToString();
         }
