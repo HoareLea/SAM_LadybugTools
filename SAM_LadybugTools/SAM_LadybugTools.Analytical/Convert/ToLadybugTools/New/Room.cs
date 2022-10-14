@@ -12,7 +12,7 @@ namespace SAM.Analytical.LadybugTools
 
             List<Face> faces = null;
 
-            List<IPartition> partitions = buildingModel.OrientedPartitions(space, false, silverSpacing, tolerance);
+            List<IPartition> partitions = buildingModel.OrientedPartitions(space, false, true, silverSpacing, tolerance);
             if(partitions != null)
             {
                 faces = new List<Face>();
