@@ -28,7 +28,7 @@ namespace SAM.Analytical.LadybugTools
 
             HoneybeeSchema.AnyOf<Outdoors, Surface> anyOf = new Outdoors();
 
-            Face3D face3D = planarBoundary3D.ToLadybugTools();
+            Face3D face3D = new PlanarBoundary3D(Geometry.Spatial.Create.Face3D(planarBoundary3D.GetFace3D().GetExternalEdge3D())).ToLadybugTools();
             if (!string.IsNullOrEmpty(adjacentPanelUniqueName) && !string.IsNullOrEmpty(adjacentSpaceUniqueName))
             {
                 List<string> uniqueNames = new List<string>();

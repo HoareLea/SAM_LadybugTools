@@ -17,7 +17,7 @@ namespace SAM.Analytical.LadybugTools
             if (adjacencyCluster != null)
             {
                 index = adjacencyCluster.GetIndex(space);
-                panels = adjacencyCluster.UpdateNormals(space, false, silverSpacing, tolerance);
+                panels = adjacencyCluster.UpdateNormals(space, false, true, silverSpacing, tolerance);
             }
 
             if(panels == null || panels.Count == 0)
