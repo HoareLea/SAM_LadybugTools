@@ -109,7 +109,7 @@
   <ItemGroup>
     <PackageReference Include="Grasshopper">
       <Version>6.32.20340.21001</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>>
+      <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="HoneybeeSchema">
       <Version>1.51.5.1</Version>
