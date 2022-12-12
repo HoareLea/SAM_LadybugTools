@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static AnyOf<Ground, Outdoors, Adiabatic, Surface> ToLadybugTools_BoundaryCondition(this IPartition partition, BuildingModel buildingModel, Space space)
+        public static AnyOf<Ground, Outdoors, Adiabatic, Surface, OtherSideTemperature> ToLadybugTools_BoundaryCondition(this IPartition partition, BuildingModel buildingModel, Space space)
         {
             if (partition == null || buildingModel == null)
             {

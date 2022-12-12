@@ -35,7 +35,7 @@ namespace SAM.Analytical.LadybugTools
                 reverse = buildingModel.UniqueIndex(spaces[0]) != index;
             }
 
-            AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = partition.ToLadybugTools_BoundaryCondition(buildingModel, space);
+            AnyOf<Ground, Outdoors, Adiabatic, Surface, OtherSideTemperature> boundaryCondition = partition.ToLadybugTools_BoundaryCondition(buildingModel, space);
 
             FaceEnergyPropertiesAbridged faceEnergyPropertiesAbridged = new FaceEnergyPropertiesAbridged();
             if (partition is IHostPartition)

@@ -37,8 +37,8 @@ namespace SAM.Analytical.LadybugTools
 
             bool adiabatic = false;
 
-            AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = face.BoundaryCondition;
-            if(boundaryCondition.Obj is Ground)
+            AnyOf<Ground, Outdoors, Adiabatic, Surface, OtherSideTemperature> boundaryCondition = face.BoundaryCondition;
+            if (boundaryCondition.Obj is Ground)
             {
                 switch(panelGroup)
                 {

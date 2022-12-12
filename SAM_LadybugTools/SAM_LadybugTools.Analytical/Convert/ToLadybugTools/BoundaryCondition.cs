@@ -5,7 +5,7 @@ namespace SAM.Analytical.LadybugTools
 {
     public static partial class Convert
     {
-        public static AnyOf<Ground, Outdoors, Adiabatic, Surface> ToLadybugTools_BoundaryCondition(this Panel panel, string adjacentPanelUniqueName = null, string adjacentSpaceUniqueName = null)
+        public static AnyOf<Ground, Outdoors, Adiabatic, Surface, OtherSideTemperature> ToLadybugTools_BoundaryCondition(this Panel panel, string adjacentPanelUniqueName = null, string adjacentSpaceUniqueName = null)
         {
             if (panel == null)
                 return null;

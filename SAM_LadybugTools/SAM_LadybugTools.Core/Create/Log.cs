@@ -23,8 +23,8 @@ namespace SAM.Core.LadybugTools
             {
                 modelEnergyProperties.Constructions?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, WindowConstructionDynamicAbridged, WindowConstructionDynamic, AirBoundaryConstruction, ShadeConstruction>)));
                 modelEnergyProperties.ConstructionSets?.ForEach(x => Core.Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>)));
-                modelEnergyProperties.Materials?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade>)));
-                modelEnergyProperties.Hvacs?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater>)));
+                modelEnergyProperties.Materials?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyMaterialVegetation, EnergyWindowMaterialGlazing, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialGas, EnergyWindowMaterialGasMixture, EnergyWindowMaterialGasCustom, EnergyWindowFrame, EnergyWindowMaterialBlind, EnergyWindowMaterialShade>)));
+                modelEnergyProperties.Hvacs?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, RadiantwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater, Radiant>)));
                 modelEnergyProperties.ProgramTypes?.ForEach(x => Core.Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ProgramTypeAbridged, ProgramType>)));
                 modelEnergyProperties.Schedules?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>)));
                 modelEnergyProperties.ScheduleTypeLimits?.ForEach(x => Core.Modify.AddRange(result, Log(x as ScheduleTypeLimit)));
@@ -136,7 +136,7 @@ namespace SAM.Core.LadybugTools
             return null;
         }
 
-        public static Log Log(this AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade> material)
+        public static Log Log(this AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyMaterialVegetation, EnergyWindowMaterialGlazing, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialGas, EnergyWindowMaterialGasMixture, EnergyWindowMaterialGasCustom, EnergyWindowFrame, EnergyWindowMaterialBlind, EnergyWindowMaterialShade> material)
         {
             if (material == null)
                 return null;
@@ -162,7 +162,7 @@ namespace SAM.Core.LadybugTools
             return result;
         }
 
-        public static Log Log(this AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater> hvac)
+        public static Log Log(this AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, RadiantwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater, Radiant> hvac)
         {
             if (hvac == null)
                 return null;

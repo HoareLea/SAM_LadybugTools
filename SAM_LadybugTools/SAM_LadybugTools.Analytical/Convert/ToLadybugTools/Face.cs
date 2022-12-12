@@ -46,9 +46,9 @@ namespace SAM.Analytical.LadybugTools
                 adjacentSpaceUniqueName = Query.UniqueName(space_Adjacent);
             }
 
-            AnyOf<Ground, Outdoors, Adiabatic, Surface> boundaryCondition = panel.ToLadybugTools_BoundaryCondition(adjacentPanelUniqueName, adjacentSpaceUniqueName);
+            AnyOf<Ground, Outdoors, Adiabatic, Surface, OtherSideTemperature> boundaryCondition = panel.ToLadybugTools_BoundaryCondition(adjacentPanelUniqueName, adjacentSpaceUniqueName);
 
-            FaceType faceType;
+             FaceType faceType;
 
             PanelType panelType = panel.PanelType;
             PanelGroup panelGroup = panelType.PanelGroup();

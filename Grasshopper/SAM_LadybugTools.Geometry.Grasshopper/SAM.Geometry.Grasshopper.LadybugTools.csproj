@@ -109,14 +109,14 @@
   <ItemGroup>
     <PackageReference Include="Grasshopper">
       <Version>6.32.20340.21001</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>>
     </PackageReference>
     <PackageReference Include="HoneybeeSchema">
-      <Version>1.46.0</Version>
+      <Version>1.51.5.1</Version>
     </PackageReference>
     <PackageReference Remove="Newtonsoft.Json" />
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
+      <Version>13.0.2</Version>
       <Aliases>SAM_Newtonsoft</Aliases>
     </PackageReference>
   </ItemGroup>
