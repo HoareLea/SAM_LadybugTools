@@ -34,5 +34,10 @@ namespace SAM.Core.LadybugTools
 
             return null;
         }
+
+        public static IDdBaseModel ToHoneybee(string json)
+        {
+            return Model.FromJson(json);
+        }
     }
 }

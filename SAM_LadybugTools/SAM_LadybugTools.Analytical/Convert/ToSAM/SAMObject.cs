@@ -19,5 +19,36 @@ namespace SAM.Analytical.LadybugTools
 
             return null;
         }
+
+        public static SAMObject ToSAM(string pathOrJson)
+        {
+            if(string.IsNullOrWhiteSpace(pathOrJson))
+            {
+                return null;
+            }
+
+            string json = pathOrJson;
+            if (System.IO.File.Exists(pathOrJson))
+            {
+                json = System.IO.File.ReadAllText(pathOrJson);
+            }
+
+            SAMObject result = null;
+            try
+            {
+                IDdBaseModel ddBaseModel = Core.LadybugTools.Convert.ToHoneybee(json);
+
+                if (ddBaseModel != null)
+                {
+                    result = ToSAM(ddBaseModel);
+                }
+            }
+            catch
+            {
+                result = null;
+            }
+
+            return result;
+        }
     }
 }
