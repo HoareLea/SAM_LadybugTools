@@ -93,32 +93,18 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
 
             if(!string.IsNullOrWhiteSpace(json))
             {
-                System.Text.Json.JsonDocument jsonDocument = null;
-
                 try
                 {
-                    jsonDocument = System.Text.Json.JsonDocument.Parse(json);
+                    IDdBaseModel ddBaseModel = Core.LadybugTools.Convert.ToHoneybee(value);
+
+                    if (ddBaseModel != null)
+                    {
+                        result = Analytical.LadybugTools.Convert.ToSAM(ddBaseModel);
+                    }
                 }
                 catch
                 {
-                    jsonDocument = null;
-                }
 
-                if(jsonDocument != null)
-                {
-                    try
-                    {
-                        IDdBaseModel ddBaseModel = Core.LadybugTools.Convert.ToHoneybee(value);
-
-                        if (ddBaseModel != null)
-                        {
-                            result = Analytical.LadybugTools.Convert.ToSAM(ddBaseModel);
-                        }
-                    }
-                    catch
-                    {
-
-                    }
                 }
             }
 

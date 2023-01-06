@@ -35,5 +35,16 @@ namespace SAM.Core.LadybugTools
 
             return result;
         }
+
+        public static string ToString(this JsonDocument jsonDocument, bool indented = true)
+        {
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                Utf8JsonWriter utf8JsonWriter = new Utf8JsonWriter(memoryStream, new JsonWriterOptions { Indented = indented });
+                jsonDocument.WriteTo(utf8JsonWriter);
+                utf8JsonWriter.Flush();
+                return Encoding.UTF8.GetString(memoryStream.ToArray());
+            }
+        }
     }
 }
