@@ -2,6 +2,7 @@
 using SAM.Analytical.Grasshopper.LadybugTools.Properties;
 using SAM.Core.Grasshopper;
 using System;
+using System.Collections.Generic;
 
 namespace SAM.Analytical.Grasshopper.LadybugTools
 {
@@ -15,7 +16,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// <summary>
         /// The latest version of this component
         /// </summary>
-        public override string LatestComponentVersion => "1.0.0";
+        public override string LatestComponentVersion => "1.0.1";
 
         /// <summary>
         /// Provides an Icon for the component.
@@ -47,7 +48,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         protected override void RegisterOutputParams(GH_OutputParamManager outputParamManager)
         {
             outputParamManager.AddGenericParameter("HBFace", "HBFace", "Ladybug Tools HB Face", GH_ParamAccess.item);
-            outputParamManager.AddGenericParameter("HBShade", "HBShade", "Ladybug Tools HB Shade", GH_ParamAccess.item);
+            outputParamManager.AddGenericParameter("HBShades", "HBShades", "Ladybug Tools HB Shades", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -75,10 +76,10 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
 
             HoneybeeSchema.Face face = Analytical.LadybugTools.Convert.ToLadybugTools_Face(panel);
 
-            HoneybeeSchema.Shade shade = Analytical.LadybugTools.Convert.ToLadybugTools_Shade(panel);
+            List<HoneybeeSchema.Shade> shades = Analytical.LadybugTools.Convert.ToLadybugTools_Shades(panel);
 
             dataAccess.SetData(0, face?.ToJson());
-            dataAccess.SetData(1, shade?.ToJson());
+            dataAccess.SetDataList(1, shades?.ConvertAll(x => x.ToJson()));
         }
     }
 }

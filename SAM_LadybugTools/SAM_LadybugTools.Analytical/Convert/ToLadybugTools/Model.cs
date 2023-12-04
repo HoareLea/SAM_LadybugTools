@@ -102,27 +102,37 @@ namespace SAM.Analytical.LadybugTools
                 foreach (Panel panel_Shading in panels_Shading)
                 {
                     if (panels_Shading == null)
+                    {
                         continue;
+                    }
 
                     if (panel_Shading.PanelType == PanelType.Shade)
                     {
-                        Shade shade = panel_Shading.ToLadybugTools_Shade();
-                        if (shade == null)
+                        List<Shade> shades_Temp = panel_Shading.ToLadybugTools_Shades();
+                        if (shades_Temp == null)
+                        {
                             continue;
+                        }
 
                         if (shades == null)
+                        {
                             shades = new List<Shade>();
+                        }
 
-                        shades.Add(shade);
+                        shades.AddRange(shades_Temp);
                     }
                     else
                     {
                         Face face_Orphaned = panel_Shading.ToLadybugTools_Face();
                         if (face_Orphaned == null)
+                        {
                             continue;
+                        }
 
                         if (faces_Orphaned == null)
+                        {
                             faces_Orphaned = new List<Face>();
+                        }
 
                         faces_Orphaned.Add(face_Orphaned);
                     }
