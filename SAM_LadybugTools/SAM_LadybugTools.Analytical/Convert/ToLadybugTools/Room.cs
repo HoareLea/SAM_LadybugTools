@@ -11,7 +11,7 @@ namespace SAM.Analytical.LadybugTools
                 return null;
 
             int index = -1;
-            List<IPanel> panels = null;
+            List<Panel> panels = null;
 
             AdjacencyCluster adjacencyCluster = analyticalModel?.AdjacencyCluster;
             if (adjacencyCluster != null)
@@ -31,21 +31,20 @@ namespace SAM.Analytical.LadybugTools
             if(panels != null)
             {
                 faces = new List<Face>();
-                foreach(IPanel panel in panels)
+                foreach(Panel panel in panels)
                 {
-                    Panel panel_Temp = panel as Panel;
-                    if (panel_Temp == null)
+                    if (panel == null)
                         continue;
 
                     bool reverse = true;
 
-                    List<Space> spaces = adjacencyCluster?.GetSpaces(panel_Temp);
+                    List<Space> spaces = adjacencyCluster?.GetSpaces(panel);
                     if (spaces != null && spaces.Count > 1)
                     {
                         reverse = adjacencyCluster.GetIndex(spaces[0]) != index;
                     }
                     
-                    Face face = panel_Temp.ToLadybugTools_Face(analyticalModel, index, reverse);
+                    Face face = panel.ToLadybugTools_Face(analyticalModel, index, reverse);
                     if (face == null)
                         continue;
 
