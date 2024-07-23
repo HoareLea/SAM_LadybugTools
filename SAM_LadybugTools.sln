@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Core.LadybugTools", "SAM_LadybugTools\SAM_LadybugTools.Core\SAM.Core.LadybugTools.csproj", "{49F38E39-1BFB-4D06-89F9-11C694E432A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAM.Core.LadybugTools", "SAM_LadybugTools\SAM_LadybugTools.Core\SAM.Core.LadybugTools.csproj", "{49F38E39-1BFB-4D06-89F9-11C694E432A7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dynamo", "Dynamo", "{56AB966A-881A-4A82-919E-83D49D778862}"
 EndProject
@@ -17,9 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Core.Grasshopper.Ladybu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Geometry.Grasshopper.LadybugTools", "Grasshopper\SAM_LadybugTools.Geometry.Grasshopper\SAM.Geometry.Grasshopper.LadybugTools.csproj", "{B8F0EE34-A776-4518-ADA2-E047E468B47B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Geometry.LadybugTools", "SAM_LadybugTools\SAM_LadybugTools.Geometry\SAM.Geometry.LadybugTools.csproj", "{BDE9A395-97ED-4C05-8F2A-F086A511B238}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAM.Geometry.LadybugTools", "SAM_LadybugTools\SAM_LadybugTools.Geometry\SAM.Geometry.LadybugTools.csproj", "{BDE9A395-97ED-4C05-8F2A-F086A511B238}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Analytical.LadybugTools", "SAM_LadybugTools\SAM_LadybugTools.Analytical\SAM.Analytical.LadybugTools.csproj", "{7008CEF0-41AD-4C64-BF60-F5EAE4728E20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAM.Analytical.LadybugTools", "SAM_LadybugTools\SAM_LadybugTools.Analytical\SAM.Analytical.LadybugTools.csproj", "{7008CEF0-41AD-4C64-BF60-F5EAE4728E20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Analytical.Grasshopper.LadybugTools", "Grasshopper\SAM_LadybugTools.Analytical.Grasshopper\SAM.Analytical.Grasshopper.LadybugTools.csproj", "{B457C787-5258-4B14-98BE-61D8EE2C8E44}"
 EndProject
