@@ -60,7 +60,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
                 return;
             }
 
-            HoneybeeObject honeybeeObject =  Geometry.LadybugTools.Convert.ToLadybugTools(sAMGeometry as dynamic) as HoneybeeObject;
+            IHoneybeeObject honeybeeObject =  Geometry.LadybugTools.Convert.ToLadybugTools(sAMGeometry as dynamic) as IHoneybeeObject;
             dataAccess.SetData(0, honeybeeObject?.ToJson());
 
             //object obj = objectWrapper.Value;

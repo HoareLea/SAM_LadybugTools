@@ -24,7 +24,7 @@ namespace SAM.Core.LadybugTools
                 modelEnergyProperties.Constructions?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<OpaqueConstructionAbridged, WindowConstructionAbridged, WindowConstructionShadeAbridged, AirBoundaryConstructionAbridged, OpaqueConstruction, WindowConstruction, WindowConstructionShade, WindowConstructionDynamicAbridged, WindowConstructionDynamic, AirBoundaryConstruction, ShadeConstruction>)));
                 modelEnergyProperties.ConstructionSets?.ForEach(x => Core.Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ConstructionSetAbridged, ConstructionSet>)));
                 modelEnergyProperties.Materials?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<EnergyMaterial, EnergyMaterialNoMass, EnergyMaterialVegetation, EnergyWindowMaterialGlazing, EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialGas, EnergyWindowMaterialGasMixture, EnergyWindowMaterialGasCustom, EnergyWindowFrame, EnergyWindowMaterialBlind, EnergyWindowMaterialShade>)));
-                modelEnergyProperties.Hvacs?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, RadiantwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater, Radiant>)));
+                modelEnergyProperties.Hvacs?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, RadiantwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater, Radiant, DetailedHVAC>)));
                 modelEnergyProperties.ProgramTypes?.ForEach(x => Core.Modify.AddRange(result, Log(x as HoneybeeSchema.AnyOf<ProgramTypeAbridged, ProgramType>)));
                 modelEnergyProperties.Schedules?.ForEach(x => Core.Modify.AddRange(result, Log(x as AnyOf<ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval>)));
                 modelEnergyProperties.ScheduleTypeLimits?.ForEach(x => Core.Modify.AddRange(result, Log(x as ScheduleTypeLimit)));
@@ -161,6 +161,18 @@ namespace SAM.Core.LadybugTools
 
             return result;
         }
+
+        public static Log Log(this AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, RadiantwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater, Radiant, DetailedHVAC> hvac)
+        {
+            if (hvac == null)
+                return null;
+
+            if (hvac.Obj is IIDdBase)
+                return Log((IIDdBase)hvac.Obj);
+
+            return null;
+        }
+
 
         public static Log Log(this AnyOf<IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace, FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged, RadiantwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential, WindowAC, GasUnitHeater, Radiant> hvac)
         {
