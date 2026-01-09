@@ -29,7 +29,7 @@ jobs:
             HEADBLOCK=$(head -n 6 "$f")
 
             echo "$HEADBLOCK" | grep -q "// SPDX-License-Identifier: LGPL-3.0-or-later" || MISSING="$MISSING $f"
-            echo "$HEADBLOCK" | grep -q "// Copyright (c) 2020–2025 Michal Dengusiak & Jakub Ziolkowski and contributors" || MISSING="$MISSING $f"
+            echo "$HEADBLOCK" | grep -q "// Copyright (c) 2020–2026 Michal Dengusiak & Jakub Ziolkowski and contributors" || MISSING="$MISSING $f"
           done
 
           if [ -n "$MISSING" ]; then
