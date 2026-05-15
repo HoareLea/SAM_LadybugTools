@@ -1,7 +1,5 @@
-﻿extern alias SAM_Newtonsoft;
-
-using SAM_Newtonsoft::Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Nodes;
 
 namespace SAM.Analytical.LadybugTools
 {
@@ -53,32 +51,38 @@ namespace SAM.Analytical.LadybugTools
             if (values == null)
                 return null;
 
-            JObject result = new JObject();
-            result.Add("values", new JArray(values));
+            JsonObject result = new JsonObject();
 
-            JObject jObject_Header = new JObject();
-            
-            if(metadata != null)
+            JsonArray valuesArray = new JsonArray();
+            foreach (double v in values)
+                valuesArray.Add(v);
+            result["values"] = valuesArray;
+
+            JsonObject jsonObject_Header = new JsonObject();
+
+            if (metadata != null)
             {
-                JObject jObject_Metadata = new JObject();
+                JsonObject jsonObject_Metadata = new JsonObject();
                 foreach (KeyValuePair<string, object> keyValuePair in metadata)
-                    jObject_Metadata.Add(keyValuePair.Key, keyValuePair.Value as dynamic);
+                    jsonObject_Metadata[keyValuePair.Key] = JsonValue.Create(keyValuePair.Value);
 
-                jObject_Header.Add("metadata", jObject_Metadata);
+                jsonObject_Header["metadata"] = jsonObject_Metadata;
             }
 
-            JObject jObject_AnalysisPeriod = new JObject();
-            jObject_AnalysisPeriod.Add("st_day", startDay);
-            jObject_AnalysisPeriod.Add("end_month", endMonth);
-            jObject_AnalysisPeriod.Add("st_hour", startHour);
-            jObject_AnalysisPeriod.Add("end_hour", endHour);
-            jObject_AnalysisPeriod.Add("timestep", timestep);
-            jObject_AnalysisPeriod.Add("is_leap_year", leapYear);
-            jObject_AnalysisPeriod.Add("st_month", startMonth);
-            jObject_AnalysisPeriod.Add("end_day", endDay);
-            jObject_AnalysisPeriod.Add("type", "AnalysisPeriod");
+            JsonObject jsonObject_AnalysisPeriod = new JsonObject
+            {
+                ["st_day"] = startDay,
+                ["end_month"] = endMonth,
+                ["st_hour"] = startHour,
+                ["end_hour"] = endHour,
+                ["timestep"] = timestep,
+                ["is_leap_year"] = leapYear,
+                ["st_month"] = startMonth,
+                ["end_day"] = endDay,
+                ["type"] = "AnalysisPeriod",
+            };
 
-            jObject_Header.Add("analysis_period", jObject_AnalysisPeriod);
+            jsonObject_Header["analysis_period"] = jsonObject_AnalysisPeriod;
 
             string unit = null;
             string dataType = null;
@@ -96,7 +100,7 @@ namespace SAM.Analytical.LadybugTools
 
                 case ProfileGroup.Thermostat:
                     unit = "C";
-                    dataType = "Temperature"; 
+                    dataType = "Temperature";
                     break;
 
                 default:
@@ -105,28 +109,30 @@ namespace SAM.Analytical.LadybugTools
                     break;
             }
 
-            jObject_Header.Add("unit", unit);
-            jObject_Header.Add("type", "Header");
+            jsonObject_Header["unit"] = unit;
+            jsonObject_Header["type"] = "Header";
 
-            JObject jObject_DataType = new JObject();
-            jObject_DataType.Add("base_unit", unit);
-            jObject_DataType.Add("name", name);
-            jObject_DataType.Add("type", "DataTypeBase");
-            jObject_DataType.Add("data_type", dataType);
-            if(profileGroup == ProfileGroup.Humidistat || profileGroup == ProfileGroup.Undefined)
+            JsonObject jsonObject_DataType = new JsonObject
             {
-                jObject_DataType.Add("min", double.MinValue);
-                jObject_DataType.Add("max", double.MaxValue);
+                ["base_unit"] = unit,
+                ["name"] = name,
+                ["type"] = "DataTypeBase",
+                ["data_type"] = dataType,
+            };
+            if (profileGroup == ProfileGroup.Humidistat || profileGroup == ProfileGroup.Undefined)
+            {
+                jsonObject_DataType["min"] = double.MinValue;
+                jsonObject_DataType["max"] = double.MaxValue;
             }
-            jObject_DataType.Add("point_in_time", true);
-            jObject_DataType.Add("cumulative", false);
-            jObject_DataType.Add("abbreviation", "Unknown Data Type");
-            jObject_DataType.Add("unit_descr", null);
+            jsonObject_DataType["point_in_time"] = true;
+            jsonObject_DataType["cumulative"] = false;
+            jsonObject_DataType["abbreviation"] = "Unknown Data Type";
+            jsonObject_DataType["unit_descr"] = null;
 
-            jObject_Header.Add("data_type", jObject_DataType);
+            jsonObject_Header["data_type"] = jsonObject_DataType;
 
-            result.Add("header", jObject_Header);
-            result.Add("type", "HourlyContinuous");
+            result["header"] = jsonObject_Header;
+            result["type"] = "HourlyContinuous";
 
             return result.ToString();
         }
