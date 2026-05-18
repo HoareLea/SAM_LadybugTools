@@ -59,7 +59,6 @@
     <PackageReference Include="HoneybeeSchema">
       <Version>1.5901.5</Version>
     </PackageReference>
-    <PackageReference Remove="Newtonsoft.Json" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
