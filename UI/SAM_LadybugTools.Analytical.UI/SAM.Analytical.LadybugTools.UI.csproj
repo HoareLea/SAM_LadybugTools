@@ -75,9 +75,6 @@
     <PackageReference Include="HoneybeeSchema">
       <Version>1.5901.5</Version>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.3</Version>
-    </PackageReference>
     <PackageReference Include="System.Text.Json">
       <Version>9.0.5</Version>
     </PackageReference>
