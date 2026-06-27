@@ -1,6 +1,5 @@
-﻿extern alias SAM_Newtonsoft;
-
-using SAM_Newtonsoft::Newtonsoft.Json.Linq;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020–2026 Michal Dengusiak & Jakub Ziolkowski and contributors
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using SAM.Core.Grasshopper;
@@ -8,6 +7,8 @@ using SAM.Geometry.Grasshopper.LadybugTools.Properties;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
@@ -179,11 +180,11 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
 
         public static IEnumerable<string> GetPropertyNames(dynamic dynamicObject)
         {
-            JObject jObject = (JObject)JToken.FromObject(dynamicObject);
-            if (jObject == null)
+            JsonObject jsonObject = JsonSerializer.SerializeToNode((object)dynamicObject) as JsonObject;
+            if (jsonObject == null)
                 return null;
 
-            Dictionary<string, object> dictionary = jObject.ToObject<Dictionary<string, object>>();
+            Dictionary<string, object> dictionary = jsonObject.Deserialize<Dictionary<string, object>>();
             if (dictionary == null)
                 return null;
 
