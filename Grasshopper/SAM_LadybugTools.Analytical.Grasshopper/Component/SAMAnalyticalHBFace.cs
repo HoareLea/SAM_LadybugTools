@@ -1,4 +1,7 @@
-﻿using Grasshopper.Kernel;
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020–2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+
+using Grasshopper.Kernel;
 using SAM.Analytical.Grasshopper.LadybugTools.Properties;
 using SAM.Core.Grasshopper;
 using System;
@@ -6,7 +9,7 @@ using System.Collections.Generic;
 
 namespace SAM.Analytical.Grasshopper.LadybugTools
 {
-    public class SAMAnalyticalHBFace : GH_SAMComponent
+    public class SAMAnalyticalHBFace : GH_SAMVariableOutputParameterComponent
     {
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
@@ -16,7 +19,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// <summary>
         /// The latest version of this component
         /// </summary>
-        public override string LatestComponentVersion => "1.0.1";
+        public override string LatestComponentVersion => "1.0.2";
 
         /// <summary>
         /// Provides an Icon for the component.
@@ -36,19 +39,33 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_InputParamManager inputParamManager)
+        protected override GH_SAMParam[] Inputs
         {
-            inputParamManager.AddParameter(new GooPanelParam(), "_panel", "_panel", "SAM Analytical Panel", GH_ParamAccess.item);
-            inputParamManager.AddBooleanParameter("_offsetAperturesOnEdge_", "_offsetAperturesOnEdge_", "Offset Apertures On Edge", GH_ParamAccess.item, true);
+            get
+            {
+                List<GH_SAMParam> result = new List<GH_SAMParam>();
+                result.Add(new GH_SAMParam(new GooPanelParam() { Name = "_panel", NickName = "_panel", Description = "SAM Analytical Panel", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+
+                global::Grasshopper.Kernel.Parameters.Param_Boolean param_Boolean = new global::Grasshopper.Kernel.Parameters.Param_Boolean() { Name = "_offsetAperturesOnEdge_", NickName = "_offsetAperturesOnEdge_", Description = "Offset Apertures On Edge", Access = GH_ParamAccess.item };
+                param_Boolean.SetPersistentData(true);
+                result.Add(new GH_SAMParam(param_Boolean, ParamVisibility.Binding));
+
+                return result.ToArray();
+            }
         }
 
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_OutputParamManager outputParamManager)
+        protected override GH_SAMParam[] Outputs
         {
-            outputParamManager.AddGenericParameter("HBFace", "HBFace", "Ladybug Tools HB Face", GH_ParamAccess.item);
-            outputParamManager.AddGenericParameter("HBShades", "HBShades", "Ladybug Tools HB Shades", GH_ParamAccess.list);
+            get
+            {
+                List<GH_SAMParam> result = new List<GH_SAMParam>();
+                result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_GenericObject() { Name = "HBFace", NickName = "HBFace", Description = "Ladybug Tools HB Face", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_GenericObject() { Name = "HBShades", NickName = "HBShades", Description = "Ladybug Tools HB Shades", Access = GH_ParamAccess.list }, ParamVisibility.Binding));
+                return result.ToArray();
+            }
         }
 
         /// <summary>
@@ -59,15 +76,20 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         {
             Panel panel = null;
 
-            if (!dataAccess.GetData(0, ref panel) || panel == null)
+            int index = Params.IndexOfInputParam("_panel");
+            if (index == -1 || !dataAccess.GetData(index, ref panel) || panel == null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;
             }
 
             bool offsetAperturesOnEdge = true;
-            dataAccess.GetData(1, ref offsetAperturesOnEdge);
-            
+            index = Params.IndexOfInputParam("_offsetAperturesOnEdge_");
+            if (index != -1)
+            {
+                dataAccess.GetData(index, ref offsetAperturesOnEdge);
+            }
+
             if(offsetAperturesOnEdge)
             {
                 panel = Create.Panel(panel);
@@ -78,8 +100,17 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
 
             List<HoneybeeSchema.Shade> shades = Analytical.LadybugTools.Convert.ToLadybugTools_Shades(panel);
 
-            dataAccess.SetData(0, face?.ToJson());
-            dataAccess.SetDataList(1, shades?.ConvertAll(x => x.ToJson()));
+            index = Params.IndexOfOutputParam("HBFace");
+            if (index != -1)
+            {
+                dataAccess.SetData(index, face?.ToJson());
+            }
+
+            index = Params.IndexOfOutputParam("HBShades");
+            if (index != -1)
+            {
+                dataAccess.SetDataList(index, shades?.ConvertAll(x => x.ToJson()));
+            }
         }
     }
 }

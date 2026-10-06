@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using SAM.Core;
 
 namespace SAM.Analytical.LadybugTools
@@ -10,7 +12,7 @@ namespace SAM.Analytical.LadybugTools
             if (opaqueMaterial == null || string.IsNullOrEmpty(opaqueMaterial.Name))
                 return null;
 
-            return new EnergyMaterial(
+            EnergyMaterial result = new EnergyMaterial(
                 identifier: opaqueMaterial.Name,
                 thickness: opaqueMaterial.GetValue<double>(Core.MaterialParameter.DefaultThickness),
                 conductivity: opaqueMaterial.ThermalConductivity,
@@ -22,6 +24,10 @@ namespace SAM.Analytical.LadybugTools
                 thermalAbsorptance: opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalEmissivity),
                 solarAbsorptance: 1 - opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalSolarReflectance),
                 visibleAbsorptance: 1 - opaqueMaterial.GetValue<double>(OpaqueMaterialParameter.ExternalLightReflectance));
+
+            result.SetUserData(opaqueMaterial);
+
+            return result;
         }
     }
 }

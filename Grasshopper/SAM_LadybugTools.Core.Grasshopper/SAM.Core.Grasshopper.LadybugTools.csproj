@@ -8,6 +8,10 @@
 	  <RhinoDebugPluginsDir>$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\Software\McNeel\Rhinoceros\8.0-WIP-Developer-Debug-trunk\Install', 'Default Plug-ins Folder', null, RegistryView.Registry64))</RhinoDebugPluginsDir>
 	  <RhinoPluginsDir>$([MSBuild]::ValueOrDefault('$(RhinoDebugPluginsDir)', '$(RhinoDefaultPluginsDir)'))</RhinoPluginsDir>
 	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	  <!-- Copy NuGet runtime assemblies (HoneybeeSchema, LBT.Newtonsoft.Json, ...) into the
+	       output so the deployed plugin folder gets the compiled-against package versions
+	       instead of stale hand-placed dependency DLLs (see Analytical.Grasshopper). -->
+	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	  <OutputPath>..\..\build\</OutputPath>
 <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
@@ -47,7 +51,7 @@
       <Version>8.21.25188.17001</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="HoneybeeSchema" Version="1.5901.5" />
+    <PackageReference Include="HoneybeeSchema" Version="$(HoneybeeSchemaVersion)" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />

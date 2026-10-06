@@ -1,11 +1,15 @@
-﻿using Grasshopper.Kernel;
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020–2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+
+using Grasshopper.Kernel;
 using SAM.Analytical.Grasshopper.LadybugTools.Properties;
 using SAM.Core.Grasshopper;
 using System;
+using System.Collections.Generic;
 
 namespace SAM.Analytical.Grasshopper.LadybugTools
 {
-    public class SAMAnalyticalHBModel : GH_SAMComponent
+    public class SAMAnalyticalHBModel : GH_SAMVariableOutputParameterComponent
     {
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
@@ -15,7 +19,7 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// <summary>
         /// The latest version of this component
         /// </summary>
-        public override string LatestComponentVersion => "1.0.0";
+        public override string LatestComponentVersion => "1.0.1";
 
         /// <summary>
         /// Provides an Icon for the component.
@@ -35,17 +39,27 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_InputParamManager inputParamManager)
+        protected override GH_SAMParam[] Inputs
         {
-            inputParamManager.AddParameter(new GooAnalyticalModelParam(), "_analyticalModel", "_analyticalModel", "SAM AnalyticalModel", GH_ParamAccess.item);
+            get
+            {
+                List<GH_SAMParam> result = new List<GH_SAMParam>();
+                result.Add(new GH_SAMParam(new GooAnalyticalModelParam() { Name = "_analyticalModel", NickName = "_analyticalModel", Description = "SAM AnalyticalModel", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                return result.ToArray();
+            }
         }
 
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_OutputParamManager outputParamManager)
+        protected override GH_SAMParam[] Outputs
         {
-            outputParamManager.AddGenericParameter("HBModel", "HBModel", "Ladybug Tools HB Model", GH_ParamAccess.item);
+            get
+            {
+                List<GH_SAMParam> result = new List<GH_SAMParam>();
+                result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_GenericObject() { Name = "HBModel", NickName = "HBModel", Description = "Ladybug Tools HB Model", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                return result.ToArray();
+            }
         }
 
         /// <summary>
@@ -56,7 +70,8 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
         {
             AnalyticalModel analyticalModel = null;
 
-            if (!dataAccess.GetData(0, ref analyticalModel) || analyticalModel == null)
+            int index = Params.IndexOfInputParam("_analyticalModel");
+            if (index == -1 || !dataAccess.GetData(index, ref analyticalModel) || analyticalModel == null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;
@@ -66,7 +81,11 @@ namespace SAM.Analytical.Grasshopper.LadybugTools
 
             string json = model?.ToJson();
 
-            dataAccess.SetData(0, json);
+            index = Params.IndexOfOutputParam("HBModel");
+            if (index != -1)
+            {
+                dataAccess.SetData(index, json);
+            }
         }
     }
 }

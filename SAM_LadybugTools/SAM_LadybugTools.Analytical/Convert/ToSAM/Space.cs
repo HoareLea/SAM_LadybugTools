@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
@@ -94,6 +96,11 @@ namespace SAM.Analytical.LadybugTools
                 }
 
                 result.InternalCondition = internalCondition;
+            }
+
+            if (Query.TryGetSAMGuid(room, out System.Guid guid))
+            {
+                result = new Space(guid, result);
             }
 
             return result;

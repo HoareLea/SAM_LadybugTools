@@ -8,6 +8,11 @@
 	  <RhinoDebugPluginsDir>$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\Software\McNeel\Rhinoceros\8.0-WIP-Developer-Debug-trunk\Install', 'Default Plug-ins Folder', null, RegistryView.Registry64))</RhinoDebugPluginsDir>
 	  <RhinoPluginsDir>$([MSBuild]::ValueOrDefault('$(RhinoDebugPluginsDir)', '$(RhinoDefaultPluginsDir)'))</RhinoPluginsDir>
 	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	  <!-- Copy NuGet runtime assemblies (HoneybeeSchema, LBT.Newtonsoft.Json, ...) into the
+	       output. A Library project does not do this by default, so without it the plugin
+	       folder keeps stale hand-placed dependency DLLs (e.g. a 2020 HoneybeeSchema) that
+	       no longer match the compiled-against package version, causing runtime TypeLoad errors. -->
+	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	  <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
 	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -24,6 +29,17 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\..\build\</OutputPath>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Scripts\**" />
+    <Compile Remove="ToLadybug\**" />
+    <Compile Remove="ToSAM\**" />
+    <EmbeddedResource Remove="Scripts\**" />
+    <EmbeddedResource Remove="ToLadybug\**" />
+    <EmbeddedResource Remove="ToSAM\**" />
+    <None Remove="Scripts\**" />
+    <None Remove="ToLadybug\**" />
+    <None Remove="ToSAM\**" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="SAM.Analytical, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -44,11 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Scripts\" />
-    <Folder Include="ToLadybug\" />
-    <Folder Include="ToSAM\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\SAM_LadybugTools\SAM_LadybugTools.Analytical\SAM.Analytical.LadybugTools.csproj" />
     <ProjectReference Include="..\..\SAM_LadybugTools\SAM_LadybugTools.Core\SAM.Core.LadybugTools.csproj" />
   </ItemGroup>
@@ -58,7 +69,7 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="HoneybeeSchema">
-      <Version>1.5901.5</Version>
+      <Version>$(HoneybeeSchemaVersion)</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />

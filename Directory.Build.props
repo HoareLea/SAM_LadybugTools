@@ -24,6 +24,14 @@
   </PropertyGroup>
 
   <!--
+    Centralised HoneybeeSchema version, pinned here once instead of in each project
+    so it cannot drift across the solution.
+  -->
+  <PropertyGroup>
+    <HoneybeeSchemaVersion>2.6.0</HoneybeeSchemaVersion>
+  </PropertyGroup>
+
+  <!--
     Projects where SDK assembly-attribute generation is disabled (legacy AssemblyInfo.cs
     with GenerateAssemblyInfo=false) OR projects where the SDK doesn't auto-generate
     attributes at all (classic-style csprojs that don't set the property — '' evaluates

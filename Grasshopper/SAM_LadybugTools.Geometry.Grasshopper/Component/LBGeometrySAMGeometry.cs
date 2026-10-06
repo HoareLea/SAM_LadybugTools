@@ -1,4 +1,4 @@
-﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// SPDX-License-Identifier: LGPL-3.0-or-later
 // Copyright (c) 2020–2026 Michal Dengusiak & Jakub Ziolkowski and contributors
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
@@ -12,7 +12,7 @@ using System.Text.Json.Nodes;
 
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
-    public class LBGeometrySAMGeometry : GH_SAMComponent
+    public class LBGeometrySAMGeometry : GH_SAMVariableOutputParameterComponent
     {
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
@@ -22,7 +22,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
         /// <summary>
         /// The latest version of this component
         /// </summary>
-        public override string LatestComponentVersion => "1.0.0";
+        public override string LatestComponentVersion => "1.0.1";
 
         /// <summary>
         /// Initializes a new instance of the SAMGeometryByGHGeometry class.
@@ -32,22 +32,41 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
               "Ladybug Tools Geometry to SAM Geometry",
               "SAM", "LadybugTools")
         {
+            // GH_SAMVariableOutputParameterComponent.RegisterOutputParams clones each declared
+            // Param via IGH_Param.Clone(), which resets NickName to Name for stock Grasshopper
+            // param types when the two differ. Restore the legacy NickName ("SAMgeo") here, once,
+            // after base construction/registration has completed.
+            int index = Params.IndexOfOutputParam("SAMGeometry");
+            if (index != -1)
+            {
+                Params.Output[index].NickName = "SAMgeo";
+            }
         }
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_InputParamManager inputParamManager)
+        protected override GH_SAMParam[] Inputs
         {
-            inputParamManager.AddGenericParameter("_LBGeometry", "_LBGeometry", "Ladybug Geometry", GH_ParamAccess.item);
+            get
+            {
+                List<GH_SAMParam> result = new List<GH_SAMParam>();
+                result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_GenericObject() { Name = "_LBGeometry", NickName = "_LBGeometry", Description = "Ladybug Geometry", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                return result.ToArray();
+            }
         }
 
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_OutputParamManager outputParamManager)
+        protected override GH_SAMParam[] Outputs
         {
-            outputParamManager.AddGenericParameter("SAMGeometry", "SAMgeo", "SAM Geometry", GH_ParamAccess.item);
+            get
+            {
+                List<GH_SAMParam> result = new List<GH_SAMParam>();
+                result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_GenericObject() { Name = "SAMGeometry", NickName = "SAMgeo", Description = "SAM Geometry", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                return result.ToArray();
+            }
         }
 
         /// <summary>
@@ -60,7 +79,8 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
         {
             GH_ObjectWrapper objectWrapper = null;
 
-            if (!dataAccess.GetData(0, ref objectWrapper) || objectWrapper.Value == null)
+            int index = Params.IndexOfInputParam("_LBGeometry");
+            if (index == -1 || !dataAccess.GetData(index, ref objectWrapper) || objectWrapper.Value == null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;

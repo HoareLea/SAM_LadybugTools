@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using SAM.Core;
 using System;
 using System.Collections.Generic;
@@ -200,9 +202,220 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
+            // Remove materials that are not referenced by the constructions and aperture
+            // constructions actually used by the converted model (for example unreferenced
+            // Honeybee defaults from the model or global construction set)
+            if (materialLibrary != null)
+            {
+                HashSet<string> materialNames = new HashSet<string>();
+
+                List<Construction> constructions_AdjacencyCluster = adjacencyCluster?.GetConstructions();
+                if (constructions_AdjacencyCluster != null)
+                {
+                    foreach (Construction construction in constructions_AdjacencyCluster)
+                    {
+                        construction?.ConstructionLayers?.ForEach(x => { if (x != null && !string.IsNullOrWhiteSpace(x.Name)) materialNames.Add(x.Name); });
+                    }
+                }
+
+                List<ApertureConstruction> apertureConstructions_AdjacencyCluster = adjacencyCluster?.GetApertureConstructions();
+                if (apertureConstructions_AdjacencyCluster != null)
+                {
+                    foreach (ApertureConstruction apertureConstruction in apertureConstructions_AdjacencyCluster)
+                    {
+                        apertureConstruction?.PaneConstructionLayers?.ForEach(x => { if (x != null && !string.IsNullOrWhiteSpace(x.Name)) materialNames.Add(x.Name); });
+                        apertureConstruction?.FrameConstructionLayers?.ForEach(x => { if (x != null && !string.IsNullOrWhiteSpace(x.Name)) materialNames.Add(x.Name); });
+                    }
+                }
+
+                List<IMaterial> materials = materialLibrary.GetMaterials();
+                if (materials != null)
+                {
+                    foreach (IMaterial material in materials)
+                    {
+                        if (material == null || string.IsNullOrWhiteSpace(material.Name))
+                        {
+                            continue;
+                        }
+
+                        if (!materialNames.Contains(material.Name))
+                        {
+                            materialLibrary.Remove(material);
+                        }
+                    }
+                }
+            }
+
+            // Remove profiles that are not referenced by any assigned InternalCondition
+            // (for example Honeybee default program type schedules)
+            if (profileLibrary != null)
+            {
+                HashSet<string> profileNames = new HashSet<string>();
+
+                List<Space> spaces = adjacencyCluster?.GetSpaces();
+                if (spaces != null)
+                {
+                    foreach (Space space in spaces)
+                    {
+                        InternalCondition internalCondition = space?.InternalCondition;
+                        if (internalCondition == null)
+                        {
+                            continue;
+                        }
+
+                        List<ParameterSet> parameterSets = internalCondition.GetParameterSets();
+                        if (parameterSets == null)
+                        {
+                            continue;
+                        }
+
+                        foreach (ParameterSet parameterSet in parameterSets)
+                        {
+                            if (parameterSet?.Names == null)
+                            {
+                                continue;
+                            }
+
+                            foreach (string parameterName in parameterSet.Names)
+                            {
+                                if (parameterName == null || !parameterName.EndsWith("Profile Name"))
+                                {
+                                    continue;
+                                }
+
+                                if (parameterSet.ToObject(parameterName) is string profileName && !string.IsNullOrWhiteSpace(profileName))
+                                {
+                                    profileNames.Add(profileName);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                List<Profile> profiles = profileLibrary.GetProfiles();
+                if (profiles != null)
+                {
+                    foreach (Profile profile in profiles)
+                    {
+                        if (profile == null || string.IsNullOrWhiteSpace(profile.Name))
+                        {
+                            continue;
+                        }
+
+                        if (!profileNames.Contains(profile.Name))
+                        {
+                            profileLibrary.Remove(profile);
+                        }
+                    }
+                }
+            }
+
             AnalyticalModel result = new AnalyticalModel(model.DisplayName, null, null, null, adjacencyCluster, materialLibrary, profileLibrary);
 
+            // Restore SAM model identity and metadata preserved in namespaced user_data
+            if (Core.LadybugTools.Query.TryGetUserData(model, Core.LadybugTools.UserDataKeys.Name, out string name) && !string.IsNullOrWhiteSpace(name))
+            {
+                result = new AnalyticalModel(name, result.Description, result.Location, result.Address, result.AdjacencyCluster, result.MaterialLibrary, result.ProfileLibrary);
+            }
+
+            if (Core.LadybugTools.Query.TryGetUserData(model, Core.LadybugTools.UserDataKeys.Description, out string description))
+            {
+                result = new AnalyticalModel(result.Name, description, result.Location, result.Address, result.AdjacencyCluster, result.MaterialLibrary, result.ProfileLibrary);
+            }
+
+            if (Core.LadybugTools.Query.TryGetUserData(model, Core.LadybugTools.UserDataKeys.LocationLatitude, out double latitude)
+                && Core.LadybugTools.Query.TryGetUserData(model, Core.LadybugTools.UserDataKeys.LocationLongitude, out double longitude))
+            {
+                Core.LadybugTools.Query.TryGetUserData(model, Core.LadybugTools.UserDataKeys.LocationName, out string locationName);
+                Core.LadybugTools.Query.TryGetUserData(model, Core.LadybugTools.UserDataKeys.LocationElevation, out double elevation);
+
+                Core.Location location = new Core.Location(locationName, longitude, latitude, double.IsNaN(elevation) ? 0 : elevation);
+                result = new AnalyticalModel(result, location);
+            }
+
+            if (Core.LadybugTools.Query.TryGetUserData(model, Core.LadybugTools.UserDataKeys.ProfileLibraryName, out string profileLibraryName) && !string.IsNullOrWhiteSpace(profileLibraryName))
+            {
+                ProfileLibrary profileLibrary_Temp = result.ProfileLibrary;
+                if (profileLibrary_Temp == null)
+                {
+                    profileLibrary_Temp = new ProfileLibrary(profileLibraryName);
+                }
+                else if (string.IsNullOrWhiteSpace(profileLibrary_Temp.Name))
+                {
+                    profileLibrary_Temp = new ProfileLibrary(profileLibraryName, profileLibrary_Temp.GetProfiles());
+                }
+
+                if (profileLibrary_Temp != result.ProfileLibrary)
+                {
+                    result = new AnalyticalModel(result, result.AdjacencyCluster, result.MaterialLibrary, profileLibrary_Temp);
+                }
+            }
+
+            if (Query.TryGetSAMGuid(model, out Guid modelGuid) && modelGuid != result.Guid)
+            {
+                // AnalyticalModel exposes no safe (Guid, AnalyticalModel) constructor, so the
+                // model-level GUID can currently only be restored via a full JSON round trip.
+                // That reconstruction can fail on real production payloads; never let GUID
+                // preservation destroy an otherwise valid converted model.
+                AnalyticalModel result_Restored = TryRestoreGuid(result, modelGuid);
+                if (result_Restored != null)
+                {
+                    result = result_Restored;
+                }
+            }
+
             return result;
+        }
+
+        /// <summary>
+        /// Attempts to rebuild <paramref name="analyticalModel"/> with the preserved model-level
+        /// <paramref name="guid"/> via a JSON round trip. Returns null when serialisation or
+        /// reconstruction fails or produces an invalid model, in which case the caller must keep
+        /// the original (valid) instance and accept that the model-level GUID is not restored.
+        /// </summary>
+        private static AnalyticalModel TryRestoreGuid(AnalyticalModel analyticalModel, Guid guid)
+        {
+            if (analyticalModel == null || guid == Guid.Empty)
+            {
+                return null;
+            }
+
+            try
+            {
+                System.Text.Json.Nodes.JsonObject jsonObject = analyticalModel.ToJsonObject();
+                if (jsonObject == null)
+                {
+                    return null;
+                }
+
+                jsonObject["Guid"] = guid.ToString();
+
+                AnalyticalModel result = new AnalyticalModel(jsonObject);
+                if (result == null || result.Guid != guid)
+                {
+                    return null;
+                }
+
+                // Validate the reconstruction preserved the model content
+                AdjacencyCluster adjacencyCluster_Original = analyticalModel.AdjacencyCluster;
+                AdjacencyCluster adjacencyCluster_Restored = result.AdjacencyCluster;
+                if (adjacencyCluster_Restored == null)
+                {
+                    return null;
+                }
+
+                if ((adjacencyCluster_Original?.GetPanels()?.Count ?? 0) != (adjacencyCluster_Restored.GetPanels()?.Count ?? 0)
+                    || (adjacencyCluster_Original?.GetSpaces()?.Count ?? 0) != (adjacencyCluster_Restored.GetSpaces()?.Count ?? 0))
+                {
+                    return null;
+                }
+
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

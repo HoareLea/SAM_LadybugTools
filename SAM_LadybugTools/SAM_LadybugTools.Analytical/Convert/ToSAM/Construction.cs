@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using HoneybeeSchema.Energy;
 using System.Collections.Generic;
 
@@ -13,9 +15,29 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            List<ConstructionLayer> constructionLayers = Query.ConstructionLayers(materialLibrary, opaqueConstructionAbridged.Materials);
+            // SAM round-trip metadata restores the original name, layer order and thicknesses
+            if (!Core.LadybugTools.Query.TryGetUserData(opaqueConstructionAbridged, Core.LadybugTools.UserDataKeys.Name, out string name) || string.IsNullOrWhiteSpace(name))
+            {
+                name = opaqueConstructionAbridged.Identifier;
+            }
 
-            Construction result = new Construction(opaqueConstructionAbridged.Identifier, constructionLayers);
+            if (!Query.TryGetConstructionLayers(opaqueConstructionAbridged, Core.LadybugTools.UserDataKeys.ConstructionLayers, out List<ConstructionLayer> constructionLayers))
+            {
+                constructionLayers = Query.ConstructionLayers(materialLibrary, opaqueConstructionAbridged.Materials);
+            }
+
+            if (!Query.TryGetSAMGuid(opaqueConstructionAbridged, out System.Guid guid))
+            {
+                guid = System.Guid.NewGuid();
+            }
+
+            Construction result = new Construction(guid, name, constructionLayers);
+
+            if (Core.LadybugTools.Query.TryGetUserData(opaqueConstructionAbridged, Core.LadybugTools.UserDataKeys.DefaultPanelType, out string panelType) && !string.IsNullOrWhiteSpace(panelType))
+            {
+                result.SetValue(ConstructionParameter.DefaultPanelType, panelType);
+            }
+
             return result;
         }
 

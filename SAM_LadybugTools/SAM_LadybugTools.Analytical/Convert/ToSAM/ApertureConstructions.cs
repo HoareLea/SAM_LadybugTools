@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using HoneybeeSchema.Energy;
 using SAM.Core;
 using System.Collections.Generic;
@@ -75,7 +77,65 @@ namespace SAM.Analytical.LadybugTools
                 }
             }
 
+            AddFrameMaterials(result, modelEnergyProperties, materialLibrary);
+
             return result;
+        }
+
+        /// <summary>
+        /// Restores frame materials that went missing from the Honeybee material list. Honeybee
+        /// drops materials not referenced by a construction, so the base SAM frame material can be
+        /// lost in transit while the derived EnergyWindowFrame ("{layer name}_Frame", referenced by
+        /// WindowConstructionAbridged.Frame) survives.
+        /// </summary>
+        private static void AddFrameMaterials(List<ApertureConstruction> apertureConstructions, ModelEnergyProperties modelEnergyProperties, MaterialLibrary materialLibrary)
+        {
+            if (apertureConstructions == null || modelEnergyProperties == null || materialLibrary == null)
+            {
+                return;
+            }
+
+            List<HoneybeeSchema.Energy.IMaterial> materials_Honeybee = modelEnergyProperties.MaterialList?.ToList();
+            if (materials_Honeybee == null)
+            {
+                return;
+            }
+
+            foreach (ApertureConstruction apertureConstruction in apertureConstructions)
+            {
+                List<ConstructionLayer> frameConstructionLayers = apertureConstruction?.FrameConstructionLayers;
+                if (frameConstructionLayers == null)
+                {
+                    continue;
+                }
+
+                foreach (ConstructionLayer constructionLayer in frameConstructionLayers)
+                {
+                    if (constructionLayer == null || string.IsNullOrWhiteSpace(constructionLayer.Name) || materialLibrary.GetMaterial(constructionLayer.Name) != null)
+                    {
+                        continue;
+                    }
+
+                    EnergyWindowFrame energyWindowFrame = materials_Honeybee.OfType<EnergyWindowFrame>().FirstOrDefault(x => x?.Identifier == constructionLayer.Name || x?.Identifier == string.Format("{0}_Frame", constructionLayer.Name));
+                    if (energyWindowFrame == null)
+                    {
+                        continue;
+                    }
+
+                    Core.OpaqueMaterial opaqueMaterial = energyWindowFrame.ToSAM();
+                    if (opaqueMaterial == null)
+                    {
+                        continue;
+                    }
+
+                    if (opaqueMaterial.Name != constructionLayer.Name)
+                    {
+                        opaqueMaterial = new Core.OpaqueMaterial(constructionLayer.Name, opaqueMaterial.Guid, opaqueMaterial, opaqueMaterial.DisplayName, opaqueMaterial.Description);
+                    }
+
+                    materialLibrary.Add(opaqueMaterial);
+                }
+            }
         }
     }
 }

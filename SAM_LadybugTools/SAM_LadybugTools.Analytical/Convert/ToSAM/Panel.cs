@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
@@ -28,6 +30,19 @@ namespace SAM.Analytical.LadybugTools
                 foreach(Construction construction_Temp in constructions )
                 {
                     if(construction_Temp.Name == face.Properties.Energy.Construction)
+                    {
+                        construction = construction_Temp;
+                        break;
+                    }
+                }
+            }
+
+            // SAM round-trip metadata carries the original construction name
+            if (construction == null && constructions != null && Core.LadybugTools.Query.TryGetUserData(face, Core.LadybugTools.UserDataKeys.ConstructionName, out string constructionName) && !string.IsNullOrWhiteSpace(constructionName))
+            {
+                foreach (Construction construction_Temp in constructions)
+                {
+                    if (construction_Temp != null && construction_Temp.Name == constructionName)
                     {
                         construction = construction_Temp;
                         break;
@@ -186,6 +201,11 @@ namespace SAM.Analytical.LadybugTools
                         panel.AddAperture(aperture);
                     }
                 }
+            }
+
+            if (Query.TryGetSAMGuid(face, out System.Guid guid))
+            {
+                panel = Create.Panel(guid, panel);
             }
 
             return panel;

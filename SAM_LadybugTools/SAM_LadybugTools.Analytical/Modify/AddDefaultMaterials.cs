@@ -1,4 +1,6 @@
-﻿using SAM.Core;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using SAM.Core;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
@@ -47,6 +49,11 @@ namespace SAM.Analytical.LadybugTools
             List<IMaterial> result = new List<IMaterial>();
             foreach (ConstructionLayer constructionLayer in constructionLayers)
             {
+                if (constructionLayer == null || string.IsNullOrWhiteSpace(constructionLayer.Name))
+                {
+                    continue;
+                }
+
                 if (materialLibrary.GetMaterial(constructionLayer.Name) != null)
                 {
                     continue;

@@ -160,6 +160,35 @@ jobs:
             & msbuild $sln /t:Rebuild @common
           }
 
+      - name: Run tests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $repo = '${{ env.REPO_NAME }}'
+
+          # Discover test projects in THIS repo only (cloned sibling repos have their own CI)
+          $testProjects = Get-ChildItem -Path $repo -Recurse -Filter *Tests.csproj -File
+          if (-not $testProjects) {
+            Write-Host "No test projects found under $repo - skipping."
+            exit 0
+          }
+
+          foreach ($p in $testProjects) {
+            Write-Host "==> Test: $($p.FullName)"
+            # --no-build: run against the binaries the Rebuild step produced
+            dotnet test $p.FullName --configuration Release --no-build --logger "trx;LogFileName=$($p.BaseName).trx" --results-directory test-results
+            if ($LASTEXITCODE -ne 0) { throw "Tests failed: $($p.Name)" }
+          }
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.REPO_NAME }}-test-results
+          path: test-results
+          if-no-files-found: ignore
+
       - name: Upload build folders (optional)
         uses: actions/upload-artifact@v4
         with:

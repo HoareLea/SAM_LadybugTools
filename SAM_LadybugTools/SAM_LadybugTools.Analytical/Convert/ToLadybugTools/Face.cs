@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using SAM.Core;
 using System.Collections.Generic;
 
@@ -62,6 +64,12 @@ namespace SAM.Analytical.LadybugTools
                 faceEnergyPropertiesAbridged.Construction = Query.UniqueName(panel.Construction, reverse);
 
             Face face = new Face(Query.UniqueName(panel, index), face3D, faceType, boundaryCondition, new FacePropertiesAbridged(faceEnergyPropertiesAbridged), panel.Name);
+
+            Core.LadybugTools.Modify.SetUserData(face, Core.LadybugTools.UserDataKeys.Guid, panel.Guid.ToString());
+            if (panel.Construction != null && !string.IsNullOrWhiteSpace(panel.Construction.Name))
+            {
+                Core.LadybugTools.Modify.SetUserData(face, Core.LadybugTools.UserDataKeys.ConstructionName, panel.Construction.Name);
+            }
 
             List<Aperture> apertures = panel.Apertures;//Analytical.Query.OffsetAperturesOnEdge(panel, 0.1);
             if (apertures != null && apertures.Count > 0)

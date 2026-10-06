@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using SAM.Core;
 using System.Collections.Generic;
 
@@ -41,12 +43,17 @@ namespace SAM.Analytical.LadybugTools
 
             ApertureEnergyPropertiesAbridged apertureEnergyPropertiesAbridged = new ApertureEnergyPropertiesAbridged(Query.UniqueName(apertureConstruction, !(index_Adjacent != -1 && index <= index_Adjacent)));
 
-            return new HoneybeeSchema.Aperture(
+            HoneybeeSchema.Aperture result = new HoneybeeSchema.Aperture(
                 identifier: Core.LadybugTools.Query.UniqueName(aperture, index),
                 geometry: face3D,
                 boundaryCondition: anyOf,
                 properties: new AperturePropertiesAbridged(apertureEnergyPropertiesAbridged),
                 displayName: aperture.Name);
+
+            Core.LadybugTools.Modify.SetUserData(result, Core.LadybugTools.UserDataKeys.Guid, aperture.Guid.ToString());
+            Core.LadybugTools.Modify.SetUserData(result, Core.LadybugTools.UserDataKeys.ConstructionName, apertureConstruction.Name);
+
+            return result;
         }
     }
 }

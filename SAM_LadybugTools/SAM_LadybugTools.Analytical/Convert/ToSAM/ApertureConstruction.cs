@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using HoneybeeSchema.Energy;
 using System.Collections.Generic;
 
@@ -13,9 +15,43 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            List<ConstructionLayer> constructionLayers = Query.ConstructionLayers(materialLibrary, windowConstructionAbridged.Materials);
+            // SAM round-trip metadata restores the original name, pane layers and frame layers
+            if (!Core.LadybugTools.Query.TryGetUserData(windowConstructionAbridged, Core.LadybugTools.UserDataKeys.Name, out string name) || string.IsNullOrWhiteSpace(name))
+            {
+                name = windowConstructionAbridged.Identifier;
+            }
 
-            ApertureConstruction result = new ApertureConstruction(System.Guid.NewGuid(), windowConstructionAbridged.Identifier, ApertureType.Window, constructionLayers);
+            if (!Query.TryGetConstructionLayers(windowConstructionAbridged, Core.LadybugTools.UserDataKeys.PaneConstructionLayers, out List<ConstructionLayer> constructionLayers))
+            {
+                constructionLayers = Query.ConstructionLayers(materialLibrary, windowConstructionAbridged.Materials);
+            }
+
+            List<ConstructionLayer> frameConstructionLayers = null;
+            if (!Query.TryGetConstructionLayers(windowConstructionAbridged, Core.LadybugTools.UserDataKeys.FrameConstructionLayers, out frameConstructionLayers))
+            {
+                // Honeybee-native frame reference: keep it as a single frame layer instead of dropping it
+                if (!string.IsNullOrWhiteSpace(windowConstructionAbridged.Frame))
+                {
+                    frameConstructionLayers = Query.ConstructionLayers(materialLibrary, new List<string> { windowConstructionAbridged.Frame });
+                    if (frameConstructionLayers != null && frameConstructionLayers.Count == 0)
+                    {
+                        frameConstructionLayers = null;
+                    }
+                }
+            }
+
+            if (!Query.TryGetSAMGuid(windowConstructionAbridged, out System.Guid guid))
+            {
+                guid = System.Guid.NewGuid();
+            }
+
+            ApertureConstruction result = new ApertureConstruction(guid, name, ApertureType.Window, constructionLayers, frameConstructionLayers);
+
+            if (Core.LadybugTools.Query.TryGetUserData(windowConstructionAbridged, Core.LadybugTools.UserDataKeys.DefaultPanelType, out string panelType) && !string.IsNullOrWhiteSpace(panelType))
+            {
+                result.SetValue(ApertureConstructionParameter.DefaultPanelType, panelType);
+            }
+
             return result;
         }
 
@@ -64,9 +100,30 @@ namespace SAM.Analytical.LadybugTools
                 return null;
             }
 
-            List<ConstructionLayer> constructionLayers = Query.ConstructionLayers(materialLibrary, opaqueConstructionAbridged.Materials);
+            if (!Core.LadybugTools.Query.TryGetUserData(opaqueConstructionAbridged, Core.LadybugTools.UserDataKeys.Name, out string name) || string.IsNullOrWhiteSpace(name))
+            {
+                name = opaqueConstructionAbridged.Identifier;
+            }
 
-            ApertureConstruction result = new ApertureConstruction(System.Guid.NewGuid(), opaqueConstructionAbridged.Identifier, ApertureType.Door, constructionLayers);
+            if (!Query.TryGetConstructionLayers(opaqueConstructionAbridged, Core.LadybugTools.UserDataKeys.PaneConstructionLayers, out List<ConstructionLayer> constructionLayers))
+            {
+                constructionLayers = Query.ConstructionLayers(materialLibrary, opaqueConstructionAbridged.Materials);
+            }
+
+            Query.TryGetConstructionLayers(opaqueConstructionAbridged, Core.LadybugTools.UserDataKeys.FrameConstructionLayers, out List<ConstructionLayer> frameConstructionLayers);
+
+            if (!Query.TryGetSAMGuid(opaqueConstructionAbridged, out System.Guid guid))
+            {
+                guid = System.Guid.NewGuid();
+            }
+
+            ApertureConstruction result = new ApertureConstruction(guid, name, ApertureType.Door, constructionLayers, frameConstructionLayers);
+
+            if (Core.LadybugTools.Query.TryGetUserData(opaqueConstructionAbridged, Core.LadybugTools.UserDataKeys.DefaultPanelType, out string panelType) && !string.IsNullOrWhiteSpace(panelType))
+            {
+                result.SetValue(ApertureConstructionParameter.DefaultPanelType, panelType);
+            }
+
             return result;
         }
 

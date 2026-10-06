@@ -1,12 +1,16 @@
-﻿using Grasshopper.Kernel;
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020–2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+
+using Grasshopper.Kernel;
 using HoneybeeSchema;
 using SAM.Core.Grasshopper;
 using SAM.Geometry.Grasshopper.LadybugTools.Properties;
 using System;
+using System.Collections.Generic;
 
 namespace SAM.Geometry.Grasshopper.LadybugTools
 {
-    public class SAMGeometryLBGeometry : GH_SAMComponent
+    public class SAMGeometryLBGeometry : GH_SAMVariableOutputParameterComponent
     {
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
@@ -16,7 +20,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
         /// <summary>
         /// The latest version of this component
         /// </summary>
-        public override string LatestComponentVersion => "1.0.0";
+        public override string LatestComponentVersion => "1.0.1";
 
         /// <summary>
         /// Initializes a new instance of the SAM_point3D class.
@@ -26,22 +30,41 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
               "Convert SAM Geometry to LadybugTools Geometry",
               "SAM", "LadybugTools")
         {
+            // GH_SAMVariableOutputParameterComponent.RegisterOutputParams clones each declared
+            // Param via IGH_Param.Clone(), which resets NickName to Name for stock Grasshopper
+            // param types when the two differ. Restore the legacy NickName ("LBgeo") here, once,
+            // after base construction/registration has completed.
+            int index = Params.IndexOfOutputParam("LBGeometry");
+            if (index != -1)
+            {
+                Params.Output[index].NickName = "LBgeo";
+            }
         }
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_InputParamManager inputParamManager)
+        protected override GH_SAMParam[] Inputs
         {
-            inputParamManager.AddParameter(new GooSAMGeometryParam(), "_SAMGeometry", "_SAMGeometry", "SAM Geometry", GH_ParamAccess.item);
+            get
+            {
+                List<GH_SAMParam> result = new List<GH_SAMParam>();
+                result.Add(new GH_SAMParam(new GooSAMGeometryParam() { Name = "_SAMGeometry", NickName = "_SAMGeometry", Description = "SAM Geometry", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                return result.ToArray();
+            }
         }
 
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_OutputParamManager outputParamManager)
+        protected override GH_SAMParam[] Outputs
         {
-            outputParamManager.AddTextParameter("LBGeometry", "LBgeo", "LB Geometry", GH_ParamAccess.item);
+            get
+            {
+                List<GH_SAMParam> result = new List<GH_SAMParam>();
+                result.Add(new GH_SAMParam(new global::Grasshopper.Kernel.Parameters.Param_String() { Name = "LBGeometry", NickName = "LBgeo", Description = "LB Geometry", Access = GH_ParamAccess.item }, ParamVisibility.Binding));
+                return result.ToArray();
+            }
         }
 
         /// <summary>
@@ -54,14 +77,20 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
         {
             ISAMGeometry sAMGeometry = null;
 
-            if (!dataAccess.GetData(0, ref sAMGeometry) || sAMGeometry == null)
+            int index = Params.IndexOfInputParam("_SAMGeometry");
+            if (index == -1 || !dataAccess.GetData(index, ref sAMGeometry) || sAMGeometry == null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid data");
                 return;
             }
 
             IHoneybeeObject honeybeeObject =  Geometry.LadybugTools.Convert.ToLadybugTools(sAMGeometry as dynamic) as IHoneybeeObject;
-            dataAccess.SetData(0, honeybeeObject?.ToJson());
+
+            index = Params.IndexOfOutputParam("LBGeometry");
+            if (index != -1)
+            {
+                dataAccess.SetData(index, honeybeeObject?.ToJson());
+            }
 
             //object obj = objectWrapper.Value;
 
@@ -111,7 +140,7 @@ namespace SAM.Geometry.Grasshopper.LadybugTools
                 return Resources.SAM_Honeybee;
             }
         }
-        
+
         public override GH_Exposure Exposure => GH_Exposure.secondary;
     }
 }

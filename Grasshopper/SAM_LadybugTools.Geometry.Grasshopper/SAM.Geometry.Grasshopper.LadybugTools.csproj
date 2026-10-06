@@ -8,6 +8,10 @@
 	  <RhinoDebugPluginsDir>$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\Software\McNeel\Rhinoceros\8.0-WIP-Developer-Debug-trunk\Install', 'Default Plug-ins Folder', null, RegistryView.Registry64))</RhinoDebugPluginsDir>
 	  <RhinoPluginsDir>$([MSBuild]::ValueOrDefault('$(RhinoDebugPluginsDir)', '$(RhinoDefaultPluginsDir)'))</RhinoPluginsDir>
 	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	  <!-- Copy NuGet runtime assemblies (HoneybeeSchema, LBT.Newtonsoft.Json, ...) into the
+	       output so the deployed plugin folder gets the compiled-against package versions
+	       instead of stale hand-placed dependency DLLs (see Analytical.Grasshopper). -->
+	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	  <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
 	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -24,6 +28,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\..\build\</OutputPath>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Scripts\**" />
+    <EmbeddedResource Remove="Scripts\**" />
+    <None Remove="Scripts\**" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="SAM.Core, Version=1.0.7550.15820, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -45,9 +54,6 @@
     <Content Include="ToLadybug\Point3D.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Scripts\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\SAM_LadybugTools\SAM_LadybugTools.Geometry\SAM.Geometry.LadybugTools.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -56,7 +62,7 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="HoneybeeSchema">
-      <Version>1.5901.5</Version>
+      <Version>$(HoneybeeSchemaVersion)</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />

@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using SAM.Architectural;
 using SAM.Core;
 using System.Collections.Generic;
@@ -89,8 +91,56 @@ namespace SAM.Analytical.LadybugTools
                     }
 
                     rooms.Add(room);
-                }    
-               
+                }
+
+            }
+
+            // OffsetAperturesOnEdge may rebuild aperture objects with new Guids; restore the
+            // original SAM aperture Guids into user_data using deterministic geometry pairing
+            if (rooms != null)
+            {
+                List<Panel> panels_Original = analyticalModel.AdjacencyCluster?.GetPanels();
+                if (panels_Original != null)
+                {
+                    foreach (Room room in rooms)
+                    {
+                        List<Face> faces_Room = room?.Faces;
+                        if (faces_Room == null)
+                            continue;
+
+                        foreach (Face face in faces_Room)
+                        {
+                            string identifier = face?.Identifier;
+                            if (string.IsNullOrWhiteSpace(identifier))
+                                continue;
+
+                            int index = identifier.LastIndexOf("__", System.StringComparison.Ordinal);
+                            string guidText = index == -1 ? identifier : identifier.Substring(index + 2);
+                            if (!System.Guid.TryParse(guidText, out System.Guid guid_Panel))
+                                continue;
+
+                            Panel panel_Original = panels_Original.Find(x => x.Guid == guid_Panel);
+                            List<Aperture> apertures_Original = panel_Original?.Apertures;
+                            if (apertures_Original == null || apertures_Original.Count == 0)
+                                continue;
+
+                            List<HoneybeeSchema.IDdBaseModel> openings = new List<HoneybeeSchema.IDdBaseModel>();
+                            face.Apertures?.ForEach(x => { if (x != null) openings.Add(x); });
+                            face.Doors?.ForEach(x => { if (x != null) openings.Add(x); });
+
+                            if (openings.Count != apertures_Original.Count)
+                                continue;
+
+                            apertures_Original = apertures_Original.OrderBy(x => Query.ApertureSortKey(x)).ToList();
+                            openings = openings.OrderBy(x => Query.ApertureSortKey(x)).ToList();
+
+                            for (int i = 0; i < openings.Count; i++)
+                            {
+                                Core.LadybugTools.Modify.SetUserData(openings[i], Core.LadybugTools.UserDataKeys.Guid, apertures_Original[i].Guid.ToString());
+                            }
+                        }
+                    }
+                }
             }
 
             List<Shade> shades = null;
@@ -234,6 +284,33 @@ namespace SAM.Analytical.LadybugTools
                             }
                         }
                     }
+
+                    List<ConstructionLayer> frameConstructionLayers = apertureConstruction.FrameConstructionLayers;
+                    if (frameConstructionLayers != null && frameConstructionLayers.Count != 0)
+                    {
+                        foreach (ConstructionLayer constructionLayer in frameConstructionLayers)
+                        {
+                            IMaterial material = constructionLayer.Material(materialLibrary);
+                            if (material == null)
+                                continue;
+
+                            if (dictionary_Materials.ContainsKey(material.Name))
+                                continue;
+
+                            if (material is OpaqueMaterial)
+                                dictionary_Materials[material.Name] = ((OpaqueMaterial)material).ToLadybugTools();
+                            else if (material is GasMaterial)
+                                dictionary_Materials[material.Name] = ((GasMaterial)material).ToLadybugTools_EnergyWindowMaterialGas();
+                            else if (material is TransparentMaterial)
+                                dictionary_Materials[material.Name] = ((TransparentMaterial)material).ToLadybugTools();
+                        }
+
+                        EnergyWindowFrame energyWindowFrame = apertureConstruction.ToLadybugTools_EnergyWindowFrame(materialLibrary);
+                        if (energyWindowFrame != null && !dictionary_Materials.ContainsKey(energyWindowFrame.Identifier))
+                        {
+                            dictionary_Materials[energyWindowFrame.Identifier] = energyWindowFrame;
+                        }
+                    }
                 }
             }
 
@@ -283,6 +360,24 @@ namespace SAM.Analytical.LadybugTools
             Model model = new Model(uniqueName, modelProperties, adjacencyCluster.Name, null, rooms, faces_Orphaned, shades);
             model.AngleTolerance = Units.Convert.ToDegrees(Tolerance.Angle);// 2;
             model.Tolerance = Tolerance.MacroDistance;
+
+            Core.LadybugTools.Modify.SetUserData(model, Core.LadybugTools.UserDataKeys.Guid, analyticalModel.Guid.ToString());
+            Core.LadybugTools.Modify.SetUserData(model, Core.LadybugTools.UserDataKeys.Name, analyticalModel.Name);
+            Core.LadybugTools.Modify.SetUserData(model, Core.LadybugTools.UserDataKeys.Description, analyticalModel.Description);
+
+            Core.Location location = analyticalModel.Location;
+            if (location != null)
+            {
+                Core.LadybugTools.Modify.SetUserData(model, Core.LadybugTools.UserDataKeys.LocationName, location.Name);
+                Core.LadybugTools.Modify.SetUserData(model, Core.LadybugTools.UserDataKeys.LocationLatitude, location.Latitude);
+                Core.LadybugTools.Modify.SetUserData(model, Core.LadybugTools.UserDataKeys.LocationLongitude, location.Longitude);
+                Core.LadybugTools.Modify.SetUserData(model, Core.LadybugTools.UserDataKeys.LocationElevation, location.Elevation);
+            }
+
+            if (profileLibrary != null && !string.IsNullOrWhiteSpace(profileLibrary.Name))
+            {
+                Core.LadybugTools.Modify.SetUserData(model, Core.LadybugTools.UserDataKeys.ProfileLibraryName, profileLibrary.Name);
+            }
 
             return model;
         }

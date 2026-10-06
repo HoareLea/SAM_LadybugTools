@@ -1,4 +1,6 @@
-﻿using HoneybeeSchema;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using HoneybeeSchema;
 using System.Collections.Generic;
 
 namespace SAM.Analytical.LadybugTools
@@ -34,6 +36,29 @@ namespace SAM.Analytical.LadybugTools
                     }
 
                     if (aperture.Properties.Energy.Construction == apertureConstruction_Temp.Name)
+                    {
+                        apertureConstruction = apertureConstruction_Temp;
+                        break;
+                    }
+                }
+            }
+
+            // SAM round-trip metadata carries the original aperture construction name
+            if (apertureConstruction == null && apertureConstructions != null && Core.LadybugTools.Query.TryGetUserData(aperture, Core.LadybugTools.UserDataKeys.ConstructionName, out string constructionName) && !string.IsNullOrWhiteSpace(constructionName))
+            {
+                foreach (ApertureConstruction apertureConstruction_Temp in apertureConstructions)
+                {
+                    if (apertureConstruction_Temp == null)
+                    {
+                        continue;
+                    }
+
+                    if (apertureConstruction_Temp.ApertureType != ApertureType.Window)
+                    {
+                        continue;
+                    }
+
+                    if (apertureConstruction_Temp.Name == constructionName)
                     {
                         apertureConstruction = apertureConstruction_Temp;
                         break;
@@ -86,6 +111,11 @@ namespace SAM.Analytical.LadybugTools
 
             Aperture result = new Aperture(apertureConstruction, face3D, Analytical.Query.OpeningLocation(face3D));
 
+            if (Query.TryGetSAMGuid(aperture, out System.Guid guid))
+            {
+                result = new Aperture(guid, result);
+            }
+
             return result;
         }
 
@@ -125,6 +155,29 @@ namespace SAM.Analytical.LadybugTools
                     }
 
                     if(door.Properties.Energy.Construction == apertureConstruction_Temp.Name)
+                    {
+                        apertureConstruction = apertureConstruction_Temp;
+                        break;
+                    }
+                }
+            }
+
+            // SAM round-trip metadata carries the original aperture construction name
+            if (apertureConstruction == null && apertureConstructions != null && Core.LadybugTools.Query.TryGetUserData(door, Core.LadybugTools.UserDataKeys.ConstructionName, out string constructionName) && !string.IsNullOrWhiteSpace(constructionName))
+            {
+                foreach (ApertureConstruction apertureConstruction_Temp in apertureConstructions)
+                {
+                    if (apertureConstruction_Temp == null)
+                    {
+                        continue;
+                    }
+
+                    if (apertureConstruction_Temp.ApertureType != apertureType)
+                    {
+                        continue;
+                    }
+
+                    if (apertureConstruction_Temp.Name == constructionName)
                     {
                         apertureConstruction = apertureConstruction_Temp;
                         break;
@@ -173,6 +226,11 @@ namespace SAM.Analytical.LadybugTools
             }
             
             Aperture result = new Aperture(apertureConstruction, face3D, Analytical.Query.OpeningLocation(face3D));
+
+            if (Query.TryGetSAMGuid(door, out System.Guid guid))
+            {
+                result = new Aperture(guid, result);
+            }
 
             return result;
         }

@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RootNamespace>SAM.Core.LadybugTools.Tests</RootNamespace>
+    <AssemblyName>SAM.Core.LadybugTools.Tests</AssemblyName>
+    <OutputPath>..\..\build_tests\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SAM.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SAM\build\SAM.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SAM.Geometry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SAM\build\SAM.Geometry.dll</HintPath>
+    </Reference>
+    <Reference Include="SAM.Analytical, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SAM\build\SAM.Analytical.dll</HintPath>
+    </Reference>
+    <Reference Include="SAM.Architectural">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SAM\build\SAM.Architectural.dll</HintPath>
+    </Reference>
+    <Reference Include="SAM.Units">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SAM\build\SAM.Units.dll</HintPath>
+    </Reference>
+    <Reference Include="NetTopologySuite">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SAM\build\NetTopologySuite.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Fixtures\original_v1.sam">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SAM_LadybugTools\SAM_LadybugTools.Core\SAM.Core.LadybugTools.csproj" />
+    <ProjectReference Include="..\SAM_LadybugTools\SAM_LadybugTools.Geometry\SAM.Geometry.LadybugTools.csproj" />
+    <ProjectReference Include="..\SAM_LadybugTools\SAM_LadybugTools.Analytical\SAM.Analytical.LadybugTools.csproj" />
+  </ItemGroup>
+
+</Project>
